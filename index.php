@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SDN 3 GELUMBANG</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      transition: background-image 1s ease-in-out;
+    }
+
+    .overlay-black {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.45);
+      z-index: 0;
+    }
+
+    .navbar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, #0057b8, #00a8ff);
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      flex-wrap: wrap;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+
+    .navbar .logo-left,
+    .navbar .logo-right {
+      width: 55px;
+      height: 55px;
+      border-radius: 10px;
+    }
+
+    .marquee-container {
+      flex: 1;
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    .welcome-text {
+      color: #fff;
+      margin-bottom: 4px;
+      font-size: 14px;
+      line-height: 1.4;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .welcome-text strong {
+      color: #ffeb3b;
+      font-size: 16px;
+    }
+
+    .marquee-text {
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffea00;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .content-container {
+      padding-top: 90px;
+      padding-bottom: 50px;
+      width: 100%;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1;
+      position: relative;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 10px;
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1001;
+      max-width: 95vw;
+      overflow-x: auto;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn-gabung, .btn-info {
+      background: linear-gradient(135deg, #fff, #d4e4ff);
+      color: #004aad;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+      transition: all 0.25s ease;
+    }
+
+    .btn-gabung:hover, .btn-info:hover {
+      background: linear-gradient(135deg, #ffd700, #fff59d);
+      transform: scale(1.07);
+      box-shadow: 0 4px 10px rgba(255,255,255,0.4);
+    }
+
+    footer {
+      width: 100%;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      text-align: center;
+      margin-top: auto;
+      z-index: 1;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    #splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom right, #004aad, #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    #splashScreen h1 {
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      margin-bottom: 25px;
+    }
+
+    #mulaiBtn {
+      padding: 15px 35px;
+      font-size: 18px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #fff176, #ffee58);
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    #mulaiBtn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 15px rgba(255,255,0,0.5);
+    }
+
+    #muteBtn {
+      position: fixed;
+      bottom: 120px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      font-size: 26px;
+      font-weight: bold;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff, #e0f7fa);
+      color: #000;
+      cursor: pointer;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .25s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    #muteBtn:hover {
+      transform: rotate(12deg) scale(1.15);
+      box-shadow: 0 0 15px rgba(255,255,255,0.7);
+    }
+
+    #muteBtn:active {
+      transform: scale(.85) rotate(-12deg);
+      background-color: #ffeb3b;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="splashScreen">
+    <h1><b>SELAMAT DATANG DI<br>WEB SDN 3 GELUMBANG</b></h1>
+    <button id="mulaiBtn">Masuk</button>
+  </div>
+
+  <div class="overlay-black"></div>
+
+  <div class="navbar">
+    <img src="logo2.png" class="logo-right">
+    <div class="marquee-container">
+      <div class="welcome-text">
+        <strong>PEMERINTAHAN KABUPATEN MUARA ENIM</strong><br>
+        <strong>SD NEGERI 3 GELUMBANG</strong><br>
+        <small>Alamat: Dusun III, Desa Sebau, Kec. Gelumbang, Kab. Muara Enim 31171</small><br>
+        <small>
+          E-mail: sdn3glmbng@gmail.com 
+          <span style="margin-left: 30px;">NPSN: 10645318</span>
+        </small>
+
+      </div>
+      <div class="marquee-text" id="marqueeTime">Memuat waktu...</div>
+    </div>
+    <img src="logo1.png" class="logo-left">
+  </div>
+
+  <div class="btn-container">
+    <a href="http://Ipansebau-30144.portmap.io:30144" class="btn-gabung" target="_blank">E-Rapor</a>
+    <a href="https://bba7a821-6b52-4047-925a-aa5a5a2497d8-00-1cew2f8x9v3nx.sisko.replit.dev/karyasiswa.php" class="btn-info">Karya Siswa</a>
+    <a href="#" class="btn-info">Perpustakaan</a>
+    <a href="#" class="btn-info">Labor</a>
+    <a href="https://spmbpaudsdmuaraenim.id/" class="btn-info" target="_blank">SPMB</a>
+    <a href="https://dapo.dikdasmen.go.id/sekolah/FBA964F3EBEF1E4D616D" class="btn-info" target="_blank">Info Sekolah</a>
+    <a href="https://wa.me/6285369662075?text=Halo%20SDN%203%20Gelumbang" class="btn-info" target="_blank">Butuh Bantuan?</a>
+  </div>
+
+  <audio id="audioPlayer" loop>
+    <source src="audio1.mp3/audio1.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="muteBtn">🔊</button>
+
+  <footer>
+    <p>&copy; By Ipan 2025 SD Negeri 3 Gelumbang. Hak Cipta Dilindungi Undang-Undang No. 28 Tahun 2014</p>
+  </footer>
+
+<script>
+  const audio = document.getElementById("audioPlayer");
+  const muteBtn = document.getElementById("muteBtn");
+
+  document.getElementById("mulaiBtn").addEventListener("click", function () {
+    document.getElementById("splashScreen").style.display = "none";
+    audio.muted = false;
+    audio.play();
+  });
+
+  muteBtn.addEventListener("click", () => {
+    audio.muted = !audio.muted;
+    muteBtn.textContent = audio.muted ? "😴" : "🍂";
+  });
+
+  const totalImages = 10;
+  let current = 1;
+  function changeBackground() {
+    document.body.style.backgroundImage = `url('img${current}.jpeg')`;
+    current = current < totalImages ? current + 1 : 1;
+  }
+  changeBackground();
+  setInterval(changeBackground, 5000);
+
+  setInterval(() => {
+    const now = new Date();
+    const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+    document.getElementById('marqueeTime').textContent =
+      `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
+  }, 1000);
+</script>
+
+</body>
+</html>
