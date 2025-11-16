@@ -10,6 +10,12 @@
   <meta name="keywords" content="SDN 3 Gelumbang, Gelumbang, Muara Enim, Sekolah Dasar, Rapor Online">
   <meta name="author" content="Ipan Ditia">
 
+  <!-- Open Graph -->
+  <meta property="og:title" content="SDN 3 Gelumbang">
+  <meta property="og:description" content="Website resmi SDN 3 Gelumbang.">
+  <meta property="og:image" content="logo2.png">
+  <meta property="og:type" content="website">
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="logo2.png">
 
@@ -30,8 +36,9 @@
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      transition: background-image 1.2s ease-in-out;
-      padding-bottom: 70px; /* Agar footer selalu terlihat */
+      transition: background-image 1.2s ease-in-out, opacity 1.2s;
+      padding-bottom: 70px;
+      opacity: 0; /* Soft Loading */
     }
 
     .overlay-black {
@@ -261,6 +268,17 @@
 
 
 <script>
+  /* Soft Loading */
+  window.onload = () => {
+    document.body.style.opacity = "1";
+  };
+
+  /* Dark Mode otomatis malam */
+  const hour = new Date().getHours();
+  if (hour >= 18 || hour < 5) {
+    document.body.style.filter = "brightness(0.65)";
+  }
+
   const audio = document.getElementById("audioPlayer");
   const muteBtn = document.getElementById("muteBtn");
 
@@ -298,6 +316,12 @@
     document.getElementById("marqueeTime").textContent =
       `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
   }, 1000);
+
+  /* Info Cuaca (opsional) */
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=-3.575&longitude=104.013&current_weather=true")
+    .then(r => r.json())
+    .then(d => console.log("Cuaca:", d.current_weather));
+
 </script>
 
 </body>
