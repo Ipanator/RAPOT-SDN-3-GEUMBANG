@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SDN 3 GELUMBANG</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Website resmi SD Negeri 3 Gelumbang - informasi sekolah, rapor online, karya siswa, SPMB, dan bantuan.">
+  <meta name="keywords" content="SDN 3 Gelumbang, Gelumbang, Muara Enim, Sekolah Dasar, Rapor Online">
+  <meta name="author" content="Ipan Ditia">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo1.png">
+
   <style>
     * {
       margin: 0;
@@ -21,8 +30,8 @@
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      transition: background-image 1s ease-in-out;
-      padding-bottom: 70px;
+      transition: background-image 1.2s ease-in-out;
+      padding-bottom: 70px; /* Agar footer selalu terlihat */
     }
 
     .overlay-black {
@@ -35,6 +44,7 @@
       z-index: 0;
     }
 
+    /* NAVBAR */
     .navbar {
       width: 100%;
       display: flex;
@@ -48,6 +58,12 @@
       z-index: 1000;
       flex-wrap: wrap;
       box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      opacity: 0;
+      animation: navbarFade 1s ease forwards 1s;
+    }
+
+    @keyframes navbarFade {
+      to { opacity: 1; }
     }
 
     .navbar .logo-left,
@@ -64,8 +80,6 @@
     }
 
     .welcome-text {
-      color: #fff;
-      margin-bottom: 4px;
       font-size: 14px;
       line-height: 1.4;
       text-shadow: 0 1px 3px rgba(0,0,0,0.5);
@@ -77,26 +91,14 @@
     }
 
     .marquee-text {
+      margin-top: 4px;
       font-size: 16px;
       font-weight: bold;
       color: #ffea00;
       text-shadow: 0 1px 3px rgba(0,0,0,0.4);
     }
 
-    .content-container {
-      padding-top: 90px;
-      padding-bottom: 50px;
-      width: 100%;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      z-index: 1;
-      position: relative;
-    }
-
+    /* Tombol bawah */
     .btn-container {
       display: flex;
       flex-wrap: nowrap;
@@ -116,7 +118,7 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
-    .btn-gabung, .btn-info {
+    .btn-info {
       background: linear-gradient(135deg, #fff, #d4e4ff);
       color: #004aad;
       font-size: 15px;
@@ -125,51 +127,27 @@
       padding: 12px 20px;
       border-radius: 10px;
       box-shadow: 0 3px 5px rgba(0,0,0,0.3);
-      transition: all 0.25s ease;
+      transition: .25s;
     }
 
-    .btn-gabung:hover, .btn-info:hover {
+    .btn-info:hover {
       background: linear-gradient(135deg, #ffd700, #fff59d);
       transform: scale(1.07);
       box-shadow: 0 4px 10px rgba(255,255,255,0.4);
     }
 
-    footer {
-  width: 100%;
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  text-align: center;
-  font-size: 14px;
-  letter-spacing: 0.3px;
-  
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 2000;
-}
-
-
+    /* Splash */
     #splashScreen {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: linear-gradient(to bottom right, #004aad, #00c6ff);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      flex-direction: column;
       color: white;
-      text-align: center;
       animation: fadeIn 1s ease;
-    }
-
-    #splashScreen h1 {
-      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-      margin-bottom: 25px;
     }
 
     #mulaiBtn {
@@ -177,59 +155,57 @@
       font-size: 18px;
       font-weight: bold;
       background: linear-gradient(135deg, #fff176, #ffee58);
-      color: black;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      transition: transform 0.25s, box-shadow 0.25s;
+      transition: .25s;
     }
 
     #mulaiBtn:hover {
       transform: scale(1.08);
-      box-shadow: 0 6px 15px rgba(255,255,0,0.5);
     }
 
+    /* MUTE button */
     #muteBtn {
       position: fixed;
       bottom: 120px;
       right: 20px;
       width: 60px;
       height: 60px;
-      font-size: 26px;
-      font-weight: bold;
       border: none;
       border-radius: 50%;
-      background: linear-gradient(135deg, #fff, #e0f7fa);
-      color: #000;
+      background: #fff;
       cursor: pointer;
+      font-size: 24px;
       z-index: 2000;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: .25s;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: .25s;
     }
 
     #muteBtn:hover {
-      transform: rotate(12deg) scale(1.15);
-      box-shadow: 0 0 15px rgba(255,255,255,0.7);
+      transform: scale(1.12);
     }
 
-    #muteBtn:active {
-      transform: scale(.85) rotate(-12deg);
-      background-color: #ffeb3b;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    footer {
+      width: 100%;
+      padding: 10px;
+      background: rgba(0,0,0,0.75);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      text-align: center;
+      font-size: 14px;
+      z-index: 2000;
     }
   </style>
 </head>
 
 <body>
 
+  <!-- SPLASH -->
   <div id="splashScreen">
     <h1><b>SELAMAT DATANG DI<br>WEB SDN 3 GELUMBANG</b></h1>
     <button id="mulaiBtn">Masuk</button>
@@ -237,24 +213,31 @@
 
   <div class="overlay-black"></div>
 
+  <!-- NAVBAR -->
   <div class="navbar">
     <img src="logo2.png" class="logo-right">
     <div class="marquee-container">
+
       <div class="welcome-text">
         <strong>PEMERINTAHAN KABUPATEN MUARA ENIM</strong><br>
         <strong>SD NEGERI 3 GELUMBANG</strong><br>
-        <small>Alamat: Dusun III, Desa Sebau, Kec. Gelumbang, Kab. Muara Enim 31171</small><br>
+
+        <small>Alamat: Dusun III, Desa Sebau</small><br>
+
         <small>
-          E-mail: sdn3glmbng@gmail.com 
-          <span style="margin-left: 30px;">NPSN: 10645318</span>
+          E-mail: sdn3glmbng@gmail.com
+          <span style="margin-left:25px;">NPSN: 10645318</span>
         </small>
 
       </div>
+
       <div class="marquee-text" id="marqueeTime">Memuat waktu...</div>
+
     </div>
     <img src="logo1.png" class="logo-left">
   </div>
 
+  <!-- Tombol -->
   <div class="btn-container">
     <a href="https://rapot-sdn-3-geumbang.vercel.app/karyasiswa.html" class="btn-info">Rapot Online</a>
     <a href="https://rapot-sdn-3-geumbang.vercel.app/karyasiswa.html" class="btn-info">Karya Siswa</a>
@@ -265,6 +248,7 @@
     <a href="https://wa.me/6285369662075?text=Halo%20SDN%203%20Gelumbang" class="btn-info" target="_blank">Butuh Bantuan?</a>
   </div>
 
+  <!-- AUDIO -->
   <audio id="audioPlayer" loop>
     <source src="audio1.mp3" type="audio/mpeg">
   </audio>
@@ -272,38 +256,46 @@
   <button id="muteBtn">🔊</button>
 
   <footer>
-    <p>&copy; By Ipan 2025 SD Negeri 3 Gelumbang. Hak Cipta Dilindungi Undang-Undang No. 28 Tahun 2014</p>
+    © By Ipan 2025 SD Negeri 3 Gelumbang. Hak Cipta Dilindungi UU No. 28 Tahun 2014
   </footer>
+
 
 <script>
   const audio = document.getElementById("audioPlayer");
   const muteBtn = document.getElementById("muteBtn");
 
-  document.getElementById("mulaiBtn").addEventListener("click", function () {
+  document.getElementById("mulaiBtn").onclick = () => {
     document.getElementById("splashScreen").style.display = "none";
-    audio.muted = false;
     audio.play();
-  });
+    audio.muted = false;
+    muteBtn.textContent = "🔊";
+  };
 
-  muteBtn.addEventListener("click", () => {
+  muteBtn.onclick = () => {
     audio.muted = !audio.muted;
-    muteBtn.textContent = audio.muted ? "😴" : "🍂";
-  });
+    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+  };
 
+  /* Background slideshow */
   const totalImages = 10;
   let current = 1;
+
   function changeBackground() {
     document.body.style.backgroundImage = `url('img${current}.jpeg')`;
     current = current < totalImages ? current + 1 : 1;
   }
+
   changeBackground();
   setInterval(changeBackground, 5000);
 
+  /* Waktu realtime */
   setInterval(() => {
     const now = new Date();
-    const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-    document.getElementById('marqueeTime').textContent =
+    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus",
+                   "September","Oktober","November","Desember"];
+
+    document.getElementById("marqueeTime").textContent =
       `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
   }, 1000);
 </script>
