@@ -22,6 +22,7 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       transition: background-image 1s ease-in-out;
+      padding-bottom: 70px;
     }
 
     .overlay-black {
@@ -134,16 +135,20 @@
     }
 
     footer {
-      width: 100%;
-      padding: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      text-align: center;
-      margin-top: auto;
-      z-index: 1;
-      font-size: 14px;
-      letter-spacing: 0.3px;
-    }
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+}
+
 
     #splashScreen {
       position: fixed;
