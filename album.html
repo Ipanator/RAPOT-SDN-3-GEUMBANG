@@ -1,236 +1,379 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Album Siswa — SDN 3 Gelumbang</title>
-
+<meta name="description" content="Album foto siswa SDN 3 Gelumbang — galeri kegiatan & dokumentasi siswa. Pencarian, filter kelas, dan tampilan premium." />
+<link rel="icon" href="/logo2.png" />
 <style>
   :root{
-    --bg:#0f1724;
+    --bg:#071026;
     --card:#0b1220;
-    --muted:#94a3b8;
-    --accent:#0ea5e9;
+    --muted:#99a7b8;
+    --accent:#38bdf8;
+    --accent-2:#60a5fa;
+    --glass: rgba(255,255,255,0.03);
     --radius:14px;
+    --gap:16px;
+    --max:1200px;
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{
-    margin:0;
-    background:linear-gradient(180deg,var(--bg),#071026 160%);
-    font-family:Inter,system-ui;
-    color:white;
-    padding:30px 16px;
+    margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    background:linear-gradient(180deg,var(--bg),#041025 140%);
+    color:#e6eef6;padding:28px;display:flex;justify-content:center;
   }
-  .container{max-width:1100px;margin:auto}
+  .wrap{width:100%;max-width:var(--max)}
 
-  h1{margin:0;font-size:26px}
-
-  /* Search */
-  .toolbar{
-    display:flex;
-    gap:12px;
-    margin:20px 0;
-    flex-wrap:wrap;
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:18px;
   }
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#fff,#dbeafe);display:flex;align-items:center;justify-content:center;color:#003366;font-weight:800}
+  h1{font-size:20px;margin:0}
+  p.lead{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+  /* toolbar */
+  .toolbar{display:flex;gap:12px;align-items:center;margin:14px 0 18px;flex-wrap:wrap}
   .search{
-    flex:1;
-    background:var(--card);
-    border:1px solid rgba(255,255,255,.07);
-    padding:10px 14px;
-    border-radius:var(--radius);
-    display:flex;
-    gap:8px;
-    align-items:center;
+    background:var(--card);border:1px solid rgba(255,255,255,0.04);
+    padding:10px 12px;border-radius:12px;display:flex;gap:10px;align-items:center;min-width:260px;flex:1;
   }
-  .search input{
-    flex:1;
-    border:0;
-    background:transparent;
-    color:white;
-    outline:none;
-    font-size:15px;
-  }
+  .search input{flex:1;background:transparent;border:0;color:inherit;outline:none;font-size:14px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:999px;color:var(--muted);cursor:pointer;font-weight:600}
+  .pill.active{border-color:var(--accent);color:var(--accent);box-shadow:0 6px 18px rgba(56,189,248,0.06);}
 
-  .ghost{
-    padding:10px 14px;
-    border-radius:var(--radius);
-    border:1px solid rgba(255,255,255,.08);
-    background:transparent;
-    color:var(--muted);
-    cursor:pointer;
-  }
-  .ghost.active{
-    border-color:var(--accent);
-    color:var(--accent);
-  }
-
-  /* Grid */
+  /* masonry grid (CSS columns) */
   .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-    gap:16px;
+    column-width:260px;
+    column-gap:var(--gap);
   }
   .card{
-    background:rgba(255,255,255,0.02);
-    border:1px solid rgba(255,255,255,0.05);
-    border-radius:var(--radius);
-    padding:10px;
-    cursor:pointer;
-    transition:transform .25s;
+    display:inline-block;width:100%;margin:0 0 var(--gap);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+    border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.03);
+    box-shadow:0 8px 24px rgba(2,6,23,0.55);transition:transform .24s ease, box-shadow .24s;
   }
-  .card:hover{transform:translateY(-6px);}
+  .card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(2,6,23,0.75)}
+  .media{
+    width:100%;aspect-ratio:4/3;border-radius:10px;background-position:center;background-size:cover;position:relative;overflow:hidden;
+  }
+  /* progressive blur overlay */
+  .media img{
+    width:100%;height:100%;object-fit:cover;display:block;filter:blur(14px) scale(1.02);
+    transform-origin:center center;transition:filter .6s ease, opacity .45s ease;
+  }
+  .media img.loaded{filter:blur(0) scale(1);opacity:1}
+  .meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+  .name{font-weight:700;font-size:14px}
+  .cls{color:var(--muted);font-size:13px}
 
-  .photo{
-    height:180px;
-    background-size:cover;
-    background-position:center;
-    border-radius:var(--radius);
-    margin-bottom:10px;
+  /* hover overlay for actions */
+  .overlay{
+    position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-end;padding:10px;gap:8px;
+    pointer-events:none;
   }
-  .name{font-size:16px;font-weight:700}
-  .cls{color:var(--muted);font-size:13px;margin-top:2px}
+  .icon{
+    pointer-events:auto;background:linear-gradient(90deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));
+    border-radius:999px;padding:8px;border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(4px);
+    color:#fff;cursor:pointer;font-weight:700;
+    transition:transform .18s;
+  }
+  .icon:active{transform:scale(.96)}
 
-  /* Modal */
-  .modal-backdrop{
-    position:fixed;inset:0;
-    background:rgba(0,0,0,0.7);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    z-index:1000;
-  }
+  /* modal */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.85);display:none;align-items:center;justify-content:center;padding:18px;z-index:1200}
   .modal{
-    background:#0b1220;
-    padding:20px;
-    border-radius:var(--radius);
-    max-width:450px;
-    width:100%;
+    width:min(1100px,98%);background:linear-gradient(180deg,#071225,#041129);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04);display:flex;gap:18px;align-items:flex-start;
   }
-  .modal img{
-    width:100%;
-    border-radius:var(--radius);
-    margin-bottom:10px;
+  .modal-left{flex:1}
+  .modal-img{width:100%;height:60vh;object-fit:contain;border-radius:10px;background:#000}
+  .modal-right{width:320px;color:var(--muted)}
+  .modal h2{margin:0 0 6px;color:#fff}
+  .modal .meta-item{display:flex;justify-content:space-between;margin:8px 0;color:var(--muted)}
+
+  /* floating upload button */
+  .fab{
+    position:fixed;right:22px;bottom:22px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#04293a;
+    padding:14px 16px;border-radius:12px;font-weight:800;border:0;cursor:pointer;box-shadow:0 12px 36px rgba(56,189,248,0.14);z-index:1100;
   }
-  .closeBtn{
-    margin-top:10px;
-    background:var(--accent);
-    border:0;
-    padding:10px 12px;
-    border-radius:var(--radius);
-    cursor:pointer;
-    width:100%;
-    font-weight:700;
+
+  /* load more */
+  .load-more{display:block;margin:20px auto;padding:10px 18px;border-radius:12px;border:0;background:var(--card);color:var(--muted);cursor:pointer}
+
+  /* responsive tweaks */
+  @media (max-width:880px){
+    .modal{flex-direction:column}
+    .modal-img{height:50vh}
+    .modal-right{width:100%}
   }
 </style>
 </head>
-
 <body>
-<div class="container">
-  <h1>Album Siswa SDN 3 Gelumbang</h1>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">SD3</div>
+      <div>
+        <h1>Album Siswa — SDN 3 Gelumbang</h1>
+        <p class="lead">Galeri kegiatan & dokumentasi siswa — klik foto untuk tampilan penuh.</p>
+      </div>
+    </div>
+    <div style="text-align:right;color:var(--muted);font-size:13px">Total koleksi: <span id="totalCount">0</span></div>
+  </header>
 
   <div class="toolbar">
-    <div class="search">
-      <input type="text" id="searchInput" placeholder="Cari nama siswa…">
+    <div class="search" aria-label="Pencarian">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.8"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.6"></circle></svg>
+      <input id="q" placeholder="Cari nama atau kata kunci (contoh: jalan, lomba)..." />
     </div>
-    <button class="ghost active" data-filter="all">Semua</button>
-    <button class="ghost" data-filter="1A">1A</button>
-    <button class="ghost" data-filter="2A">2A</button>
-    <button class="ghost" data-filter="3B">3B</button>
-    <button class="ghost" data-filter="4A">4A</button>
-    <button class="ghost" data-filter="5C">5C</button>
-    <button class="ghost" data-filter="6A">6A</button>
+
+    <div class="filters" role="tablist" aria-label="Filter kelas">
+      <button class="pill active" data-filter="all">Semua</button>
+      <button class="pill" data-filter="1A">1A</button>
+      <button class="pill" data-filter="2A">2A</button>
+      <button class="pill" data-filter="3B">3B</button>
+      <button class="pill" data-filter="4A">4A</button>
+      <button class="pill" data-filter="5C">5C</button>
+      <button class="pill" data-filter="6A">6A</button>
+    </div>
   </div>
 
-  <div id="grid" class="grid"></div>
+  <main>
+    <section id="grid" class="grid" aria-live="polite"></section>
+    <button id="loadMore" class="load-more">Muat Lebih Banyak</button>
+  </main>
+</div>
 
-  <div id="empty" style="display:none;color:var(--muted);margin-top:20px;text-align:center">
-    Tidak ada data siswa ditemukan.
+<!-- Modal full -->
+<div id="modalBG" class="modal-backdrop" role="dialog" aria-hidden="true">
+  <div class="modal" role="document">
+    <div class="modal-left">
+      <img id="modalImg" class="modal-img" src="" alt="Foto siswa">
+    </div>
+    <aside class="modal-right">
+      <h2 id="modalName">Nama Siswa</h2>
+      <div class="meta-item"><span>Kelas</span><strong id="modalClass"></strong></div>
+      <div class="meta-item"><span>Tanggal</span><span id="modalDate"></span></div>
+      <p id="modalDesc" style="margin-top:10px;color:var(--muted);line-height:1.45">Deskripsi kegiatan / catatan.</p>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="prevBtn" class="pill" style="flex:1">← Sebelumnya</button>
+        <button id="nextBtn" class="pill" style="flex:1">Berikut →</button>
+      </div>
+    </aside>
   </div>
 </div>
 
-<!-- Modal -->
-<div id="modalBG" class="modal-backdrop">
-  <div class="modal">
-    <img id="modalImg">
-    <h2 id="modalName"></h2>
-    <p id="modalClass" style="color:var(--muted);margin-top:-5px"></p>
-    <button class="closeBtn" id="closeModal">Tutup</button>
+<!-- Floating upload (demo; but UI ready) -->
+<button id="fab" class="fab" aria-label="Upload foto">+ Upload</button>
+
+<!-- Upload modal (demo, no backend) -->
+<div id="uploadBG" class="modal-backdrop" style="display:none">
+  <div class="modal" style="max-width:640px;flex-direction:column">
+    <h2 style="margin:0 0 10px">Ajukan Foto Siswa (Demo)</h2>
+    <form id="uploadForm" style="width:100%;display:grid;gap:8px">
+      <input name="name" placeholder="Nama siswa" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit" />
+      <input name="class" placeholder="Kelas (contoh: 3B)" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit" />
+      <input name="photo" placeholder="URL foto (contoh: https://...)" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit" />
+      <textarea name="desc" placeholder="Deskripsi singkat" rows="3" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit"></textarea>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button type="submit" class="fab" style="flex:1;padding:10px">Kirim</button>
+        <button type="button" id="cancelUpload" class="pill" style="flex:1">Batal</button>
+      </div>
+    </form>
   </div>
 </div>
 
 <script>
-const students = [
-  {name:"Alya Putri", class:"3B", photo:"https://picsum.photos/id/1011/400"},
-  {name:"Rangga Saputra", class:"6A", photo:"https://picsum.photos/id/1005/400"},
-  {name:"Dita Nabila", class:"5C", photo:"https://picsum.photos/id/1027/400"},
-  {name:"Fajar Mahendra", class:"4A", photo:"https://picsum.photos/id/1033/400"},
-  {name:"Salsa Belinda", class:"1A", photo:"https://picsum.photos/id/1004/400"},
+/* ===== SAMPLE DATA (ganti / load dari server jika tersedia) ===== */
+const items = [
+  {id:1,name:'Alya Putri',class:'3B',date:'2024-10-09',desc:'Kegiatan proyek mini pasar dari kardus.',photo:'https://picsum.photos/seed/pasar/1200/900'},
+  {id:2,name:'Rangga Saputra',class:'6A',date:'2025-02-14',desc:'Robot penyiram tanaman, demonstrasi kelas.',photo:'https://picsum.photos/seed/robot/1200/900'},
+  {id:3,name:'Dita Nabila',class:'5C',date:'2025-03-03',desc:'Poster PHBS sekolah (kampanye kebersihan).',photo:'https://picsum.photos/seed/poster/1200/900'},
+  {id:4,name:'Fajar Mahendra',class:'4A',date:'2024-12-20',desc:'Patung tanah liat bertema perjuangan.',photo:'https://picsum.photos/seed/patung/1200/900'},
+  {id:5,name:'Salsa Belinda',class:'1A',date:'2024-09-05',desc:'Kelas mengikuti kunjungan edukasi alam.',photo:'https://picsum.photos/id/1004/1200/900'},
+  {id:6,name:'Irfan H',class:'2A',date:'2024-11-10',desc:'Lomba cerdas cermat tingkat sekolah.',photo:'https://picsum.photos/id/1011/1200/900'},
+  {id:7,name:'Maya R',class:'3B',date:'2025-01-18',desc:'Kreasi seni batik sederhana.',photo:'https://picsum.photos/id/1027/1200/900'},
+  {id:8,name:'Budi',class:'6A',date:'2025-02-20',desc:'Ekskul robotik (uji fungsi sensor).',photo:'https://picsum.photos/id/1005/1200/900'},
+  {id:9,name:'Nina',class:'5C',date:'2024-08-12',desc:'Kegiatan PHBS, edukasi cuci tangan.',photo:'https://picsum.photos/id/1033/1200/900'},
+  {id:10,name:'Ardi',class:'4A',date:'2024-07-21',desc:'Proses pembuatan patung dari tanah liat.',photo:'https://picsum.photos/id/1025/1200/900'}
 ];
 
-const grid = document.getElementById("grid");
-const empty = document.getElementById("empty");
+/* ===== state ===== */
+let filtered = [...items];
+let perPage = 6;
+let page = 1;
+const grid = document.getElementById('grid');
+const totalCount = document.getElementById('totalCount');
+const qInput = document.getElementById('q');
+const pills = document.querySelectorAll('.pill');
+const loadMoreBtn = document.getElementById('loadMore');
 
-function render(list){
-  grid.innerHTML = "";
-  if(!list.length){ empty.style.display="block"; return }
-  empty.style.display="none";
-
-  list.forEach(s=>{
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <div class="photo" style="background-image:url('${s.photo}')"></div>
-      <div class="name">${s.name}</div>
-      <div class="cls">Kelas ${s.class}</div>
-    `;
-    card.onclick = ()=> openModal(s);
-    grid.appendChild(card);
+/* ===== helper progressive load (blur -> clear) ===== */
+function makeCard(item){
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="media">
+      <div class="overlay">
+        <div class="icon view" title="Lihat">🔍</div>
+      </div>
+      <img data-src="${item.photo}" alt="${item.name}" loading="lazy">
+    </div>
+    <div class="meta">
+      <div>
+        <div class="name">${item.name}</div>
+        <div class="cls">Kelas ${item.class}</div>
+      </div>
+      <div style="text-align:right;color:var(--muted);font-size:12px">${item.date}</div>
+    </div>
+  `;
+  // click overlay or card to open modal
+  card.querySelector('.view').addEventListener('click', (e)=>{ e.stopPropagation(); openModalById(item.id); });
+  card.querySelector('.media img').addEventListener('load', function(){
+    this.classList.add('loaded');
   });
+  card.addEventListener('click', ()=> openModalById(item.id));
+  return card;
 }
 
-render(students);
+/* ===== render with pagination (load perPage * page) ===== */
+function renderPage(reset=false){
+  if(reset){ grid.innerHTML=''; page=1; }
+  const start = 0;
+  const end = page * perPage;
+  const slice = filtered.slice(start, end);
+  grid.innerHTML = '';
+  slice.forEach(it => grid.appendChild(makeCard(it)));
+  totalCount.textContent = filtered.length;
+  // show/hide load more
+  loadMoreBtn.style.display = (filtered.length > end) ? 'block' : 'none';
+  // observe images for lazy progressive load
+  observeImages();
+}
 
-// Search
-document.getElementById("searchInput").addEventListener("input", ()=>{
-  applyFilter();
+/* ===== lazy progressive image loader via IntersectionObserver ===== */
+function observeImages(){
+  const imgs = grid.querySelectorAll('img[data-src]');
+  const io = new IntersectionObserver((entries, obs)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const img = entry.target;
+        img.src = img.dataset.src;
+        // when loaded, class 'loaded' will be added in load handler (see makeCard)
+        obs.unobserve(img);
+      }
+    });
+  }, {rootMargin:'200px'});
+  imgs.forEach(i=> io.observe(i));
+}
+
+/* ===== filter & search ===== */
+function applyFilters(){
+  const q = qInput.value.trim().toLowerCase();
+  const active = document.querySelector('.pill.active')?.dataset.filter || 'all';
+  filtered = items.filter(it=>{
+    if(active !== 'all' && it.class !== active) return false;
+    if(!q) return true;
+    return (it.name + ' ' + it.desc + ' ' + it.class).toLowerCase().includes(q);
+  });
+  renderPage(true);
+}
+
+/* ===== pill click handlers ===== */
+pills.forEach(p=>{
+  p.addEventListener('click', ()=>{
+    pills.forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    applyFilters();
+  });
 });
 
-// Filter Kelas
-const btns = document.querySelectorAll("[data-filter]");
-btns.forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    btns.forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-    applyFilter();
-  });
+/* ===== search handler ===== */
+qInput.addEventListener('input', ()=> applyFilters());
+
+/* ===== load more ===== */
+loadMoreBtn.addEventListener('click', ()=>{
+  page++;
+  renderPage();
 });
 
-function applyFilter(){
-  const q = document.getElementById("searchInput").value.toLowerCase();
-  const filter = document.querySelector("[data-filter].active").dataset.filter;
+/* ===== modal logic (full-screen viewer with prev/next + keyboard) ===== */
+const modalBG = document.getElementById('modalBG');
+const modalImg = document.getElementById('modalImg');
+const modalName = document.getElementById('modalName');
+const modalClass = document.getElementById('modalClass');
+const modalDate = document.getElementById('modalDate');
+const modalDesc = document.getElementById('modalDesc');
+let currentIndex = -1;
 
-  const filtered = students.filter(s=>{
-    if(filter!=="all" && s.class!==filter) return false;
-    return s.name.toLowerCase().includes(q);
-  });
-
-  render(filtered);
+function openModalById(id){
+  currentIndex = filtered.findIndex(it => it.id === id);
+  if(currentIndex < 0) return;
+  const it = filtered[currentIndex];
+  modalImg.src = it.photo;
+  modalName.textContent = it.name;
+  modalClass.textContent = it.class;
+  modalDate.textContent = it.date;
+  modalDesc.textContent = it.desc;
+  modalBG.style.display = 'flex';
+  modalBG.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
 }
-
-// Modal
-function openModal(s){
-  document.getElementById("modalImg").src = s.photo;
-  document.getElementById("modalName").textContent = s.name;
-  document.getElementById("modalClass").textContent = "Kelas " + s.class;
-  document.getElementById("modalBG").style.display="flex";
+function closeModal(){
+  modalBG.style.display = 'none';
+  modalBG.setAttribute('aria-hidden','true');
+  document.body.style.overflow = 'auto';
 }
-document.getElementById("closeModal").onclick = ()=>{
-  document.getElementById("modalBG").style.display="none";
-};
-document.getElementById("modalBG").onclick = (e)=>{
-  if(e.target.id==="modalBG") document.getElementById("modalBG").style.display="none";
-};
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(currentIndex > 0) currentIndex--;
+  else currentIndex = filtered.length - 1;
+  openModalById(filtered[currentIndex].id);
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  if(currentIndex < filtered.length - 1) currentIndex++;
+  else currentIndex = 0;
+  openModalById(filtered[currentIndex].id);
+});
+modalBG.addEventListener('click', (e)=>{ if(e.target === modalBG) closeModal(); });
+document.addEventListener('keydown', (e)=>{
+  if(modalBG.style.display === 'flex'){
+    if(e.key === 'Escape') closeModal();
+    if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
+    if(e.key === 'ArrowRight') document.getElementById('nextBtn').click();
+  }
+});
+
+/* ===== Floating upload demo UI (no backend) ===== */
+const fab = document.getElementById('fab');
+const uploadBG = document.getElementById('uploadBG');
+const cancelUpload = document.getElementById('cancelUpload');
+fab.addEventListener('click', ()=>{ uploadBG.style.display='flex'; });
+cancelUpload.addEventListener('click', ()=>{ uploadBG.style.display='none'; });
+uploadBG.addEventListener('click', (e)=>{ if(e.target === uploadBG) uploadBG.style.display='none'; });
+
+document.getElementById('uploadForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const newItem = {
+    id: items.length + 1,
+    name: f.get('name'),
+    class: f.get('class'),
+    date: new Date().toISOString().slice(0,10),
+    desc: f.get('desc'),
+    photo: f.get('photo')
+  };
+  // push into items and reapply filters (demo only)
+  items.unshift(newItem);
+  applyFilters();
+  uploadBG.style.display='none';
+  alert('Terima kasih — foto sudah ditambahkan (demo lokal). Untuk menyimpan permanen hubungi admin untuk koneksi backend.');
+});
+
+/* ===== init render ===== */
+applyFilters();
 </script>
 </body>
 </html>
