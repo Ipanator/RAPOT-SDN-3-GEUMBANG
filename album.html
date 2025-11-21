@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Album Siswa — SDN 3 Gelumbang</title>
+
+<style>
+  :root{
+    --bg:#0f1724;
+    --card:#0b1220;
+    --muted:#94a3b8;
+    --accent:#0ea5e9;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg),#071026 160%);
+    font-family:Inter,system-ui;
+    color:white;
+    padding:30px 16px;
+  }
+  .container{max-width:1100px;margin:auto}
+
+  h1{margin:0;font-size:26px}
+
+  /* Search */
+  .toolbar{
+    display:flex;
+    gap:12px;
+    margin:20px 0;
+    flex-wrap:wrap;
+  }
+  .search{
+    flex:1;
+    background:var(--card);
+    border:1px solid rgba(255,255,255,.07);
+    padding:10px 14px;
+    border-radius:var(--radius);
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .search input{
+    flex:1;
+    border:0;
+    background:transparent;
+    color:white;
+    outline:none;
+    font-size:15px;
+  }
+
+  .ghost{
+    padding:10px 14px;
+    border-radius:var(--radius);
+    border:1px solid rgba(255,255,255,.08);
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+  }
+  .ghost.active{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:16px;
+  }
+  .card{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:var(--radius);
+    padding:10px;
+    cursor:pointer;
+    transition:transform .25s;
+  }
+  .card:hover{transform:translateY(-6px);}
+
+  .photo{
+    height:180px;
+    background-size:cover;
+    background-position:center;
+    border-radius:var(--radius);
+    margin-bottom:10px;
+  }
+  .name{font-size:16px;font-weight:700}
+  .cls{color:var(--muted);font-size:13px;margin-top:2px}
+
+  /* Modal */
+  .modal-backdrop{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:1000;
+  }
+  .modal{
+    background:#0b1220;
+    padding:20px;
+    border-radius:var(--radius);
+    max-width:450px;
+    width:100%;
+  }
+  .modal img{
+    width:100%;
+    border-radius:var(--radius);
+    margin-bottom:10px;
+  }
+  .closeBtn{
+    margin-top:10px;
+    background:var(--accent);
+    border:0;
+    padding:10px 12px;
+    border-radius:var(--radius);
+    cursor:pointer;
+    width:100%;
+    font-weight:700;
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Album Siswa SDN 3 Gelumbang</h1>
+
+  <div class="toolbar">
+    <div class="search">
+      <input type="text" id="searchInput" placeholder="Cari nama siswa…">
+    </div>
+    <button class="ghost active" data-filter="all">Semua</button>
+    <button class="ghost" data-filter="1A">1A</button>
+    <button class="ghost" data-filter="2A">2A</button>
+    <button class="ghost" data-filter="3B">3B</button>
+    <button class="ghost" data-filter="4A">4A</button>
+    <button class="ghost" data-filter="5C">5C</button>
+    <button class="ghost" data-filter="6A">6A</button>
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+  <div id="empty" style="display:none;color:var(--muted);margin-top:20px;text-align:center">
+    Tidak ada data siswa ditemukan.
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modalBG" class="modal-backdrop">
+  <div class="modal">
+    <img id="modalImg">
+    <h2 id="modalName"></h2>
+    <p id="modalClass" style="color:var(--muted);margin-top:-5px"></p>
+    <button class="closeBtn" id="closeModal">Tutup</button>
+  </div>
+</div>
+
+<script>
+const students = [
+  {name:"Alya Putri", class:"3B", photo:"https://picsum.photos/id/1011/400"},
+  {name:"Rangga Saputra", class:"6A", photo:"https://picsum.photos/id/1005/400"},
+  {name:"Dita Nabila", class:"5C", photo:"https://picsum.photos/id/1027/400"},
+  {name:"Fajar Mahendra", class:"4A", photo:"https://picsum.photos/id/1033/400"},
+  {name:"Salsa Belinda", class:"1A", photo:"https://picsum.photos/id/1004/400"},
+];
+
+const grid = document.getElementById("grid");
+const empty = document.getElementById("empty");
+
+function render(list){
+  grid.innerHTML = "";
+  if(!list.length){ empty.style.display="block"; return }
+  empty.style.display="none";
+
+  list.forEach(s=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="photo" style="background-image:url('${s.photo}')"></div>
+      <div class="name">${s.name}</div>
+      <div class="cls">Kelas ${s.class}</div>
+    `;
+    card.onclick = ()=> openModal(s);
+    grid.appendChild(card);
+  });
+}
+
+render(students);
+
+// Search
+document.getElementById("searchInput").addEventListener("input", ()=>{
+  applyFilter();
+});
+
+// Filter Kelas
+const btns = document.querySelectorAll("[data-filter]");
+btns.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    btns.forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    applyFilter();
+  });
+});
+
+function applyFilter(){
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const filter = document.querySelector("[data-filter].active").dataset.filter;
+
+  const filtered = students.filter(s=>{
+    if(filter!=="all" && s.class!==filter) return false;
+    return s.name.toLowerCase().includes(q);
+  });
+
+  render(filtered);
+}
+
+// Modal
+function openModal(s){
+  document.getElementById("modalImg").src = s.photo;
+  document.getElementById("modalName").textContent = s.name;
+  document.getElementById("modalClass").textContent = "Kelas " + s.class;
+  document.getElementById("modalBG").style.display="flex";
+}
+document.getElementById("closeModal").onclick = ()=>{
+  document.getElementById("modalBG").style.display="none";
+};
+document.getElementById("modalBG").onclick = (e)=>{
+  if(e.target.id==="modalBG") document.getElementById("modalBG").style.display="none";
+};
+</script>
+</body>
+</html>
