@@ -11,87 +11,80 @@
   <link rel="icon" href="/logo2.png" />
 
   <style>
-    :root{
-      --bg:#0f1724; /* deep navy */
-      --card:#0b1220;
-      --muted:#9aa4b2;
-      --accent:#0ea5e9; /* cyan */
-      --glass: rgba(255,255,255,0.04);
-      --radius:16px;
-      --max:1200px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: linear-gradient(180deg,var(--bg), #071026 140%);
-      color:#e6eef6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:40px 20px;
-      display:flex;
-      justify-content:center;
-    }
-    .container{width:100%;max-width:var(--max)}
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #004aad, #00a8ff);
+    color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+  }
+  .header {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+    color: #ffeb3b;
+    font-size: 36px;
+    font-weight: 700;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    border-bottom: 3px solid rgba(255,255,255,0.2);
+  }
 
-    /* Header */
-    .hero{
-      display:flex;gap:20px;align-items:center;justify-content:space-between;margin-bottom:28px
-    }
-    .brand{
-      display:flex;gap:16px;align-items:center
-    }
-    .logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,#fff,#dbeafe);display:flex;align-items:center;justify-content:center;color:#003366;font-weight:700;font-size:20px}
-    .title{line-height:1}
-    .title h1{font-size:22px;margin:0}
-    .title p{margin:2px 0 0;color:var(--muted);font-size:14px}
+  .subheader {
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: -10px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+  }
 
-    .toolbar{display:flex;gap:10px;align-items:center}
-    .search{background:var(--card);border:1px solid rgba(255,255,255,0.03);padding:10px 14px;border-radius:12px;display:flex;gap:8px;align-items:center;min-width:280px}
-    .search input{flex:1;background:transparent;border:0;color:inherit;outline:none;font-size:14px}
-    .filters{display:flex;gap:8px}
-    .btn{background:linear-gradient(90deg,var(--accent),#38bdf8);color:#04293a;padding:10px 14px;border-radius:12px;font-weight:600;border:none;cursor:pointer}
-    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+  .container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
 
-    /* Grid */
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(2,6,23,0.6);display:flex;flex-direction:column;gap:10px}
-    .thumb{height:160px;border-radius:10px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden}
-    .badge{position:absolute;left:10px;top:10px;background:rgba(0,0,0,0.5);padding:6px 8px;border-radius:8px;font-size:12px;color:#fff}
-    .meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
-    .name{font-weight:700;font-size:15px}
-    .desc{font-size:13px;color:var(--muted);min-height:40px}
-    .card-footer{display:flex;gap:8px;justify-content:space-between;align-items:center}
-    .link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-    .actions{display:flex;gap:8px}
-    .small{padding:8px 10px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+  .card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.25);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
 
-    /* Modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:24px;z-index:60}
-    .modal{background:linear-gradient(180deg,#07182a,#07283a);max-width:900px;width:100%;border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.04)}
-    .modal .modal-grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
-    .modal .modal-thumb{height:420px;background-size:cover;border-radius:10px}
-    .modal h2{margin:0 0 8px}
-    .modal p{color:var(--muted)}
-    .meta-list{display:flex;flex-direction:column;gap:8px}
-    .meta-item{display:flex;justify-content:space-between;color:var(--muted)}
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+  }
 
-    /* empty state */
-    .empty{padding:40px;border-radius:12px;text-align:center;color:var(--muted);border:1px dashed rgba(255,255,255,0.03)}
+  .card h3 {
+    color: #ffeb3b;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
 
-    /* responsive tweaks */
-    @media (max-width:800px){
-      .modal .modal-grid{grid-template-columns:1fr}
-      .modal .modal-thumb{height:260px}
-      .hero{flex-direction:column;align-items:flex-start;gap:12px}
-      .search{min-width:100%}
-    }
+  .card p {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: .95;
+  }
 
-    /* subtle animations */
-    .card{transition:transform .28s cubic-bezier(.2,.9,.3,1),box-shadow .28s}
-    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.75)}
-  </style>
+  .footer {
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 30px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+  }
+</style>
 </head>
 <body>
   <div class="container">
