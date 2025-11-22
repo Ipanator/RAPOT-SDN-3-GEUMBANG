@@ -31,24 +31,24 @@
     display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:18px;
   }
   .brand{display:flex;gap:12px;align-items:center}
-  .logo{
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  background: linear-gradient(135deg,#fff,#dbeafe);
-  display: flex;
+ .logo {
+  display: inline-flex;        /* flex horizontal responsif */
   align-items: center;
   justify-content: center;
+  gap: 4px;                    /* jarak emoji & tulisan */
+  padding: 6px 12px;           /* ruang dalam kotak */
+  border-radius: 12px;
+  background: linear-gradient(135deg,#fff,#dbeafe);
   color: #003366;
   font-weight: 800;
   text-decoration: none;
+  font-size: 14px;
 
-  white-space: nowrap;   /* Jangan pecah baris */
-  overflow: hidden;      /* Potong kelebihan teks */
-  text-overflow: ellipsis; /* Tampilkan ... jika terlalu panjang */
-  padding: 0 6px;        /* Sedikit ruang di kiri-kanan */
-  font-size: 14px;       /* Sesuaikan supaya muat di kotak */
-  }
+  min-width: 56px;             /* kotak minimum */
+  max-width: 100%;             /* tidak melebar melebihi container */
+  box-sizing: border-box;
+  white-space: nowrap;          /* jangan pecah baris */
+}
     
   h1{font-size:20px;margin:0}
   p.lead{margin:2px 0 0;color:var(--muted);font-size:13px}
