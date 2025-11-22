@@ -265,31 +265,48 @@
   </footer>
 
 
+<audio id="audioOpening">
+  <source src="audio3.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-  const audio = document.getElementById("audioPlayer");
+  const audio = document.getElementById("audioPlayer"); // audio utama
+  const audioOpening = document.getElementById("audioOpening"); // audio pembuka
   const muteBtn = document.getElementById("muteBtn");
 
+  // Main audio dibuka setelah klik tombol Masuk
   document.getElementById("mulaiBtn").onclick = () => {
     document.getElementById("splashScreen").style.display = "none";
+
+    // Audio pembuka stop saat splash hilang
+    if (!audioOpening.paused) audioOpening.pause();
+
+    // Play audio utama
     audio.play();
     audio.muted = false;
     muteBtn.textContent = "🔊";
   };
 
+  // Mute / unmute audio utama
   muteBtn.onclick = () => {
     audio.muted = !audio.muted;
     muteBtn.textContent = audio.muted ? "🔇" : "🔊";
   };
 
+  // Audio pembuka otomatis saat halaman load
+  window.addEventListener("load", () => {
+    audioOpening.play().catch(() => {
+      console.log("Audio autoplay diblokir, akan diputar saat klik tombol Masuk");
+    });
+  });
+
   /* Background slideshow */
   const totalImages = 10;
   let current = 1;
-
   function changeBackground() {
     document.body.style.backgroundImage = `url('img${current}.jpeg')`;
     current = current < totalImages ? current + 1 : 1;
   }
-
   changeBackground();
   setInterval(changeBackground, 5000);
 
@@ -299,7 +316,6 @@
     const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
     const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus",
                    "September","Oktober","November","Desember"];
-
     document.getElementById("marqueeTime").textContent =
       `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
   }, 1000);
