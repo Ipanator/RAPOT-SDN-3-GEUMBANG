@@ -178,7 +178,6 @@
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-<!-- Tambahkan di dalam <style> (ganti bagian #mulaiBtn lama) -->
 #mulaiBtn {
   margin-top: 20px;
   padding: 15px 35px;
@@ -188,20 +187,14 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  transition: .25s;
   z-index: 10000;
-  opacity: 0; /* awalnya tersembunyi */
-  transform: translateY(30px); /* geser ke bawah */
-  transition: opacity 0.8s ease, transform 0.8s ease; /* animasi */
-}
-
-#mulaiBtn.show {
-  opacity: 1;
-  transform: translateY(0); /* tombol muncul ke posisi normal */
 }
 
 #mulaiBtn:hover {
   transform: scale(1.08);
 }
+
 
     /* MUTE button */
     #muteBtn {
@@ -342,17 +335,11 @@
   };
 
   // Audio pembuka otomatis saat halaman load
- // Tambahkan di script paling bawah (setelah window.addEventListener("load", ...))
-window.addEventListener("load", () => {
-  audioOpening.play().catch(() => {
-    console.log("Audio autoplay diblokir, akan diputar saat klik tombol Masuk");
+  window.addEventListener("load", () => {
+    audioOpening.play().catch(() => {
+      console.log("Audio autoplay diblokir, akan diputar saat klik tombol Masuk");
+    });
   });
-
-  // Delay muncul tombol 1.2 detik
-  setTimeout(() => {
-    document.getElementById("mulaiBtn").classList.add("show");
-  }, 1200);
-});
 
   /* Background slideshow */
   const totalImages = 10;
