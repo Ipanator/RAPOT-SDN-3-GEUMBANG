@@ -4,394 +4,149 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Galeri SDN 3 Gelumbang</title>
-<meta name="description" content="Galeri SDN 3 Gelumbang galeri kegiatan & dokumentasi siswa. Pencarian, filter kelas, dan tampilan premium." />
+<meta name="description" content="Galeri SDN 3 Gelumbang - Dokumentasi kegiatan & foto siswa." />
 <link rel="icon" href="/logo2.png" />
+
 <style>
-  :root{
-    --bg:#071026;
-    --card:#0b1220;
-    --muted:#99a7b8;
-    --accent:#38bdf8;
-    --accent-2:#60a5fa;
-    --glass: rgba(255,255,255,0.03);
-    --radius:14px;
-    --gap:16px;
-    --max:1200px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-    background:linear-gradient(180deg,var(--bg),#041025 140%);
-    color:#e6eef6;padding:28px;display:flex;justify-content:center;
-  }
-  .wrap{width:100%;max-width:var(--max)}
-
-  header{
-    display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:18px;
-  }
-  .brand{display:flex;gap:12px;align-items:center}
-  ..logo {
-  display: inline-flex;        /* flex horizontal responsif */
-  align-items: center;
-  justify-content: center;
-  gap: 4px;                    /* jarak emoji & tulisan */
-  padding: 6px 12px;           /* ruang dalam kotak */
-  border-radius: 12px;
-  background: linear-gradient(135deg,#fff,#dbeafe);
-  color: #003366;
-  font-weight: 800;
-  text-decoration: none;
-  font-size: 14px;
-
-  min-width: 56px;             /* kotak minimum */
-  max-width: 100%;             /* tidak melebar melebihi container */
-  box-sizing: border-box;
-  white-space: nowrap;          /* jangan pecah baris */
+body{
+  font-family: Arial, sans-serif;
+  margin:0;
+  background:#f5f5f5;
 }
 
-  p.lead{margin:2px 0 0;color:var(--muted);font-size:13px}
+/* Header */
+header{
+  background:#0d47a1;
+  color:white;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
 
-  /* toolbar */
-  .toolbar{display:flex;gap:12px;align-items:center;margin:14px 0 18px;flex-wrap:wrap}
-  .search{
-    background:var(--card);border:1px solid rgba(255,255,255,0.04);
-    padding:10px 12px;border-radius:12px;display:flex;gap:10px;align-items:center;min-width:260px;flex:1;
-  }
-  .search input{flex:1;background:transparent;border:0;color:inherit;outline:none;font-size:14px}
-  .filters{display:flex;gap:8px;flex-wrap:wrap}
-  .pill{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:999px;color:var(--muted);cursor:pointer;font-weight:600}
-  .pill.active{border-color:var(--accent);color:var(--accent);box-shadow:0 6px 18px rgba(56,189,248,0.06);}
+/* Grid Galeri */
+#grid{
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:15px;
+}
 
-  /* masonry grid (CSS columns) */
-  .grid{
-    column-width:260px;
-    column-gap:var(--gap);
-  }
-  .card{
-    display:inline-block;width:100%;margin:0 0 var(--gap);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
-    border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.03);
-    box-shadow:0 8px 24px rgba(2,6,23,0.55);transition:transform .24s ease, box-shadow .24s;
-  }
-  .card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(2,6,23,0.75)}
-  .media{
-    width:100%;aspect-ratio:4/3;border-radius:10px;background-position:center;background-size:cover;position:relative;overflow:hidden;
-  }
-  /* progressive blur overlay */
-  .media img{
-    width:100%;height:100%;object-fit:cover;display:block;filter:blur(14px) scale(1.02);
-    transform-origin:center center;transition:filter .6s ease, opacity .45s ease;
-  }
-  .media img.loaded{filter:blur(0) scale(1);opacity:1}
-  .meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-  .name{font-weight:700;font-size:14px}
-  .cls{color:var(--muted);font-size:13px}
+.card{
+  background:white;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 3px 7px rgba(0,0,0,0.1);
+  cursor:pointer;
+  transition:0.2s;
+}
 
-  /* hover overlay for actions */
-  .overlay{
-    position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-end;padding:10px;gap:8px;
-    pointer-events:none;
-  }
-  .icon{
-    pointer-events:auto;background:linear-gradient(90deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));
-    border-radius:999px;padding:8px;border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(4px);
-    color:#fff;cursor:pointer;font-weight:700;
-    transition:transform .18s;
-  }
-  .icon:active{transform:scale(.96)}
+.card:hover{
+  transform:scale(1.02);
+}
 
-  /* modal */
-  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.85);display:none;align-items:center;justify-content:center;padding:18px;z-index:1200}
-  .modal{
-    width:min(1100px,98%);background:linear-gradient(180deg,#071225,#041129);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04);display:flex;gap:18px;align-items:flex-start;
-  }
-  .modal-left{flex:1}
-  .modal-img{width:100%;height:60vh;object-fit:contain;border-radius:10px;background:#000}
-  .modal-right{width:320px;color:var(--muted)}
-  .modal h2{margin:0 0 6px;color:#fff}
-  .modal .meta-item{display:flex;justify-content:space-between;margin:8px 0;color:var(--muted)}
+.card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+}
 
-  /* floating upload button */
-  .fab{
-    position:fixed;right:22px;bottom:22px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#04293a;
-    padding:14px 16px;border-radius:12px;font-weight:800;border:0;cursor:pointer;box-shadow:0 12px 36px rgba(56,189,248,0.14);z-index:1100;
-  }
+.card .meta{
+  padding:10px;
+}
 
-  /* load more */
-  .load-more{display:block;margin:20px auto;padding:10px 18px;border-radius:12px;border:0;background:var(--card);color:var(--muted);cursor:pointer}
+.card .name{
+  font-weight:bold;
+  font-size:16px;
+}
 
-  /* responsive tweaks */
-  @media (max-width:880px){
-    .modal{flex-direction:column}
-    .modal-img{height:50vh}
-    .modal-right{width:100%}
-  }
+.card .cls{
+  color:#555;
+}
+
+/* Tombol Load More */
+#loadMore{
+  display:block;
+  background:#0d47a1;
+  color:white;
+  padding:12px 20px;
+  margin:20px auto;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+#loadMore:hover{
+  opacity:0.8;
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="https://sdn-3-gelumbang.vercel.app/logo2.png">SD</div>
-      <div>
-        <h1>Galeri Siswa SDN 3 Gelumbang</h1>
-        <p class="lead">Galeri kegiatan & dokumentasi siswa klik foto untuk tampilan penuh.</p>
-      </div>
-    </div>
-    <div style="text-align:right;color:var(--muted);font-size:13px">Total koleksi: <span id="totalCount">0</span></div>
-  </header>
 
-  <div class="toolbar">
-    <div class="search" aria-label="Pencarian">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.8"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.6"></circle></svg>
-      <input id="q" placeholder="Cari nama atau kata kunci (contoh: jalan, lomba)..." />
-    </div>
+<header>Galeri Kegiatan SDN 3 Gelumbang</header>
 
-    <div class="filters" role="tablist" aria-label="Filter kelas">
-      <button class="pill active" data-filter="all">Semua</button>
-      <button class="pill" data-filter="1">1</button>
-      <button class="pill" data-filter="2">2</button>
-      <button class="pill" data-filter="3">3</button>
-      <button class="pill" data-filter="4">4</button>
-      <button class="pill" data-filter="5">5</button>
-      <button class="pill" data-filter="6">6</button>
-    </div>
-  </div>
+<div id="grid"></div>
 
-  <main>
-    <section id="grid" class="grid" aria-live="polite"></section>
-    <button id="loadMore" class="load-more">Muat Lebih Banyak</button>
-  </main>
-</div>
-
-<!-- Modal full -->
-<div id="modalBG" class="modal-backdrop" role="dialog" aria-hidden="true">
-  <div class="modal" role="document">
-    <div class="modal-left">
-      <img id="modalImg" class="modal-img" src="" alt="Foto siswa">
-    </div>
-    <aside class="modal-right">
-      <h2 id="modalName">Nama Siswa</h2>
-      <div class="meta-item"><span>Kelas</span><strong id="modalClass"></strong></div>
-      <div class="meta-item"><span>Tanggal</span><span id="modalDate"></span></div>
-      <p id="modalDesc" style="margin-top:10px;color:var(--muted);line-height:1.45">Deskripsi kegiatan / catatan.</p>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <button id="prevBtn" class="pill" style="flex:1">← Sebelumnya</button>
-        <button id="nextBtn" class="pill" style="flex:1">Berikut →</button>
-      </div>
-    </aside>
-  </div>
-</div>
-
-<!-- Floating upload (; but UI ready) -->
-<button id="fab" class="fab" aria-label="Upload foto">+ Upload</button>
-
-<!-- Upload modal (demo, no backend) -->
-<div id="uploadBG" class="modal-backdrop" style="display:none">
-  <div class="modal" style="max-width:640px;flex-direction:column">
-    <h2 style="margin:0 0 10px">Ajukan Foto Siswa</h2>
-    <form id="uploadForm" style="width:100%;display:grid;gap:8px">
-      <input name="name" placeholder="Nama siswa" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit" />
-      <input name="class" placeholder="Kelas (contoh: 3)" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit" />
-      <input name="photo" placeholder="URL foto (contoh: https://...)" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit" />
-      <textarea name="desc" placeholder="Deskripsi singkat" rows="3" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:inherit"></textarea>
-      <div style="display:flex;gap:8px;margin-top:6px">
-        <button type="submit" class="fab" style="flex:1;padding:10px">Kirim</button>
-        <button type="button" id="cancelUpload" class="pill" style="flex:1">Batal</button>
-      </div>
-    </form>
-  </div>
-</div>
+<button id="loadMore">Muat Lebih Banyak</button>
 
 <script>
-/* ===== SAMPLE DATA (ganti / load dari server jika tersedia) ===== */
+/* =========================================================
+   DATA FOTO DI SINI — TINGGAL TAMBAH SEPUASNYA
+   ========================================================= */
 const items = [
-  {id:1,name:'Bantuan Chroombok',class:'-',date:'23 Juli 2025',desc:'Bantuan chroombok.',photo:'https://scontent-cgk1-1.xx.fbcdn.net/v/t39.30808-6/521667097_122134255976827967_522181294852733578_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF8RBdjkSUNben6hVij0l4TtqzY1X3sAmu2rNjVfewCa5f5c5_ZLcQcbemw4LKbU5kfnB9aqPc1PoNBFgMIbiJY&_nc_ohc=5XpnsSdcnLgQ7kNvwG44uy-&_nc_oc=AdlzwSFE1SmPDYWmQiUEjhWtQpFoxlYr7tR_f4dkCSgZWfgEntcr27saitgkRZYszQ8&_nc_zt=23&_nc_ht=scontent-cgk1-1.xx&_nc_gid=XFoHB9qFdX-y2yRzGhqHuQ&oh=00_AfhyN51r5IfZV6s74MzA0N_JxOgtRjVPj4pp4AYZCG5Gdw&oe=69265F3B'},
-  {id:2,name:'Kegiatan Merakit UPS',class:'-',date:'22 November 2025',desc:'Merakit UPS.',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/587072643_122094632715142209_8116767901766321341_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEbdMvM5lN9Ff5xU9-aV78nPIlRBRd8WAA8iVEFF3xYACUcAdPFhnLE8JjZgNJvIX2gGg4Ef-MdDEl66W4NImSk&_nc_ohc=JXbFUAp2GbcQ7kNvwGoW6ow&_nc_oc=AdmU8ArT5p8XY_u8NNTNij8jL2D6NS5qxewMI10GSsXJfC81UDm1a19wP6dKOkA7Qqg&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=HLvNCYsHlsUYPAFlrrW23A&oh=00_Afg0zemvoWdcyAHUfmAr-GM6OH1viHm5si9oYiMIxLJN7Q&oe=6929E6A7'},
-  {id:3,name:'1',class:'5',date:'29 September 2025',desc:'Merakit.',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/588037471_122095179351142209_8682522085408337932_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGUe0hBsJLm_1waJC0Qha5L1N-YxUiDv_fU35jFSIO_93gu6WBvQ2ZEnDrGKvqAW4iPo74hqHHAyAPxL58DB3kO&_nc_ohc=mtgB2WqWVaAQ7kNvwEzVNkk&_nc_oc=Adk68Sk63U7AnB7BALSin0sEzk01cJ5pB4_YjmWe50X0aTjkw0waB4Z_D0N591UBKpE&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=bM3gzS6f006nzLfbm4hIqg&oh=00_AfiOKXTpu0KGPA2IoKSjeJOonH1yZOhjpy44nykgEAONhA&oe=6929DED6'},
-  {id:4,name:'2',class:'-',date:'15 Agustus 2025',desc:'merakit',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/589029349_122095179099142209_7047206868331133914_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF7JotaPigewEfm3F8qEB6t4RPNPixasgzhE80-LFqyDASaG1d6me26kP1T05SxKfBAGR7jCFvlQaedmUhOGXWW&_nc_ohc=zcprPNeDHqAQ7kNvwHVxGRk&_nc_oc=AdmR2FAFrDbftOyWHd8o8EPx4HTg-yOY9zUhRL5xvIatzSqFWt6MCZIq3T-R-BjtdHA&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=Rmc-9SJsaPzPSih6v2FTMw&oh=00_AfhVuF_yVmGws7T5K3WTDd0_5qnm_lNvH6hjgG9fO5z5hg&oe=6929F994'},
-  {id:5,name:'3',class:'-',date:'9 Agustus 2024',desc:'merakit',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/587753215_122094633939142209_340433111612893632_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFPoAeTLWlY9QpFC5Mqd9OXL1AqAUqgfA0vUCoBSqB8DSXMscuOC1NZDxPFDg4A5mjQseHtto0XH-8kw4oeFdzv&_nc_ohc=b3ku2rZWMPEQ7kNvwFEZZhM&_nc_oc=Adk6WiEDUl53DKI20w_XGhQj1nR6Y8wTJ4SgLM-QvD0iZxNhhHUFONFz9SMk2S7m4uo&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=19etoJ4OYXXCXICOhDJ07w&oh=00_Afh4O7E_xo6BBMD2YDzBJ0hzu5cXDkyqkOzY1LCxSrhDGA&oe=6929F6A4'},
-  {id:6,name:'4',class:'-',date:'23 Juli 2025',desc:'Bantuan chroombok.',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/588344389_122094632901142209_5018950370076431707_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGstIdvkjktOwEdNDYwjoEg34eCLi0VZ-zfh4IuLRVn7OERzgdhRAgKylHrA5_duJLVA8_iuerA4_I2P5-Otr0V&_nc_ohc=lJ-HxzOxar8Q7kNvwECvlz0&_nc_oc=AdnsCGP5JsOk7xeI-LVjUPBs3PTWcmxX5JFm2NicPS9Uubmd_GPhmTLGQ_yJ8E-CWcQ&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=Lx9pnVdLYHaChgJHr24UPw&oh=00_Afjaj5dnL1TlrwZ9XYzcFJ6ODu6yzF-wB59WURpxX8Ez8Q&oe=6929FEAE'},
-  {id:7,name:'5',class:'5',date:'22 November 2025',desc:'Berbasis Komputer Tahun 2025.',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/589144405_122095179435142209_4325129946172942698_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEmvIm697_3DJpcm2YAdobTs_OiLTZEc4-z86ItNkRzjxeJsEizCWVBYPEq1dH9dC_vyvbLa3CgxoEEOfmGZmyQ&_nc_ohc=HWCpJfzKExcQ7kNvwG-bEw8&_nc_oc=AdkY2VkDj8OY80OD5EmIjZfJqDUkAUHEtW5Qf6P_MDIUvYNgNSmHIUKxb1yDmOkH2oI&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=GJQeOgDekBuJ1nMVX8DlHQ&oh=00_Afi6wLx-nfyW3B_O7u7YiS6g3vm5OWsgC56G7flmGb9A6w&oe=692A0B61'},
-  {id:8,name:'6',class:'6',date:'26 Mei 2025',desc:'Kegiatan rapat pelepasan siswa-siswi SDN 3 Gelumbang bersama wali murid kelas 6',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/588385041_122095179507142209_114308339128652969_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHuX2SpAi0O8d1B_t3vyYoIPCGv-H3OVu08Ia_4fc5W7cT12NiVzHnTxwrp9MOA2LQfGc2lK0_2OpL7CXGJLaHK&_nc_ohc=vLlFNh8esoIQ7kNvwE2yBo5&_nc_oc=AdmP0sIkF4tTugNnvIlu3UVCsvyyMAwJoCKRkQrgjoxkq6fvWcrfHCUbl9Z_lnKaZ_w&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=HK1VUBvHHjOckbFADUnt_w&oh=00_AfgO0CD5B_TKea2hK-TO99fy-RU2aqR-eh08TL2xBCaj4A&oe=6929F1B6'},
-  {id:9,name:'7',class:'1,2,3,4,5,6',date:'16 Mei 2025',desc:'Kegiatan yasinan bersama',photo:'https://scontent-cgk1-1.xx.fbcdn.net/v/t39.30808-6/498634868_122119609280827967_7333080111567562800_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeG2QYdDsJdlp1dRpdaTFha04EDwXNVHG-DgQPBc1Ucb4GBvEmH65Iu9yFiGTN-DGmljBuLr-2QvSg-7gKxiRGQe&_nc_ohc=O3gdS16_tmMQ7kNvwEMYtPl&_nc_oc=AdmtQWjTIiZLsYZNmJDVJAaJj5OA5Ja7zTXVy1qv4hLk9E-5SlIwgkUlSiBg4vA4eLE&_nc_zt=23&_nc_ht=scontent-cgk1-1.xx&_nc_gid=gmdpS8vj3ZfrAeS8NuhAIg&oh=00_AfgNpaTEXi0EyIkG-G1X7YmQjMJ0B3lvlzPL2NdBdcb1nw&oe=69266572'},
-  {id:10,name:'8',class:'-',date:'-',desc:'Kegiatan Ekstarkulikuler Komputer.',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/589028016_122095186371142209_249432968125532827_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGja7axWsuQKGk5GGNUl0dlJZ5xAj7sfK4lnnECPux8rlq7Gsds0UbQFPrR68EAzyFv4m7ggq_fPbKT84Q77eJg&_nc_ohc=_sTN9f4Hh4oQ7kNvwEW7M_o&_nc_oc=AdnOEFTDtLq2aYBIdh4mp_KfU1nuZaSvhUF5qXlPRyojkKbS_0kVWGP1cu0H4pHxGVU&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=vcK4gh3ssy5PsSeQ875WMQ&oh=00_AfjJVDtWOplWRnipsbsnZXBPlWmP0GsExPJ1PDW-KG2h7A&oe=6929EE62'}
-  {id:11,name:'9',class:'-',date:'-',desc:'Kegiatan Ekstarkulikuler Komputer.',photo:'https://scontent.fplm1-1.fna.fbcdn.net/v/t39.30808-6/587181493_122095186407142209_4925595507985605909_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEGv59JltCIMLo2UWqvGm1Dtn9FmEC0Jbu2f0WYQLQlu0glVvoxPM1YCjv1U4_llhvXWV9IuhvJ-AI7eMHyrYaF&_nc_ohc=M55VzxIGFRAQ7kNvwEHzex4&_nc_oc=AdmHQVUVumpHdPvFWcgJfAoxzDqWFPk3ihxwx02YbgmSGsLm2CZ4c_0_Ofjyatr6Vv4&_nc_zt=23&_nc_ht=scontent.fplm1-1.fna&_nc_gid=rToK9x9T-rAmTudnMuf0Fw&oh=00_Afg6wLy_flDLKat6uc5ipOdj8y0U5hgE1KL7mZI2jZN9tg&oe=692A06A3'}
+  {id:1, name:'Bantuan Chromebook', class:'-', date:'23 Juli 2025', desc:'Bantuan chroombok.', photo:'URL-FOTO-1'},
+  {id:2, name:'Kegiatan Merakit UPS', class:'-', date:'22 November 2025', desc:'Merakit UPS.', photo:'URL-FOTO-2'},
+  {id:3, name:'Kegiatan Kelas 5', class:'5', date:'29 September 2025', desc:'Kegiatan kelas 5.', photo:'URL-FOTO-3'},
+  {id:4, name:'Kegiatan Lainnya', class:'-', date:'15 Agustus 2025', desc:'merakit', photo:'URL-FOTO-4'},
+
+  /* ➜ Tambahkan foto ke-5,6,7,8,9… 100 di sini */
+  // {id:5, name:'Judul Foto', class:'1', date:'', desc:'', photo:'URL'},
 ];
 
-/* ===== state ===== */
-let filtered = [...items];
-let perPage = 6;
-let page = 1;
-const grid = document.getElementById('grid');
-const totalCount = document.getElementById('totalCount');
-const qInput = document.getElementById('q');
-const pills = document.querySelectorAll('.pill');
-const loadMoreBtn = document.getElementById('loadMore');
+/* =========================================================
+   SISTEM LOAD MORE 10 FOTO
+   ========================================================= */
+let perPage = 10;      // jumlah foto sekali load
+let current = 0;       // posisi foto terakhir ditampilkan
 
-/* ===== helper progressive load (blur -> clear) ===== */
-function makeCard(item){
-  const card = document.createElement('article');
-  card.className = 'card';
-  card.innerHTML = `
-    <div class="media">
-      <div class="overlay">
-        <div class="icon view" title="Lihat">🔍</div>
-      </div>
-      <img data-src="${item.photo}" alt="${item.name}" loading="lazy">
-    </div>
-    <div class="meta">
-      <div>
+function loadItems(reset = false){
+  const grid = document.getElementById('grid');
+
+  if(reset){
+    grid.innerHTML = "";
+    current = 0;
+  }
+
+  // ambil 10 foto berikutnya
+  const slice = items.slice(current, current + perPage);
+
+  slice.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${item.photo}" alt="${item.name}">
+      <div class="meta">
         <div class="name">${item.name}</div>
         <div class="cls">Kelas ${item.class}</div>
       </div>
-      <div style="text-align:right;color:var(--muted);font-size:12px">${item.date}</div>
-    </div>
-  `;
-  // click overlay or card to open modal
-  card.querySelector('.view').addEventListener('click', (e)=>{ e.stopPropagation(); openModalById(item.id); });
-  card.querySelector('.media img').addEventListener('load', function(){
-    this.classList.add('loaded');
+    `;
+    grid.appendChild(card);
   });
-  card.addEventListener('click', ()=> openModalById(item.id));
-  return card;
+
+  current += perPage;
+
+  // sembunyikan tombol jika foto habis
+  document.getElementById('loadMore').style.display =
+    current >= items.length ? 'none' : 'block';
 }
 
-/* ===== render with pagination (load perPage * page) ===== */
-function renderPage(reset=false){
-  if(reset){ grid.innerHTML=''; page=1; }
-  const start = 0;
-  const end = page * perPage;
-  const slice = filtered.slice(start, end);
-  grid.innerHTML = '';
-  slice.forEach(it => grid.appendChild(makeCard(it)));
-  totalCount.textContent = filtered.length;
-  // show/hide load more
-  loadMoreBtn.style.display = (filtered.length > end) ? 'block' : 'none';
-  // observe images for lazy progressive load
-  observeImages();
-}
+// tombol load_more ditekan
+document.getElementById('loadMore').onclick = () => loadItems(false);
 
-/* ===== lazy progressive image loader via IntersectionObserver ===== */
-function observeImages(){
-  const imgs = grid.querySelectorAll('img[data-src]');
-  const io = new IntersectionObserver((entries, obs)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const img = entry.target;
-        img.src = img.dataset.src;
-        // when loaded, class 'loaded' will be added in load handler (see makeCard)
-        obs.unobserve(img);
-      }
-    });
-  }, {rootMargin:'200px'});
-  imgs.forEach(i=> io.observe(i));
-}
-
-/* ===== filter & search ===== */
-function applyFilters(){
-  const q = qInput.value.trim().toLowerCase();
-  const active = document.querySelector('.pill.active')?.dataset.filter || 'all';
-  filtered = items.filter(it=>{
-    if(active !== 'all' && it.class !== active) return false;
-    if(!q) return true;
-    return (it.name + ' ' + it.desc + ' ' + it.class).toLowerCase().includes(q);
-  });
-  renderPage(true);
-}
-
-/* ===== pill click handlers ===== */
-pills.forEach(p=>{
-  p.addEventListener('click', ()=>{
-    pills.forEach(x=>x.classList.remove('active'));
-    p.classList.add('active');
-    applyFilters();
-  });
-});
-
-/* ===== search handler ===== */
-qInput.addEventListener('input', ()=> applyFilters());
-
-/* ===== load more ===== */
-loadMoreBtn.addEventListener('click', ()=>{
-  page++;
-  renderPage();
-});
-
-/* ===== modal logic (full-screen viewer with prev/next + keyboard) ===== */
-const modalBG = document.getElementById('modalBG');
-const modalImg = document.getElementById('modalImg');
-const modalName = document.getElementById('modalName');
-const modalClass = document.getElementById('modalClass');
-const modalDate = document.getElementById('modalDate');
-const modalDesc = document.getElementById('modalDesc');
-let currentIndex = -1;
-
-function openModalById(id){
-  currentIndex = filtered.findIndex(it => it.id === id);
-  if(currentIndex < 0) return;
-  const it = filtered[currentIndex];
-  modalImg.src = it.photo;
-  modalName.textContent = it.name;
-  modalClass.textContent = it.class;
-  modalDate.textContent = it.date;
-  modalDesc.textContent = it.desc;
-  modalBG.style.display = 'flex';
-  modalBG.setAttribute('aria-hidden','false');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(){
-  modalBG.style.display = 'none';
-  modalBG.setAttribute('aria-hidden','true');
-  document.body.style.overflow = 'auto';
-}
-document.getElementById('prevBtn').addEventListener('click', ()=>{
-  if(currentIndex > 0) currentIndex--;
-  else currentIndex = filtered.length - 1;
-  openModalById(filtered[currentIndex].id);
-});
-document.getElementById('nextBtn').addEventListener('click', ()=>{
-  if(currentIndex < filtered.length - 1) currentIndex++;
-  else currentIndex = 0;
-  openModalById(filtered[currentIndex].id);
-});
-modalBG.addEventListener('click', (e)=>{ if(e.target === modalBG) closeModal(); });
-document.addEventListener('keydown', (e)=>{
-  if(modalBG.style.display === 'flex'){
-    if(e.key === 'Escape') closeModal();
-    if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
-    if(e.key === 'ArrowRight') document.getElementById('nextBtn').click();
-  }
-});
-
-/* ===== Floating upload demo UI (no backend) ===== */
-const fab = document.getElementById('fab');
-const uploadBG = document.getElementById('uploadBG');
-const cancelUpload = document.getElementById('cancelUpload');
-fab.addEventListener('click', ()=>{ uploadBG.style.display='flex'; });
-cancelUpload.addEventListener('click', ()=>{ uploadBG.style.display='none'; });
-uploadBG.addEventListener('click', (e)=>{ if(e.target === uploadBG) uploadBG.style.display='none'; });
-
-document.getElementById('uploadForm').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const f = new FormData(e.target);
-  const newItem = {
-    id: items.length + 1,
-    name: f.get('name'),
-    class: f.get('class'),
-    date: new Date().toISOString().slice(0,10),
-    desc: f.get('desc'),
-    photo: f.get('photo')
-  };
-  // push into items and reapply filters (demo only)
-  items.unshift(newItem);
-  applyFilters();
-  uploadBG.style.display='none';
-  alert('Terima kasih foto sudah ditambahkan (demo lokal). Untuk menyimpan permanen hubungi admin untuk koneksi backend.');
-});
-
-/* ===== init render ===== */
-applyFilters();
+// load pertama
+loadItems(true);
 </script>
+
 </body>
 </html>
