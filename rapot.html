@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>E-Raport (Offline) — SDN 3 Gelumbang</title>
+<meta name="description" content="Halaman E-Raport versi offline untuk pengisian & tampilan rapor siswa. Fitur: simpan lokal, eksport, cetak, antrian upload." />
+<style>
+  :root{
+    --bg:#0b1220; --card:#07122a; --muted:#9fb3c8; --accent:#38bdf8; --accent-2:#60a5fa; --glass: rgba(255,255,255,0.03);
+    --radius:12px; --gap:14px; --max:1200px; --success:#34d399; --danger:#fb7185;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(180deg,#051229 0%, #041021 100%); color:#e6eef6;display:flex;justify-content:center;padding:28px}
+  .wrap{width:100%;max-width:var(--max)}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{background:linear-gradient(135deg,#fff,#dbeafe);color:#003366;padding:8px 12px;border-radius:10px;font-weight:800}
+  h1{font-size:18px;margin:0}
+  p.lead{margin:0;color:var(--muted);font-size:13px}
+
+  /* offline banner */
+  .banner{position:fixed;left:50%;transform:translateX(-50%);top:18px;background:linear-gradient(90deg,#f59e0b,#fbbf24);color:#041225;padding:10px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-weight:700;z-index:999}
+  .banner.hidden{display:none}
+
+  main{display:grid;grid-template-columns:320px 1fr;gap:18px}
+
+  /* left panel */
+  .panel{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 8px 24px rgba(2,6,23,0.5)}
+  .search{display:flex;gap:8px;margin-bottom:12px}
+  .search input{flex:1;padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .chip{padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer}
+  .chip.active{background:rgba(56,189,248,0.08);border-color:var(--accent);color:var(--accent)}
+  .student-list{max-height:62vh;overflow:auto;margin-top:10px}
+  .student-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer}
+  .student-item:hover{background:rgba(255,255,255,0.02)}
+  .avatar{width:44px;height:44px;border-radius:8px;background:#082233;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .meta small{display:block;color:var(--muted);font-size:12px}
+
+  /* right panel */
+  .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+  button.btn{background:var(--card);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+  button.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#04293a;border:0;font-weight:800}
+
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.04);}
+
+  .report{display:grid;grid-template-columns:1fr 320px;gap:12px}
+  .field{display:flex;flex-direction:column;margin-bottom:8px}
+  label{font-size:13px;color:var(--muted);margin-bottom:6px}
+  input[type=text], textarea, select{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  textarea{min-height:120px}
+
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .grade{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(255,255,255,0.01);text-align:center}
+  .small{font-size:12px;color:var(--muted)}
+
+  .queue{margin-top:12px}
+  .queue-item{display:flex;justify-content:space-between;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);margin-bottom:6px}
+
+  footer{margin-top:18px;color:var(--muted);font-size:12px;text-align:center}
+
+  /* FULLSCREEN OFFLINE OVERLAY */
+  .offline-overlay{
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(2,6,23,0.92),rgba(4,8,20,0.96));z-index:99999;flex-direction:column;padding:20px;text-align:center;color:#fff
+  }
+  .offline-card{max-width:760px;background:linear-gradient(180deg,#071225,#041129);padding:28px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+  .offline-card h2{margin:0 0 8px;font-size:22px}
+  .offline-card p{color:var(--muted);margin:8px 0 16px}
+  .offline-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .hint{font-size:13px;color:#cbd5e1;margin-top:12px}
+
+  @media (max-width:980px){main{grid-template-columns:1fr} .report{grid-template-columns:1fr} .banner{top:10px}.offline-card{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="mainContent">
+  <header>
+    <div class="brand">
+      <div class="logo">📘 SD</div>
+      <div>
+        <h1>E-Raport — SDN 3 Gelumbang (Offline)</h1>
+        <p class="lead">Isi / sunting rapor siswa secara offline. Simpan lokal, cetak, atau ekspor lalu unggah saat online.</p>
+      </div>
+    </div>
+    <div id="statusInfo" style="text-align:right;color:var(--muted);font-size:13px">Status: <strong id="onlineStatus">Offline</strong></div>
+  </header>
+
+  <div id="offlineBanner" class="banner">Anda sedang offline — perubahan disimpan secara lokal</div>
+
+  <main>
+    <aside class="panel">
+      <div class="search">
+        <input id="q" placeholder="Cari nama siswa..." />
+        <button class="btn" id="btnNew">+ Baru</button>
+      </div>
+
+      <div class="filters" id="kelasFilters">
+        <button class="chip active" data-kelas="all">Semua</button>
+        <button class="chip" data-kelas="1">Kelas 1</button>
+        <button class="chip" data-kelas="2">Kelas 2</button>
+        <button class="chip" data-kelas="3">Kelas 3</button>
+        <button class="chip" data-kelas="4">Kelas 4</button>
+        <button class="chip" data-kelas="5">Kelas 5</button>
+        <button class="chip" data-kelas="6">Kelas 6</button>
+      </div>
+
+      <div class="student-list card" id="studentList" aria-live="polite"></div>
+
+      <div class="card queue">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <strong>Antrian Upload</strong>
+          <button class="btn" id="clearQueue">Kosongkan</button>
+        </div>
+        <div id="queueList"></div>
+      </div>
+    </aside>
+
+    <section>
+      <div class="controls">
+        <button class="btn" id="btnSaveLocal">Simpan Lokal</button>
+        <button class="btn" id="btnExport">Ekspor JSON</button>
+        <button class="btn" id="btnPrint">Cetak / Simpan PDF</button>
+        <button class="primary" id="btnUpload">Unggah (Saat Online)</button>
+      </div>
+
+      <div class="card">
+        <div class="report">
+          <div>
+            <div class="field"><label>Nama Siswa</label><input id="fName" type="text" placeholder="Nama lengkap"/></div>
+            <div class="field"><label>Kelas</label>
+              <select id="fClass"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
+            </div>
+            <div class="field"><label>Catatan Guru</label><textarea id="fNotes" placeholder="Catatan ringkas tentang perkembangan..."></textarea></div>
+
+            <div class="field"><label>Nilai</label>
+              <div class="grades">
+                <div class="grade"><div class="small">Bahasa Indonesia</div><input id="g1" type="text" placeholder="0-100"/></div>
+                <div class="grade"><div class="small">Matematika</div><input id="g2" type="text" placeholder="0-100"/></div>
+                <div class="grade"><div class="small">IPA</div><input id="g3" type="text" placeholder="0-100"/></div>
+              </div>
+            </div>
+
+            <div style="margin-top:8px;display:flex;gap:8px"><button class="primary" id="btnSave">Simpan</button><button class="btn" id="btnReset">Reset</button></div>
+          </div>
+
+          <aside>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <strong>Preview Rapor</strong>
+              <small class="small">Preview singkat yang siap cetak</small>
+            </div>
+            <div id="preview" style="border-radius:8px;padding:10px;background:rgba(255,255,255,0.02)"></div>
+
+            <div style="margin-top:12px">
+              <small class="small">Tombol cepat:</small>
+              <div style="display:flex;gap:6px;margin-top:8px">
+                <button class="btn" id="btnFillDummy">Isi Contoh</button>
+                <button class="btn" id="btnDel">Hapus Siswa</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <footer>
+        Versi Offline • Simpan lokal otomatis • SDN 3 Gelumbang
+      </footer>
+    </section>
+  </main>
+</div>
+
+<!-- FULLSCREEN OFFLINE OVERLAY (TAMPIL SAAT HALAMAN STATUS = OFFLINE) -->
+<div id="offlineOverlay" class="offline-overlay" role="dialog" aria-modal="true" aria-labelledby="offlineTitle" aria-describedby="offlineDesc" style="display:none">
+  <div class="offline-card">
+    <h2 id="offlineTitle">Halaman Sedang Offline</h2>
+    <p id="offlineDesc">Sistem e-raport saat ini dalam mode offline. Tunggu admin untuk mengonlinekan. Semua perubahan akan disimpan secara lokal dan dapat diunggah ketika koneksi tersedia.</p>
+    <div class="offline-actions">
+      <button class="primary" id="btnRetry">Periksa Koneksi</button>
+      <button class="btn" id="btnContact">Info Admin</button>
+    </div>
+    <div class="hint">Jika admin sudah mengonlinekan, klik <strong>Periksa Koneksi</strong> atau muat ulang halaman.</div>
+  </div>
+</div>
+
+<script>
+// ======= Data & Storage =======
+const STORAGE_KEY = 'eraport_offline_v1';
+let db = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {students: [], queue: []};
+let filtered = [...db.students];
+let selectedId = null;
+
+// ======= Helpers =======
+const el = id => document.getElementById(id);
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+
+// ======= OFFLINE OVERLAY CONTROL =======
+function showOfflineOverlay(show){
+  const ov = el('offlineOverlay');
+  const main = el('mainContent');
+  if(show){
+    ov.style.display = 'flex';
+    main.setAttribute('aria-hidden','true');
+    // optionally prevent interaction by adding inert or pointer-events
+    document.body.style.pointerEvents = 'none';
+    ov.style.pointerEvents = 'auto';
+  } else {
+    ov.style.display = 'none';
+    main.removeAttribute('aria-hidden');
+    document.body.style.pointerEvents = 'auto';
+  }
+}
+
+// ======= UI Renders =======
+function renderStudentList(){
+  const list = el('studentList'); list.innerHTML='';
+  const q = el('q').value.trim().toLowerCase();
+  const activeK = document.querySelector('.chip.active')?.dataset.kelas || 'all';
+  filtered = db.students.filter(s=> (activeK==='all' || s.class===activeK) && (s.name.toLowerCase().includes(q) || s.notes?.toLowerCase().includes(q)) );
+  filtered.forEach(s=>{
+    const row = document.createElement('div'); row.className='student-item';
+    row.innerHTML = `<div class="avatar">${s.name.split(' ')[0]?.slice(0,1)||'S'}</div><div class="meta"><strong>${s.name}</strong><small>Kelas ${s.class} • ${s.id}</small></div>`;
+    row.addEventListener('click', ()=> selectStudent(s.id));
+    list.appendChild(row);
+  });
+  el('totalCount').textContent = db.students.length;
+}
+
+function renderPreview(){
+  const p = el('preview');
+  if(!selectedId){ p.innerHTML='<em class="small">Pilih siswa untuk melihat preview.</em>'; return }
+  const s = db.students.find(x=>x.id===selectedId);
+  p.innerHTML = `
+    <div style="font-weight:800;margin-bottom:6px">${s.name}</div>
+    <div class="small">Kelas ${s.class}</div>
+    <div style="margin-top:8px">Nilai: <strong>${s.grades?.join(' • ')||'—'}</strong></div>
+    <div style="margin-top:8px;color:var(--muted)">${(s.notes||'—')}</div>
+  `;
+}
+
+function saveDB(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+
+// ======= Select / Edit =======
+function selectStudent(id){
+  selectedId = id;
+  const s = db.students.find(x=>x.id===id);
+  el('fName').value = s.name || '';
+  el('fClass').value = s.class || '1';
+  el('fNotes').value = s.notes || '';
+  el('g1').value = s.grades?.[0]||'';
+  el('g2').value = s.grades?.[1]||'';
+  el('g3').value = s.grades?.[2]||'';
+  renderPreview();
+}
+
+function resetForm(){ selectedId=null; el('fName').value=''; el('fNotes').value=''; el('g1').value=''; el('g2').value=''; el('g3').value=''; renderPreview(); }
+
+// ======= CRUD =======
+function createStudent(){
+  const id = uid();
+  const newS = {id, name:'Nama Baru', class:'1', notes:'', grades:[]};
+  db.students.unshift(newS); saveDB(); renderStudentList(); selectStudent(id);
+}
+
+function saveStudent(){
+  const name = el('fName').value.trim(); if(!name){ alert('Isi nama siswa.'); return }
+  const s = db.students.find(x=>x.id===selectedId);
+  if(!s){ alert('Pilih siswa dulu.'); return }
+  s.name = name; s.class = el('fClass').value; s.notes = el('fNotes').value;
+  s.grades = [el('g1').value, el('g2').value, el('g3').value];
+  saveDB(); renderStudentList(); renderPreview();
+  enqueueForUpload(s.id);
+}
+
+function deleteStudent(){
+  if(!selectedId) return alert('Pilih siswa.');
+  if(!confirm('Hapus siswa ini dari penyimpanan lokal?')) return;
+  db.students = db.students.filter(x=>x.id!==selectedId); db.queue = db.queue.filter(q=>q!==selectedId); saveDB(); resetForm(); renderStudentList(); renderQueue();
+}
+
+// ======= Queue (antrian upload) =======
+function enqueueForUpload(id){ if(!db.queue.includes(id)){ db.queue.push(id); saveDB(); renderQueue(); } }
+function dequeueUpload(id){ db.queue = db.queue.filter(x=>x!==id); saveDB(); renderQueue(); }
+function renderQueue(){ const ql = el('queueList'); ql.innerHTML=''; db.queue.forEach(id=>{ const s = db.students.find(x=>x.id===id); const div=document.createElement('div'); div.className='queue-item'; div.innerHTML=`<div>${s?.name||id}</div><div><button class="btn" onclick="tryUpload('${id}')">Upload</button> <button class="btn" onclick="dequeueUpload('${id}')">Batal</button></div>`; ql.appendChild(div); }) }
+
+// ======= Export / Print =======
+function exportJSON(){ const data = JSON.stringify(db.students, null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='eraport-export.json'; a.click(); URL.revokeObjectURL(url); }
+function printPreview(){ window.print(); }
+
+// ======= Upload (fake) =======
+function tryUpload(id){ if(navigator.onLine){ // simulate upload
+    const s = db.students.find(x=>x.id===id); alert('Mengunggah '+(s?.name||id)+'... (simulasi)'); dequeueUpload(id);
+  } else {
+    alert('Masih offline. Data tetap ada di antrian.');
+  }}
+
+function uploadAll(){ if(!navigator.onLine){ alert('Masih offline.'); return } db.queue.slice().forEach(id=>tryUpload(id)); }
+
+// ======= UI Wiring =======
+el('btnNew').addEventListener('click', createStudent);
+el('q').addEventListener('input', renderStudentList);
+Array.from(document.querySelectorAll('.chip')).forEach(ch=> ch.addEventListener('click', ()=>{ document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); ch.classList.add('active'); renderStudentList(); }));
+el('btnSave').addEventListener('click', saveStudent);
+el('btnSaveLocal').addEventListener('click', ()=>{ saveDB(); alert('Tersimpan lokal.'); });
+el('btnExport').addEventListener('click', exportJSON);
+el('btnPrint').addEventListener('click', printPreview);
+el('btnUpload').addEventListener('click', uploadAll);
+el('btnReset').addEventListener('click', resetForm);
+el('btnFillDummy').addEventListener('click', ()=>{ el('fName').value='Ipan Ditia'; el('fClass').value='6'; el('fNotes').value='Perkembangan baik'; el('g1').value='78'; el('g2').value='85'; el('g3').value='80'; });
+el('btnDel').addEventListener('click', deleteStudent);
+el('clearQueue').addEventListener('click', ()=>{ if(confirm('Kosongkan antrian?')){ db.queue=[]; saveDB(); renderQueue(); } });
+
+// ======= OFFLINE / ONLINE STATUS HANDLING =======
+function updateOnlineStatus(){ el('onlineStatus').textContent = navigator.onLine ? 'Online' : 'Offline'; const b = el('offlineBanner'); if(navigator.onLine) b.classList.add('hidden'); else b.classList.remove('hidden');
+  // show overlay when offline and hide when online
+  if(!navigator.onLine){ showOfflineOverlay(true); } else { showOfflineOverlay(false); }
+}
+window.addEventListener('online', ()=>{ updateOnlineStatus(); if(db.queue.length) alert('Koneksi kembali. Ada '+db.queue.length+' item di antrian, silakan unggah.'); });
+window.addEventListener('offline', updateOnlineStatus);
+el('btnRetry').addEventListener('click', ()=>{ updateOnlineStatus(); if(navigator.onLine) alert('Koneksi terdeteksi online. Anda dapat mengunggah data.'); else alert('Masih offline. Pastikan jaringan tersedia.'); });
+el('btnContact').addEventListener('click', ()=>{ alert('Hubungi admin sekolah untuk mengonlinekan layanan.'); });
+
+setInterval(()=>{ saveDB(); }, 5000);
+
+// ======= Init sample if empty =======
+if(!db.students.length){ for(let i=1;i<=5;i++){ db.students.push({id:uid(), name:'Siswa '+i, class: (i%6+1).toString(), notes:'Catatan contoh', grades:['80','75','78']}); } saveDB(); }
+renderStudentList(); renderQueue(); updateOnlineStatus();
+
+// expose some functions for inline handlers
+window.tryUpload = tryUpload; window.dequeueUpload = dequeueUpload;
+</script>
+</body>
+</html>
