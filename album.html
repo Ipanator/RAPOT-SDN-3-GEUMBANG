@@ -9,9 +9,9 @@
 <style>
   /* Sticker Generasi Emas */
 .ribbon {
-  position: absolute;
-  top: -5px;
-  right: -10px;
+  position: fixed;    /* dari absolute → fixed */
+  top: 10px;          /* biar nggak terlalu mepet */
+  right: 10px;
   background: linear-gradient(135deg, #facc15, #fbbf24, #f59e0b);
   color: #111;
   font-weight: 900;
@@ -20,9 +20,10 @@
   border-radius: 0 12px 0 12px;
   transform: rotate(6deg);
   box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-  border: 1px dashed rgba(255,255,255,0.25); /* efek sobekan */
-  z-index: 999;
+  border: 1px dashed rgba(255,255,255,0.25);
+  z-index: 9999;      /* pastikan di atas semuanya */
 }
+
 
   :root{
     --bg:#071026;
