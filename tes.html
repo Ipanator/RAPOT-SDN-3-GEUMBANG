@@ -120,21 +120,20 @@
 </div>
 
 <script>
-// Daftar video terbaru (ID dari link YouTube yang kamu berikan)
+// Daftar Video Final (25 Video Unik)
 const videos = [
-    {id:"BF4hRjaLHNE"},
-    {id:"am3sGO12f6Q"},
-    {id:"okrWNmUNwaE"},
-    {id:"QMmWyFbWN6M"},
-    {id:"PrH5Uwy6IDc"},
-    {id:"878HzqGwWp8"},
-    {id:"faoKd-LUUbo"},
-    {id:"gBw9JFoyIcU"},
-    {id:"CfccgOShfmE"},
+    {id:"ZGcAmHpQw10"}, {id:"MxDP4b7Dg6M"}, {id:"hsISgdK51IA"},
+    {id:"fFUkelrGQfA"}, {id:"KyBprTVObwc"}, {id:"sv8kW7XDdHk"},
+    {id:"xtid1FHHyUs"}, {id:"4VsRp8S4TSY"}, {id:"XUJNmSlwwno"},
+    {id:"b7Q1FE3JFWs"}, {id:"FZdJCiyLIvI"}, {id:"Q8n6IoWx0vg"},
+    {id:"gBw9JFoyIcU"}, {id:"fCp6i3e6mdw"}, {id:"SzADJUIxXsI"},
+    {id:"YHhuzD35Ywk"}, {id:"BF4hRjaLHNE"}, {id:"am3sGO12f6Q"},
+    {id:"okrWNmUNwaE"}, {id:"QMmWyFbWN6M"}, {id:"PrH5Uwy6IDc"},
+    {id:"878HzqGwWp8"}, {id:"faoKd-LUUbo"}, {id:"CfccgOShfmE"},
     {id:"ZWwEr4yIgPQ"}
 ];
 
-// Render thumbnail + Judul otomatis
+// Render Thumbnail + Judul otomatis
 const gallery = document.getElementById('videoGallery');
 
 videos.forEach(v => {
@@ -143,11 +142,11 @@ videos.forEach(v => {
     card.className = "video-card";
     card.innerHTML = `
         <img src="${thumb}" />
-        <div class="title-box">Mengambil judul...</div>
+        <div class="title-box">Loading...</div>
     `;
     gallery.appendChild(card);
 
-    fetch(`https://www.youtube.com/oembed?url=https://youtu.be/${v.id}&format=json`)
+    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+v.id+"&format=json")
         .then(r=>r.json()).then(d=>{
             card.querySelector(".title-box").textContent = d.title;
         });
@@ -155,7 +154,7 @@ videos.forEach(v => {
     card.addEventListener("click", ()=> openModalWith(v.id));
 });
 
-// Modal actions
+// Modal Script
 const modal = document.getElementById('modal');
 const playerFrame = document.getElementById('playerFrame');
 const modalTitle = document.getElementById('modalTitle');
@@ -163,19 +162,19 @@ const modalDesc = document.getElementById('modalDesc');
 
 function openModalWith(id){
     modal.classList.add('open');
-    playerFrame.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
-
-    fetch(`https://www.youtube.com/oembed?url=https://youtu.be/${id}&format=json`)
-      .then(r=>r.json()).then(d=>{
-        modalTitle.textContent = d.title;
-        modalDesc.textContent = "📌 oleh: " + d.author_name;
-      });
+    playerFrame.src = "https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&modestbranding=1";
+    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+id+"&format=json")
+        .then(r=>r.json()).then(d=>{
+            modalTitle.textContent = d.title;
+            modalDesc.textContent = "oleh: " + d.author_name;
+        });
 }
 
 function closeModal(){
     modal.classList.remove('open');
     setTimeout(()=>{ playerFrame.src = ""; }, 200);
 }
+
 document.getElementById('closeModal').addEventListener('click', closeModal);
 modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
 </script>
