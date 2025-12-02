@@ -3,180 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Pembelajaran - SDN 3 Gelumbang</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #eef1f7;
-        margin: 0;
-    }
-    header {
-        background: #1e40af;
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-        font-size: 20px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 18px;
-        padding: 20px;
-    }
-    .video-card {
-        background: #fff;
-        border-radius: 12px;
-        overflow: hidden;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,.15);
-        transition: transform .2s;
-    }
-    .video-card:hover {
-        transform: translateY(-4px);
-    }
-    .video-card img {
-        width: 100%;
-        display: block;
-    }
-    .title-box {
-        padding: 12px;
-        font-size: 16px;
-        font-weight: bold;
-        color: #1e40af;
-    }
+<title>Video Pembelajaran • SDN 3 Gelumbang</title>
 
-    /* Modal */
-    .modal {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.8);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        pointer-events: none;
-        transition: opacity .25s ease;
-        opacity: 0;
-    }
-    .modal.open {
-        display: flex;
-        pointer-events: auto;
-        opacity: 1;
-    }
-    .modal-content {
-        background: #000;
-        padding: 10px;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 800px;
-        animation: fadeUp .25s ease;
-    }
-    @keyframes fadeUp {
-        from { transform: translateY(20px); opacity:0; }
-        to { transform: translateY(0); opacity:1; }
-    }
-    iframe {
-        width: 100%;
-        height: 450px;
-        border: none;
-        border-radius: 8px;
-    }
-    .modal-info {
-        color: #fff;
-        margin-top: 8px;
-        text-align: center;
-        font-size: 14px;
-    }
-    .close-btn {
-        margin-top: 10px;
-        background: #dc2626;
-        color: #fff;
-        padding: 8px 14px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
-        display: block;
-        width: 100%;
-    }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: #eef5ff;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #004aad;
+    font-weight: 700;
+}
+
+.gallery {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.video-card {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: .3s ease;
+}
+
+.video-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.video-card img {
+    width: 100%;
+    transition: .3s;
+}
+
+.video-card:hover img {
+    transform: scale(1.08);
+    filter: brightness(0.6);
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 45px;
+    color: white;
+    opacity: 0;
+    transition: .3s;
+}
+
+.video-card:hover .play-icon {
+    opacity: 1;
+}
+
+.video-title {
+    padding: 10px;
+    font-size: 14px;
+    color: #222;
+    font-weight: 600;
+    text-align: center;
+    background: #fff;
+}
+
+/* Modal Style */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 700px;
+    border-radius: 10px;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+}
+
+.modal iframe {
+    width: 100%;
+    height: 400px;
+}
+
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 27px;
+    background: red;
+    color: #fff;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    line-height: 34px;
+    cursor: pointer;
+    font-weight: bold;
+}
 </style>
 </head>
+
 <body>
 
-<header>Video Pembelajaran SD Negeri 3 Gelumbang</header>
+<h1>Video Pembelajaran SDN 3 Gelumbang</h1>
 
 <div class="gallery" id="videoGallery"></div>
 
-<!-- Modal -->
-<div class="modal" id="modal">
+<!-- MODAL -->
+<div class="modal" id="videoModal">
     <div class="modal-content">
-        <iframe id="playerFrame" allowfullscreen></iframe>
-        <div id="modalTitle" class="modal-info"></div>
-        <div id="modalDesc" class="modal-info"></div>
-        <button class="close-btn" id="closeModal">Tutup</button>
+        <span class="close-btn" id="closeModal">&times;</span>
+        <iframe id="videoFrame" frameborder="0" allow="autoplay" allowfullscreen></iframe>
     </div>
 </div>
 
 <script>
-// Daftar Video Final (25 Video Unik)
+// Semua Link Video (Tidak Ada Yang Dihapus)
 const videos = [
-    {id:"ZGcAmHpQw10"}, {id:"MxDP4b7Dg6M"}, {id:"hsISgdK51IA"},
-    {id:"fFUkelrGQfA"}, {id:"KyBprTVObwc"}, {id:"sv8kW7XDdHk"},
-    {id:"xtid1FHHyUs"}, {id:"4VsRp8S4TSY"}, {id:"XUJNmSlwwno"},
-    {id:"b7Q1FE3JFWs"}, {id:"FZdJCiyLIvI"}, {id:"Q8n6IoWx0vg"},
-    {id:"gBw9JFoyIcU"}, {id:"fCp6i3e6mdw"}, {id:"SzADJUIxXsI"},
-    {id:"YHhuzD35Ywk"}, {id:"BF4hRjaLHNE"}, {id:"am3sGO12f6Q"},
-    {id:"okrWNmUNwaE"}, {id:"QMmWyFbWN6M"}, {id:"PrH5Uwy6IDc"},
-    {id:"878HzqGwWp8"}, {id:"faoKd-LUUbo"}, {id:"CfccgOShfmE"},
-    {id:"ZWwEr4yIgPQ"}
+  "Q8n6IoWx0vg","gBw9JFoyIcU","fCp6i3e6mdw","SzADJUIxXsI","YHhuzD35Ywk",
+  "ZGcAmHpQw10","MxDP4b7Dg6M","hsISgdK51IA","fFUkelrGQfA","KyBprTVObwc",
+  "sv8kW7XDdHk","xtid1FHHyUs","4VsRp8S4TSY","XUJNmSlwwno","b7Q1FE3JFWs",
+  "FZdJCiyLIvI","BF4hRjaLHNE","am3sGO12f6Q","okrWNmUNwaE","QMmWyFbWN6M",
+  "PrH5Uwy6IDc","878HzqGwWp8","faoKd-LUUbo","gBw9JFoyIcU","BF4hRjaLHNE",
+  "CfccgOShfmE","ZWwEr4yIgPQ"
 ];
 
-// Render Thumbnail + Judul otomatis
-const gallery = document.getElementById('videoGallery');
+const gallery = document.getElementById("videoGallery");
 
-videos.forEach(v => {
-    const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
-    const card = document.createElement('div');
-    card.className = "video-card";
-    card.innerHTML = `
-        <img src="${thumb}" />
-        <div class="title-box">Loading...</div>
-    `;
-    gallery.appendChild(card);
-
-    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+v.id+"&format=json")
-        .then(r=>r.json()).then(d=>{
-            card.querySelector(".title-box").textContent = d.title;
+videos.forEach(id => {
+    fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${id}`)
+        .then(res => res.json())
+        .then(data => {
+            const thumbnail = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+            gallery.innerHTML += `
+                <div class="video-card" onclick="openVideo('${id}')">
+                    <img src="${thumbnail}" alt="${data.title}">
+                    <div class="play-icon">▶</div>
+                    <div class="video-title">${data.title || "Video Pembelajaran"}</div>
+                </div>
+            `;
         });
-
-    card.addEventListener("click", ()=> openModalWith(v.id));
 });
 
-// Modal Script
-const modal = document.getElementById('modal');
-const playerFrame = document.getElementById('playerFrame');
-const modalTitle = document.getElementById('modalTitle');
-const modalDesc = document.getElementById('modalDesc');
+// Modal Function
+const modal = document.getElementById("videoModal");
+const frame = document.getElementById("videoFrame");
+const closeBtn = document.getElementById("closeModal");
 
-function openModalWith(id){
-    modal.classList.add('open');
-    playerFrame.src = "https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&modestbranding=1";
-    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+id+"&format=json")
-        .then(r=>r.json()).then(d=>{
-            modalTitle.textContent = d.title;
-            modalDesc.textContent = "oleh: " + d.author_name;
-        });
+function openVideo(id) {
+    modal.style.display = "flex";
+    frame.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
 }
 
-function closeModal(){
-    modal.classList.remove('open');
-    setTimeout(()=>{ playerFrame.src = ""; }, 200);
-}
+closeBtn.onclick = () => closeModal();
+modal.onclick = e => { if(e.target === modal) closeModal(); };
 
-document.getElementById('closeModal').addEventListener('click', closeModal);
-modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+function closeModal() {
+    modal.style.display = "none";
+    frame.src = "";
+}
 </script>
 
 </body>
