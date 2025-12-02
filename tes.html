@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galeri Video - SDN 3 Gelumbang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0f172a;
+      --card: #0b1220;
+      --muted: #94a3b8;
+      --accent: #7c3aed;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial;color:#e6eef8;background:linear-gradient(180deg,#071029 0%, #071427 100%);}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#4f46e5);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    h1{font-size:18px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:10px;align-items:center}
+    .search{background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:12px;color:var(--muted);min-width:220px}
+    .btn{background:linear-gradient(90deg,var(--accent),#5b21b6);border:none;color:white;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    .toggle{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+    main{padding:18px}
+    .grid{display:grid;grid-template-columns:repeat(1,1fr);gap:14px}
+    @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);overflow:hidden;box-shadow:0 6px 24px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02)}
+    .thumb{position:relative;padding-top:56.25%;background:#000}
+    .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .playbtn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);backdrop-filter: blur(4px);border:2px solid rgba(255,255,255,0.08)}
+    .meta{padding:12px}
+    .title{font-weight:700;margin:0 0 6px 0}
+    .desc{margin:0;color:var(--muted);font-size:13px}
+    .cardfoot{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,0.02);align-items:center}
+    .linkbtn{flex:1;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer}
+    .open{background:linear-gradient(90deg,#06b6d4,#7c3aed);color:white;border:none}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,23,0.6);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .18s}
+    .modal.open{opacity:1;pointer-events:auto}
+    .modalbox{width:100%;max-width:980px;background:linear-gradient(180deg,#071427,#041027);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.04)}
+    .modalhead{display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
+    .modalbody{padding:0}
+    .modal iframe{width:100%;height:520px;border:0}
+    .small{font-size:12px;color:var(--muted)}
+
+    footer{padding:18px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* small helpers */
+    .badge{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.02)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">SD</div>
+      <div>
+        <h1>Galeri Video - SDN 3 Gelumbang</h1>
+        <p class="lead">Koleksi video pembelajaran & multimedia — modern, ringan, dan responsif</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <input id="search" class="search" placeholder="Cari judul, keterangan, atau nomor..." />
+      <button id="darkToggle" class="toggle">Mode Gelap</button>
+      <button id="openAll" class="btn">Buka Semua</button>
+    </div>
+  </header>
+
+  <main>
+    <section style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="badge">Total: <span id="count">0</span> video</div>
+      <div style="display:flex;gap:8px">
+        <select id="sort" class="search" style="min-width:160px">
+          <option value="new">Urut: Default</option>
+          <option value="title">Urut: Judul A→Z</option>
+          <option value="num">Urut: Nomor</option>
+        </select>
+      </div>
+    </section>
+
+    <div id="grid" class="grid"></div>
+  </main>
+
+  <div id="playerModal" class="modal" aria-hidden="true">
+    <div class="modalbox">
+      <div class="modalhead">
+        <div>
+          <div id="modalTitle" style="font-weight:700"></div>
+          <div class="small" id="modalDesc"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;padding-left:8px">
+          <button id="copyLink" class="linkbtn">Salin Link</button>
+          <button id="openYT" class="btn">Buka di YouTube</button>
+          <button id="closeModal" class="toggle">Tutup</button>
+        </div>
+      </div>
+      <div class="modalbody">
+        <iframe id="playerFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Dibuat untuk SDN 3 Gelumbang • Tampilan modern & responsif
+  </footer>
+
+  <script>
+    // === DATA: masukkan daftar link video di sini. Judul tombol dibuat ringkas (Tonton #)
+    const videos = [
+      {id:1, url:'https://youtu.be/8z7zmsf9wZs', title:'Tonton #1', desc:'Video 1'},
+      {id:2, url:'https://youtu.be/x01dQYVUotM', title:'Tonton #2', desc:'Video 2'},
+      {id:3, url:'https://youtu.be/9w9mODrBWnE', title:'Tonton #3', desc:'Video 3'},
+      {id:4, url:'https://youtu.be/3G6UJ9by7MQ', title:'Tonton #4', desc:'Video 4'},
+      {id:5, url:'https://youtu.be/sghAqhta08E', title:'Tonton #5', desc:'Video 5'},
+      {id:6, url:'https://youtu.be/1d-1l7cGB2Q', title:'Tonton #6', desc:'Video 6'},
+      {id:7, url:'https://youtu.be/vsLPEutCqpA', title:'Tonton #7', desc:'Video 7'},
+      {id:8, url:'https://youtu.be/gBw9JFoyIcU', title:'Tonton #8', desc:'Video 8'},
+      {id:9, url:'https://youtu.be/N0Nb3MBSXEw', title:'Tonton #9', desc:'Video 9'},
+      {id:10,url:'https://youtu.be/cFHSePwMGw4', title:'Tonton #10',desc:'Video 10'},
+    ];
+
+    // Helper: extract youtube id
+    function ytIdFrom(url){
+      const m = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+      if(m) return m[1];
+      const short = url.split('youtu.be/')[1];
+      return short ? short.split(/[?&]/)[0] : url;
+    }
+
+    // Build grid
+    const grid = document.getElementById('grid');
+    const count = document.getElementById('count');
+    function render(list){
+      grid.innerHTML='';
+      list.forEach(v=>{
+        const vid = ytIdFrom(v.url);
+        const thumb = 'https://img.youtube.com/vi/'+vid+'/hqdefault.jpg';
+        const card = document.createElement('article'); card.className='card';
+        card.innerHTML = `
+          <div class="thumb">
+            <img loading="lazy" src="${thumb}" alt="${v.title}" />
+            <div class="playbtn" data-id="${vid}" data-url="${v.url}" data-title="${v.title}">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3v18l15-9L5 3z" fill="white"/></svg>
+            </div>
+          </div>
+          <div class="meta">
+            <h3 class="title">${v.title}</h3>
+            <p class="desc">${v.desc}</p>
+          </div>
+          <div class="cardfoot">
+            <button class="linkbtn" data-url="${v.url}" onclick="openInNew(event)">Buka Link</button>
+            <button class="open" data-id="${vid}" data-url="${v.url}" data-title="${v.title}">Putar</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      count.textContent = list.length;
+      attachListeners();
+    }
+
+    // initial render
+    render(videos);
+
+    // Search + Sort
+    const searchInput = document.getElementById('search');
+    const sort = document.getElementById('sort');
+    searchInput.addEventListener('input',()=> applyFilters());
+    sort.addEventListener('change',()=> applyFilters());
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      let filtered = videos.filter(v=> (v.title+" "+v.desc+" "+v.url).toLowerCase().includes(q));
+      if(sort.value === 'title') filtered.sort((a,b)=> a.title.localeCompare(b.title));
+      if(sort.value === 'num') filtered.sort((a,b)=> a.id - b.id);
+      render(filtered);
+    }
+
+    // modal behavior
+    const modal = document.getElementById('playerModal');
+    const frame = document.getElementById('playerFrame');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    let currentUrl = '';
+
+    function openModal(url,title,desc){
+      const id = ytIdFrom(url);
+      frame.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1';
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc || '';
+      currentUrl = url;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      frame.src = '';
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+
+    // attach listeners to dynamic buttons
+    function attachListeners(){
+      document.querySelectorAll('.playbtn, .open').forEach(btn=>{
+        btn.onclick = e=>{
+          const url = btn.dataset.url;
+          const title = btn.dataset.title || btn.dataset.id;
+          openModal(url,title,'');
+        }
+      });
+      document.querySelectorAll('.linkbtn').forEach(b=>{ b.onclick = openInNew });
+    }
+
+    function openInNew(e){
+      const url = e.currentTarget.dataset.url || e.currentTarget.getAttribute('data-url');
+      window.open(url,'_blank');
+    }
+
+    // copy & open from modal
+    document.getElementById('copyLink').addEventListener('click', ()=>{
+      navigator.clipboard.writeText(currentUrl).then(()=> alert('Link disalin ke clipboard'));
+    });
+    document.getElementById('openYT').addEventListener('click', ()=>{
+      if(currentUrl) window.open(currentUrl,'_blank');
+    });
+
+    // dark toggle (simple flavor)
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      if(document.body.classList.contains('light')){
+        document.documentElement.style.setProperty('--bg','#f7f9fc');
+        document.documentElement.style.setProperty('--card','#ffffff');
+        document.documentElement.style.setProperty('--muted','#536171');
+        document.documentElement.style.setProperty('--accent','#2563eb');
+        darkToggle.textContent = 'Mode Terang';
+      } else {
+        document.documentElement.style.removeProperty('--bg');
+        document.documentElement.style.removeProperty('--card');
+        document.documentElement.style.removeProperty('--muted');
+        document.documentElement.style.removeProperty('--accent');
+        darkToggle.textContent = 'Mode Gelap';
+      }
+    });
+
+    // Open all (buka semua link di tab baru) - caution: may be blocked by popup blocker
+    document.getElementById('openAll').addEventListener('click', ()=>{
+      videos.forEach(v=> window.open(v.url,'_blank'));
+    });
+
+    // keyboard: Esc to close
+    document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeModal(); });
+
+  </script>
+</body>
+</html>
