@@ -1,246 +1,190 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Galeri Video - SDN 3 Gelumbang</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Pembelajaran - SDN 3 Gelumbang</title>
 <style>
-  :root{ --bg:#071427; --card:#0b1220; --muted:#9aa9ba; --accent:#7c3aed; }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071029,#041227);color:#e6eef8}
-  header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#4f46e5);display:flex;align-items:center;justify-content:center;font-weight:700}
-  h1{font-size:16px;margin:0}
-  .controls{display:flex;gap:8px;align-items:center}
-  input.search{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:var(--muted)}
-  button{padding:8px 12px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),#5b21b6);color:white;cursor:pointer}
-  main{padding:18px}
-  .grid{display:grid;gap:14px;grid-template-columns:repeat(1,1fr)}
-  @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
-  @media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
-  .thumb{position:relative;padding-top:56.25%;background:#000}
-  .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .play-overlay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:999px;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .meta{padding:10px}
-  .title{font-weight:700;margin:0 0 6px 0;font-size:14px}
-  .desc{margin:0;color:var(--muted);font-size:13px}
-  .cardfoot{display:flex;justify-content:center;padding:10px;border-top:1px solid rgba(255,255,255,0.02)}
-  .playbtn{padding:8px 14px;border-radius:10px;background:linear-gradient(90deg,#06b6d4,#7c3aed);border:none;color:white;cursor:pointer}
-  /* modal */
-  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.7);z-index:99}
-  .modal.open{display:flex}
-  .modal-box{width:95%;max-width:980px;background:#041427;border-radius:10px;padding:10px}
-  .modal iframe{width:100%;height:540px;border:0;border-radius:8px}
-  .modal-head{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;color:var(--muted)}
-  .linksmall{font-size:13px;color:var(--muted)}
-  footer{padding:14px;text-align:center;color:var(--muted);font-size:13px}
+    body {
+        font-family: Arial, sans-serif;
+        background: #eef1f7;
+        margin: 0;
+    }
+    header {
+        background: #1e40af;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px;
+        padding: 20px;
+    }
+    .video-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,.15);
+        transition: transform .2s;
+    }
+    .video-card:hover {
+        transform: translateY(-4px);
+    }
+    .video-card img {
+        width: 100%;
+        display: block;
+    }
+    .title-box {
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #1e40af;
+    }
+
+    /* Modal */
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        transition: opacity .25s ease;
+        opacity: 0;
+    }
+    .modal.open {
+        display: flex;
+        pointer-events: auto;
+        opacity: 1;
+    }
+    .modal-content {
+        background: #000;
+        padding: 10px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 800px;
+        animation: fadeUp .25s ease;
+    }
+    @keyframes fadeUp {
+        from { transform: translateY(20px); opacity:0; }
+        to { transform: translateY(0); opacity:1; }
+    }
+    iframe {
+        width: 100%;
+        height: 450px;
+        border: none;
+        border-radius: 8px;
+    }
+    .modal-info {
+        color: #fff;
+        margin-top: 8px;
+        text-align: center;
+        font-size: 14px;
+    }
+    .close-btn {
+        margin-top: 10px;
+        background: #dc2626;
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        display: block;
+        width: 100%;
+    }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">
-    <div class="logo">SD</div>
-    <div>
-      <h1>Galeri Video - SDN 3 Gelumbang</h1>
-      <div style="font-size:13px;color:var(--muted)">Koleksi video pembelajaran — langsung putar di web</div>
+<header>Video Pembelajaran SD Negeri 3 Gelumbang</header>
+
+<div class="gallery" id="videoGallery"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <iframe id="playerFrame" allowfullscreen></iframe>
+        <div id="modalTitle" class="modal-info"></div>
+        <div id="modalDesc" class="modal-info"></div>
+        <button class="close-btn" id="closeModal">Tutup</button>
     </div>
-  </div>
-
-  <div class="controls">
-    <input id="search" class="search" placeholder="Cari judul..." />
-    <button id="darkToggle">Mode</button>
-  </div>
-</header>
-
-<main>
-  <section style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <div style="color:var(--muted)">Total: <span id="count">0</span> video</div>
-  </section>
-
-  <div id="grid" class="grid"></div>
-</main>
-
-<!-- Modal player (langsung memutar di web, tidak membuka YouTube) -->
-<div id="modal" class="modal" aria-hidden="true">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div>
-        <div id="modalTitle" style="font-weight:700"></div>
-        <div class="linksmall" id="modalDesc"></div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button id="closeModal" class="playbtn" style="background:#ff6b6b">Tutup</button>
-      </div>
-    </div>
-    <iframe id="playerFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </div>
 </div>
 
-<footer>
-  Dibuat untuk SDN 3 Gelumbang — Putar langsung & judul otomatis.
-</footer>
-
 <script>
-/*
-List video (uniq). Kode akan:
-- menampilkan thumbnail
-- fetch judul resmi tiap video via YouTube oEmbed (browser akan ambil)
-- menampilkan judul di bawah thumbnail
-- klik Putar -> buka modal & putar embed (tidak membuka tab lain)
-*/
-
-const videoUrls = [
-  "https://youtu.be/ZGcAmHpQw10",
-  "https://youtu.be/MxDP4b7Dg6M",
-  "https://youtu.be/hsISgdK51IA",
-  "https://youtu.be/fFUkelrGQfA",
-  "https://youtu.be/KyBprTVObwc",
-  "https://youtu.be/sv8kW7XDdHk",
-  "https://youtu.be/xtid1FHHyUs",
-  "https://youtu.be/4VsRp8S4TSY",
-  "https://youtu.be/XUJNmSlwwno",
-  "https://youtu.be/b7Q1FE3JFWs",
-  "https://youtu.be/FZdJCiyLIvI",
-  "https://youtu.be/8z7zmsf9wZs",
-  "https://youtu.be/x01dQYVUotM",
-  "https://youtu.be/9w9mODrBWnE",
-  "https://youtu.be/3G6UJ9by7MQ",
-  "https://youtu.be/sghAqhta08E",
-  "https://youtu.be/1d-1l7cGB2Q",
-  "https://youtu.be/vsLPEutCqpA",
-  "https://youtu.be/gBw9JFoyIcU",
-  "https://youtu.be/N0Nb3MBSXEw",
-  "https://youtu.be/cFHSePwMGw4",
-  "https://youtu.be/Q8n6IoWx0vg",
-  "https://youtu.be/fCp6i3e6mdw",
-  "https://youtu.be/SzADJUIxXsI",
-  "https://youtu.be/YHhuzD35Ywk",
+// Daftar video → tinggal tambahkan lagi kapan saja
+const videos = [
+    {id:"Q8n6IoWx0vg"},
+    {id:"gBw9JFoyIcU"},
+    {id:"fCp6i3e6mdw"},
+    {id:"SzADJUIxXsI"},
+    {id:"YHhuzD35Ywk"},
+    {id:"ZGcAmHpQw10"},
+    {id:"MxDP4b7Dg6M"},
+    {id:"hsISgdK51IA"},
+    {id:"fFUkelrGQfA"},
+    {id:"KyBprTVObwc"},
+    {id:"sv8kW7XDdHk"},
+    {id:"xtid1FHHyUs"},
+    {id:"4VsRp8S4TSY"},
+    {id:"XUJNmSlwwno"},
+    {id:"b7Q1FE3JFWs"},
+    {id:"FZdJCiyLIvI"}
 ];
 
-// remove duplicates (if any) and preserve order
-const uniq = [...new Set(videoUrls)];
+// Render thumbnail + Judul otomatis
+const gallery = document.getElementById('videoGallery');
 
-const grid = document.getElementById('grid');
-const countEl = document.getElementById('count');
+videos.forEach(v => {
+    const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    const card = document.createElement('div');
+    card.className = "video-card";
+    card.innerHTML = `
+        <img src="${thumb}" />
+        <div class="title-box">Loading...</div>
+    `;
+    gallery.appendChild(card);
+
+    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+v.id+"&format=json")
+        .then(r=>r.json()).then(d=>{
+            card.querySelector(".title-box").textContent = d.title;
+        });
+
+    card.addEventListener("click", ()=> openModalWith(v.id));
+});
+
+// Modal actions
 const modal = document.getElementById('modal');
 const playerFrame = document.getElementById('playerFrame');
 const modalTitle = document.getElementById('modalTitle');
 const modalDesc = document.getElementById('modalDesc');
 
-countEl.textContent = uniq.length;
-
-// helper: extract youtube id from many URL formats
-function ytIdFrom(url){
-  try{
-    // if youtu.be short
-    if(url.includes('youtu.be/')){
-      return url.split('youtu.be/')[1].split(/[?&]/)[0];
-    }
-    // if watch?v=
-    const m = url.match(/[?&]v=([0-9A-Za-z_-]{11})/);
-    if(m) return m[1];
-    // fallback: last path segment
-    const parts = url.split('/');
-    return parts[parts.length-1].split(/[?&]/)[0];
-  }catch(e){ return url; }
-}
-
-// create card and also try to fetch title via oEmbed
-function createCard(videoUrl, index){
-  const id = ytIdFrom(videoUrl);
-  const thumb = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
-  const card = document.createElement('article');
-  card.className = 'card';
-  card.style.display = 'flex';
-  card.style.flexDirection = 'column';
-  card.innerHTML = `
-    <div class="thumb" data-id="${id}" style="cursor:pointer">
-      <img src="${thumb}" alt="thumb">
-      <div class="play-overlay" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 3v18l15-9L5 3z" fill="white"/></svg>
-      </div>
-    </div>
-    <div class="meta">
-      <div class="title" id="title-${index}">Video ${index+1}</div>
-      <div class="desc" id="desc-${index}" style="display:none"></div>
-    </div>
-    <div class="cardfoot">
-      <button class="playbtn" data-id="${id}">Putar</button>
-    </div>
-  `;
-  // click on thumb or Putar
-  card.querySelector('.thumb').addEventListener('click', ()=> openModalWith(id));
-  card.querySelector('.playbtn').addEventListener('click', ()=> openModalWith(id));
-
-  // try fetch title via oEmbed (browser-side)
-  const oembedUrl = 'https://www.youtube.com/oembed?url=https://youtu.be/' + encodeURIComponent(id) + '&format=json';
-  fetch(oembedUrl).then(r=>{
-    if(!r.ok) throw new Error('no');
-    return r.json();
-  }).then(data=>{
-    const tEl = document.getElementById(`title-${index}`);
-    tEl.textContent = data.title || (`Video ${index+1}`);
-  }).catch(err=>{
-    // fallback: keep Video N; user can still see proper title when modal plays (YouTube player shows title)
-    // optionally try to parse from URL (not reliable)
-    // no action needed
-  });
-
-  return card;
-}
-
-function render(){
-  grid.innerHTML = '';
-  uniq.forEach((u,i)=>{
-    grid.appendChild(createCard(u,i));
-  });
-}
-render();
-
-// open modal and play embedded video (player stays on site)
 function openModalWith(id){
-  modal.classList.add('open');
-  modal.style.display = 'flex';
-  // embed with modestbranding to reduce YouTube chrome; note: small YouTube logo may still appear (YouTube policy)
-  playerFrame.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1';
-  // try to set modal title via oEmbed too
-  fetch('https://www.youtube.com/oembed?url=https://youtu.be/' + id + '&format=json')
-    .then(r=>r.json()).then(d=>{
-      modalTitle.textContent = d.title || '';
-      modalDesc.textContent = d.author_name ? ('oleh ' + d.author_name) : '';
-    }).catch(()=>{ modalTitle.textContent=''; modalDesc.textContent=''; });
+    modal.classList.add('open');
+    playerFrame.src = "https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&modestbranding=1";
+
+    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+id+"&format=json")
+      .then(r=>r.json()).then(d=>{
+        modalTitle.textContent = d.title;
+        modalDesc.textContent = "oleh: " + d.author_name;
+      });
 }
 
-document.getElementById('closeModal').addEventListener('click', ()=>{
-  modal.classList.remove('open');
-  modal.style.display = 'none';
-  playerFrame.src = '';
-});
-
-
-// search functionality
-document.getElementById('search').addEventListener('input', function(e){
-  const q = e.target.value.trim().toLowerCase();
-  // simple filter: filter cards whose title (if already fetched) or fallback id contains q
-  const cards = Array.from(document.querySelectorAll('.card'));
-  cards.forEach((card, idx)=>{
-    const titleEl = card.querySelector('.title');
-    const text = (titleEl ? titleEl.textContent : '') + ' ' + uniq[idx];
-    if(text.toLowerCase().includes(q)) card.style.display = '';
-    else card.style.display = 'none';
-  });
-});
-
-// dark toggle
-document.getElementById('darkToggle').addEventListener('click', ()=>{
-  document.body.classList.toggle('light');
-  document.getElementById('darkToggle').textContent = document.body.classList.contains('light') ? 'Mode Gelap' : 'Mode Terang';
-});
-
+function closeModal(){
+    modal.classList.remove('open');
+    setTimeout(()=>{ playerFrame.src = ""; }, 200);
+}
+document.getElementById('closeModal').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
 </script>
+
 </body>
 </html>
