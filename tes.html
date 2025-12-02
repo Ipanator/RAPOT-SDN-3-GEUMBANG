@@ -7,82 +7,79 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 :root {
-  --bg: #0f0f0f;
-  --text: #f5f5f5;
-  --card: rgba(255,255,255,.08);
-  --accent: #4fd1ff;
+  --bg:#0f0f0f; --text:#f5f5f5;
+  --card:rgba(255,255,255,.08); --accent:#4fd1ff;
 }
-body {
-  margin:0; font-family:Poppins, sans-serif;
-  background:var(--bg); color:var(--text);
+body{
+  margin:0;font-family:Poppins,sans-serif;
+  background:var(--bg);color:var(--text);
   transition:.3s;
 }
-body.light {
-  --bg:#f7f9fc; --text:#222;
-  --card:rgba(0,0,0,.08);
+body.light{
+  --bg:#f7f9fc;--text:#222;--card:rgba(0,0,0,.08);
 }
-header {
-  display:flex; justify-content:space-between;
-  align-items:center; padding:16px 22px;
-  backdrop-filter:blur(8px);
-  position:sticky;top:0;z-index:5;
-  background:rgba(0,0,0,.3);
+header{
+  display:flex;gap:12px;
+  justify-content:space-between;align-items:center;
+  padding:16px 22px;background:rgba(0,0,0,.3);
+  backdrop-filter:blur(8px);position:sticky;top:0;z-index:10;
 }
 .controls{display:flex;gap:8px;}
-button, input, select{
-  padding:8px 12px;border-radius:6px;border:none;
-  font-size:14px; cursor:pointer;
+button,input,select{
+  padding:8px 12px;border-radius:6px;border:none;font-size:14px;
+  cursor:pointer;font-weight:600;
 }
-button{
-  background:var(--accent);color:#000;font-weight:600;
-}
+button{background:var(--accent);color:#000;}
 .grid{
   display:grid;gap:16px;padding:16px;
-  grid-template-columns: repeat(auto-fit, minmax(270px,1fr));
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
 }
 .card{
-  background:var(--card);
-  border-radius:14px;overflow:hidden;
-  backdrop-filter:blur(6px);
+  background:var(--card);border-radius:14px;
+  overflow:hidden;backdrop-filter:blur(6px);
 }
-.card img{width:100%;display:block;}
+.thumb{
+  position:relative;cursor:pointer;
+}
+.thumb img{width:100%;display:block;}
+.playbtn{
+  position:absolute;inset:0;display:flex;
+  justify-content:center;align-items:center;
+  background:rgba(0,0,0,.4);opacity:0;transition:.3s;
+}
+.thumb:hover .playbtn{opacity:1;}
+.playbtn svg{filter:drop-shadow(0 0 4px black);}
 .cardfoot{
-  display:flex;justify-content:space-between;
-  padding:8px;
+  padding:10px;text-align:center;
 }
 .modal{
   position:fixed;inset:0;display:none;
-  background:rgba(0,0,0,.85);place-items:center;
-  z-index:99;
+  place-items:center;background:rgba(0,0,0,.85);z-index:99;
 }
 .modal iframe{
-  width:90vw;height:50vh;border:none;border-radius:12px;
+  width:90vw;height:52vw;max-height:70vh;
+  border:none;border-radius:12px;
 }
 .closebtn{
-  position:absolute;top:24px;right:24px;
-  background:#ff3c3c;color:#fff;font-weight:bold;border-radius:50%;
-  padding:6px 12px;border:none;font-size:18px;
-  cursor:pointer;
+  position:absolute;top:20px;right:20px;
+  background:#ff3c3c;color:#fff;font-size:20px;
+  border:none;border-radius:50%;padding:6px 12px;
 }
-.counter {
-  margin-left: 12px;
-  font-size: 14px;
-}
+.counter{font-size:14px;}
 </style>
 </head>
 <body>
 
 <header>
   <h2>Galeri Video</h2>
-  <span class="counter">Total: <span id="count"></span></span>
+  <span class="counter"><b>Total:</b> <span id="count"></span></span>
   <div class="controls">
     <input type="text" id="search" placeholder="Cari...">
     <select id="sort">
       <option value="asc">A → Z</option>
       <option value="desc">Z → A</option>
     </select>
-    <button id="openAll">Buka Semua</button>
-    <button id="darkToggle">Mode Gelap</button>
+    <button id="darkToggle">Mode Terang</button>
   </div>
 </header>
 
@@ -90,84 +87,76 @@ button{
 
 <div class="modal" id="modal">
   <button class="closebtn" id="closeModal">×</button>
-  <iframe id="player" allow="autoplay"></iframe>
+  <iframe id="player" allow="autoplay; encrypted-media"></iframe>
 </div>
 
 <script>
-// Data video
 const videos = [
-  { url:"https://youtu.be/8z7zmsf9wZs?feature=shared", title:"Tonton #1" },
-  { url:"https://youtu.be/x01dQYVUotM?feature=shared", title:"Tonton #2" },
-  { url:"https://youtu.be/9w9mODrBWnE?si=oxYzPxFCZVQbj2D_", title:"Tonton #3" },
-  { url:"https://youtu.be/3G6UJ9by7MQ?feature=shared", title:"Tonton #4" },
-  { url:"https://youtu.be/sghAqhta08E?feature=shared", title:"Tonton #5" },
-  { url:"https://youtu.be/1d-1l7cGB2Q?feature=shared", title:"Tonton #6" },
-  { url:"https://youtu.be/vsLPEutCqpA?feature=shared", title:"Tonton #7" },
-  { url:"https://youtu.be/gBw9JFoyIcU?feature=shared", title:"Tonton #8" },
-  { url:"https://youtu.be/N0Nb3MBSXEw?feature=shared", title:"Tonton #9" },
-  { url:"https://youtu.be/cFHSePwMGw4?feature=shared", title:"Tonton #10" }
+  { url:"https://youtu.be/8z7zmsf9wZs", title:"Tonton #1" },
+  { url:"https://youtu.be/x01dQYVUotM", title:"Tonton #2" },
+  { url:"https://youtu.be/9w9mODrBWnE", title:"Tonton #3" },
+  { url:"https://youtu.be/3G6UJ9by7MQ", title:"Tonton #4" },
+  { url:"https://youtu.be/sghAqhta08E", title:"Tonton #5" },
+  { url:"https://youtu.be/1d-1l7cGB2Q", title:"Tonton #6" },
+  { url:"https://youtu.be/vsLPEutCqpA", title:"Tonton #7" },
+  { url:"https://youtu.be/gBw9JFoyIcU", title:"Tonton #8" },
+  { url:"https://youtu.be/N0Nb3MBSXEw", title:"Tonton #9" },
+  { url:"https://youtu.be/cFHSePwMGw4", title:"Tonton #10" }
 ];
 
-const grid = document.getElementById('videoGrid');
-const modal = document.getElementById('modal');
-const player = document.getElementById('player');
-const count = document.getElementById('count');
+const grid=document.getElementById('videoGrid');
+const modal=document.getElementById('modal');
+const player=document.getElementById('player');
+const count=document.getElementById('count');
 
-// Render video cards
-function render(list) {
+// Render
+function render(list){
   grid.innerHTML="";
-  list.forEach(v => {
-    const vid = new URL(v.url).pathname.replace("/","");
-    const thumb = `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
-    const card = document.createElement("div");
+  list.forEach(v=>{
+    const vid=new URL(v.url).pathname.replace("/","");
+    const card=document.createElement("div");
+    const thumb=`https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
     card.className="card";
-    card.innerHTML = `
-      <img src="${thumb}">
-      <div class="cardfoot">
-        <button onclick="play('${vid}')">Putar</button>
-        <button onclick="window.open('${v.url}', '_blank')">YouTube</button>
-      </div>`;
+    card.innerHTML=`
+      <div class="thumb" onclick="play('${vid}')">
+        <img src="${thumb}">
+        <div class="playbtn">
+          <svg width="50" height="50"><path d="M10 8v34l28-17L10 8z" fill="white"/></svg>
+        </div>
+      </div>
+      <div class="cardfoot">${v.title}</div>`;
     grid.appendChild(card);
   });
-  count.textContent = list.length;
+  count.textContent=list.length;
 }
 render(videos);
 
-// Modal play
+// Modal Video player
 function play(id){
   modal.style.display="grid";
-  player.src = "https://www.youtube.com/embed/"+id+"?autoplay=1";
+  player.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&modestbranding=1&showinfo=0";
 }
-document.getElementById("closeModal").onclick=function(){
-  modal.style.display="none";
-  player.src="";
+document.getElementById("closeModal").onclick=()=>{
+  modal.style.display="none";player.src="";
 };
 
 // Search
 document.getElementById('search').addEventListener('input', e=>{
-  const val = e.target.value.toLowerCase();
-  const filtered = videos.filter(v=> v.title.toLowerCase().includes(val));
-  render(filtered);
+  render(videos.filter(v=>v.title.toLowerCase().includes(e.target.value.toLowerCase())));
 });
 
 // Sort
 document.getElementById('sort').addEventListener('change', e=>{
-  const sorted = [...videos].sort((a,b)=>{
+  render([...videos].sort((a,b)=>{
     return e.target.value==="asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
-  });
-  render(sorted);
+  }));
 });
-
-// Open All
-document.getElementById('openAll').onclick=()=>{
-  videos.forEach(v=>window.open(v.url,"_blank"));
-};
 
 // Dark Mode
 const darkToggle=document.getElementById('darkToggle');
 darkToggle.onclick=()=>{
   document.body.classList.toggle('light');
-  darkToggle.textContent = document.body.classList.contains("light") ? "Mode Gelap" : "Mode Terang";
+  darkToggle.textContent=document.body.classList.contains("light")?"Mode Gelap":"Mode Terang";
 };
 </script>
 
