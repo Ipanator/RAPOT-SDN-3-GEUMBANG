@@ -217,8 +217,10 @@ function openModalWith(id){
 
 document.getElementById('closeModal').addEventListener('click', ()=>{
   modal.classList.remove('open');
+  modal.style.display = 'none';
   playerFrame.src = '';
 });
+
 
 // search functionality
 document.getElementById('search').addEventListener('input', function(e){
