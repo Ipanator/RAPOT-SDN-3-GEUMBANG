@@ -120,24 +120,18 @@
 </div>
 
 <script>
-// Daftar video → tinggal tambahkan lagi kapan saja
+// Daftar video terbaru (ID dari link YouTube yang kamu berikan)
 const videos = [
-    {id:"ZGcAmHpQw10"},
-    {id:"MxDP4b7Dg6M"},
-    {id:"hsISgdK51IA"},
-    {id:"fFUkelrGQfA"},
-    {id:"KyBprTVObwc"},
-    {id:"sv8kW7XDdHk"},
-    {id:"xtid1FHHyUs"},
-    {id:"4VsRp8S4TSY"},
-    {id:"XUJNmSlwwno"},
-    {id:"b7Q1FE3JFWs"},
-    {id:"FZdJCiyLIvI"},
-    {id:"Q8n6IoWx0vg"},
+    {id:"BF4hRjaLHNE"},
+    {id:"am3sGO12f6Q"},
+    {id:"okrWNmUNwaE"},
+    {id:"QMmWyFbWN6M"},
+    {id:"PrH5Uwy6IDc"},
+    {id:"878HzqGwWp8"},
+    {id:"faoKd-LUUbo"},
     {id:"gBw9JFoyIcU"},
-    {id:"fCp6i3e6mdw"},
-    {id:"SzADJUIxXsI"},
-    {id:"YHhuzD35Ywk"},
+    {id:"CfccgOShfmE"},
+    {id:"ZWwEr4yIgPQ"}
 ];
 
 // Render thumbnail + Judul otomatis
@@ -149,11 +143,11 @@ videos.forEach(v => {
     card.className = "video-card";
     card.innerHTML = `
         <img src="${thumb}" />
-        <div class="title-box">Loading...</div>
+        <div class="title-box">Mengambil judul...</div>
     `;
     gallery.appendChild(card);
 
-    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+v.id+"&format=json")
+    fetch(`https://www.youtube.com/oembed?url=https://youtu.be/${v.id}&format=json`)
         .then(r=>r.json()).then(d=>{
             card.querySelector(".title-box").textContent = d.title;
         });
@@ -169,12 +163,12 @@ const modalDesc = document.getElementById('modalDesc');
 
 function openModalWith(id){
     modal.classList.add('open');
-    playerFrame.src = "https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&modestbranding=1";
+    playerFrame.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
 
-    fetch("https://www.youtube.com/oembed?url=https://youtu.be/"+id+"&format=json")
+    fetch(`https://www.youtube.com/oembed?url=https://youtu.be/${id}&format=json`)
       .then(r=>r.json()).then(d=>{
         modalTitle.textContent = d.title;
-        modalDesc.textContent = "oleh: " + d.author_name;
+        modalDesc.textContent = "📌 oleh: " + d.author_name;
       });
 }
 
