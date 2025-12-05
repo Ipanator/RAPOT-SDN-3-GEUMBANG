@@ -107,6 +107,19 @@ const ids = [
   "878HzqGwWp8","faoKd-LUUbo","CfccgOShfmE","ZWwEr4yIgPQ"
 ];
 
+<script>
+/* Urutan asli kamu (duplikat dihapus, urutan tetap sama) */
+const ids = [
+  "apmjaTJBNRU","ZGcAmHpQw10","MxDP4b7Dg6M","hsISgdK51IA","fFUkelrGQfA",
+  "KyBprTVObwc","sv8kW7XDdHk","xtid1FHHyUs","4VsRp8S4TSY","XUJNmSlwwno",
+  "b7Q1FE3JFWs","FZdJCiyLIvI","Hhz4rCtnP3U","hPnPZCKr13o","Lr2FRNzPz9A",
+  "4ADcc97iAwk","C_ioQ5bsn2Y","8z7zmsf9wZs","x01dQYVUotM","9w9mODrBWnE",
+  "3G6UJ9by7MQ","sghAqhta08E","1d-1l7cGB2Q","vsLPEutCqpA","gBw9JFoyIcU",
+  "N0Nb3MBSXEw","cFHSePwMGw4","Q8n6IoWx0vg","fCp6i3e6mdw","SzADJUIxXsI",
+  "YHhuzD35Ywk","BF4hRjaLHNE","am3sGO12f6Q","okrWNmUNwaE","QMmWyFbWN6M",
+  "PrH5Uwy6IDc","878HzqGwWp8","faoKd-LUUbo","CfccgOShfmE","ZWwEr4yIgPQ"
+];
+
 /* helper: create card */
 const gallery = document.getElementById('gallery');
 
@@ -121,18 +134,15 @@ ids.forEach(id=>{
     </div>
     <div class="title" id="title-${id}">Mengambil judul...</div>
   `;
-  card.classList.add('card');
   card.addEventListener('click', ()=> openPlayer(id));
   gallery.appendChild(card);
 
-  /* ambil judul via noembed untuk kompatibilitas CORS */
   fetch('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+id)
     .then(res=>res.json())
     .then(data=>{
       const t = document.getElementById('title-'+id);
       if(t) t.textContent = data.title || 'Video Pembelajaran';
-    })
-    .catch(_=>{/* fallback tetap tampil */});
+    });
 });
 
 /* Modal behavior */
@@ -142,22 +152,38 @@ const modalTitle = document.getElementById('modalTitle');
 const modalChannel = document.getElementById('modalChannel');
 const closeBtn = document.getElementById('closeModal');
 
+
+/* ===========================================================
+   🔵 BAGIAN 1: OPEN PLAYER → kirim sinyal "YES"
+   =========================================================== */
 function openPlayer(id){
   modal.classList.add('open');
+
+  // 🔔 Kirim sinyal bahwa video YouTube sedang diputar
+  localStorage.setItem("YT_PLAYING", "yes_" + Date.now());
+
   modalFrame.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
-  // fetch title + channel
+
   fetch('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+id)
     .then(res=>res.json())
     .then(d=>{
       modalTitle.textContent = d.title || 'Video Pembelajaran';
       modalChannel.textContent = d.author_name ? 'oleh: '+d.author_name : '';
-    }).catch(()=>{ modalTitle.textContent='Video Pembelajaran'; modalChannel.textContent=''; });
-  // lock scroll
+    });
+
   document.body.style.overflow = 'hidden';
 }
 
+
+/* ===========================================================
+   🔴 BAGIAN 2: CLOSE PLAYER → kirim sinyal "NO"
+   =========================================================== */
 function closePlayer(){
   modal.classList.remove('open');
+
+  // 🔕 Kirim sinyal bahwa video YT berhenti / ditutup
+  localStorage.setItem("YT_PLAYING", "no_" + Date.now());
+
   modalFrame.src = '';
   modalTitle.textContent = '';
   modalChannel.textContent = '';
@@ -168,5 +194,6 @@ closeBtn.addEventListener('click', closePlayer);
 modal.addEventListener('click', (e)=>{ if(e.target === modal) closePlayer(); });
 document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closePlayer(); });
 </script>
+
 </body>
 </html>
