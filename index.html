@@ -360,6 +360,37 @@
     document.getElementById("marqueeTime").textContent =
       `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
   }, 1000);
+
+
+
+
+  // --- Audio Ducking System ---
+let bgAudio = null;   // audio/video lain yang sedang diputar
+let originalVolume = 1;
+
+// Daftarkan semua <audio> atau <video> non-YT
+document.querySelectorAll("audio, video")
+  .forEach(el => {
+    if (el.id !== "modalFrame") {
+      el.addEventListener("play", ()=> bgAudio = el);
+    }
+  });
+
+// Panggil saat modal dibuka (YouTube mulai play)
+function duckAudio() {
+  if (bgAudio) {
+    originalVolume = bgAudio.volume;
+    bgAudio.volume = 0.2; // kecilkan volume
+  }
+}
+
+// Panggil saat modal ditutup
+function restoreAudio() {
+  if (bgAudio) {
+    bgAudio.volume = originalVolume;
+  }
+}
+
 </script>
 
 </body>
