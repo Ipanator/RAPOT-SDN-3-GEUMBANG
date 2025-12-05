@@ -58,10 +58,37 @@
 <body>
 
 <header>
-<h1>SD NEGERI 3 GELUMBANG</h1>
-<h2>Video Pembelajaran</h2>
+  <h1>SD NEGERI 3 GELUMBANG</h1>
+  <h2>Video Pembelajaran</h2>
+  <!-- Tombol Kembali ke Beranda -->
+  <div style="text-align:center;margin-top:12px;">
+    <a href="index.html" class="btn-back" style="
+      display:inline-block;
+      padding:10px 20px;
+      background: linear-gradient(90deg, var(--primary-start), var(--primary-end));
+      color:white;
+      font-weight:600;
+      font-family:Poppins, sans-serif;
+      border-radius:12px;
+      text-decoration:none;
+      box-shadow:0 6px 18px rgba(37,99,235,0.2);
+      transition: transform .2s, box-shadow .2s;
+    " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 25px rgba(37,99,235,0.25)';"
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 18px rgba(37,99,235,0.2)';"
+    >← Kembali ke Beranda</a>
+  </div>
 </header>
 
+
+  <main>
+  <!-- Tombol Kembali ke Beranda -->
+  <div style="text-align:center;margin-bottom:18px;">
+    <a href="index.html" class="btn-back">← Kembali ke Beranda</a>
+  </div>
+
+  <section class="gallery" id="gallery"></section>
+</main>
+  
 <main>
   <section class="gallery" id="gallery"></section>
 </main>
