@@ -311,34 +311,31 @@
 </audio>
 
 <script>
-  const audio = document.getElementById("audioPlayer"); // audio utama
-  const audioOpening = document.getElementById("audioOpening"); // audio pembuka
+  const audio = document.getElementById("audioPlayer");
+  const audioOpening = document.getElementById("audioOpening");
   const muteBtn = document.getElementById("muteBtn");
 
-  // Main audio dibuka setelah klik tombol Masuk
+  // Tombol masuk
   document.getElementById("mulaiBtn").onclick = () => {
     document.getElementById("splashScreen").style.display = "none";
 
-    // Audio pembuka stop saat splash hilang
     if (!audioOpening.paused) audioOpening.pause();
 
-    // Play audio utama
-    audio.play();
     audio.muted = false;
+    audio.volume = 1.0;
+    audio.play().catch(()=>{});
     muteBtn.textContent = "🔊";
   };
 
-  // Mute / unmute audio utama
+  // Tombol mute/unmute
   muteBtn.onclick = () => {
     audio.muted = !audio.muted;
     muteBtn.textContent = audio.muted ? "🔇" : "🔊";
   };
 
-  // Audio pembuka otomatis saat halaman load
+  // Autoplay pembuka
   window.addEventListener("load", () => {
-    audioOpening.play().catch(() => {
-      console.log("Audio autoplay diblokir, akan diputar saat klik tombol Masuk");
-    });
+    audioOpening.play().catch(()=>{});
   });
 
   /* Background slideshow */
@@ -361,56 +358,29 @@
       `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
   }, 1000);
 
+  /* =========================================================
+      PENERIMA SINYAL DARI HALAMAN video.html
+     ========================================================= */
+  window.addEventListener("storage", function(e) {
+      if (e.key !== "YT_PLAYING") return;
 
+      // Jika video diputar
+      if (e.newValue.startsWith("yes")) {
+          audio.volume = 0.15;   // kecilkan musik
+      }
 
-
-  // --- Audio Ducking System ---
-let bgAudio = null;   // audio/video lain yang sedang diputar
-let originalVolume = 1;
-
-// Daftarkan semua <audio> atau <video> non-YT
-document.querySelectorAll("audio, video")
-  .forEach(el => {
-    if (el.id !== "modalFrame") {
-      el.addEventListener("play", ()=> bgAudio = el);
-    }
+      // Jika video ditutup
+      if (e.newValue.startsWith("no")) {
+          audio.volume = 1.0;    // kembalikan normal
+      }
   });
 
-// Panggil saat modal dibuka (YouTube mulai play)
-function duckAudio() {
-  if (bgAudio) {
-    originalVolume = bgAudio.volume;
-    bgAudio.volume = 0.2; // kecilkan volume
-  }
-}
-
-// Panggil saat modal ditutup
-function restoreAudio() {
-  if (bgAudio) {
-    bgAudio.volume = originalVolume;
-  }
-}
-/* =========================================================
-   🔵 SISTEM PENERIMA SINYAL DARI HALAMAN VIDEO (ducking audio)
-   ========================================================= */
-
-window.addEventListener("storage", function(e) {
-    if (e.key !== "YT_PLAYING") return;
-
-    // Jika video YouTube dibuka
-    if (e.newValue.startsWith("yes")) {
-        // kecilkan musik
-        audio.volume = 0.2;  
-    }
-
-    // Jika video YouTube ditutup
-    if (e.newValue.startsWith("no")) {
-        // kembalikan volume normal
-        audio.volume = 1.0;
-    }
-});
-
+  /* Fallback tambahan jika user berpindah tab */
+  window.addEventListener("blur", () => {
+      audio.volume = 0.2;
+  });
 </script>
+
 
 </body>
 </html>
