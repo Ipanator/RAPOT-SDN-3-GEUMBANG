@@ -390,6 +390,25 @@ function restoreAudio() {
     bgAudio.volume = originalVolume;
   }
 }
+/* =========================================================
+   🔵 SISTEM PENERIMA SINYAL DARI HALAMAN VIDEO (ducking audio)
+   ========================================================= */
+
+window.addEventListener("storage", function(e) {
+    if (e.key !== "YT_PLAYING") return;
+
+    // Jika video YouTube dibuka
+    if (e.newValue.startsWith("yes")) {
+        // kecilkan musik
+        audio.volume = 0.2;  
+    }
+
+    // Jika video YouTube ditutup
+    if (e.newValue.startsWith("no")) {
+        // kembalikan volume normal
+        audio.volume = 1.0;
+    }
+});
 
 </script>
 
