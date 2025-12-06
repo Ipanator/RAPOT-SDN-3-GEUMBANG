@@ -315,21 +315,20 @@
   const audioOpening = document.getElementById("audioOpening");
   const muteBtn = document.getElementById("muteBtn");
 
-  // Tombol masuk
-document.getElementById("mulaiBtn").onclick = () => {
+  document.getElementById("mulaiBtn").onclick = () => {
 
-  // 🟩 kirim catatan ke simpan.txt
-  fetch("simpan.php", { method: "POST" });
+    saveLog(); // <-- tambahkan ini
 
-  document.getElementById("splashScreen").style.display = "none";
+    document.getElementById("splashScreen").style.display = "none";
 
-  if (!audioOpening.paused) audioOpening.pause();
+    if (!audioOpening.paused) audioOpening.pause();
 
-  audio.muted = false;
-  audio.volume = 1.0;
-  audio.play().catch(()=>{});
-  muteBtn.textContent = "🔊";
+    audio.muted = false;
+    audio.volume = 1.0;
+    audio.play().catch(()=>{});
+    muteBtn.textContent = "🔊";
 };
+
 
   // Tombol mute/unmute
   muteBtn.onclick = () => {
@@ -379,10 +378,31 @@ document.getElementById("mulaiBtn").onclick = () => {
       }
   });
 
+  
+
   /* Fallback tambahan jika user berpindah tab */
   window.addEventListener("blur", () => {
       audio.volume = 0.2;
   });
+  // === KIRIM DATA KE GOOGLE SHEETS ===
+function saveLog() {
+  const endpoint = "PASTE_URL_WEBAPP_KAMU_DI_SINI";
+
+  // Generate nama acak (biar ada identitas)
+  const namaOtomatis = "User-" + Math.floor(Math.random() * 99999);
+
+  fetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify({
+      nama: namaOtomatis,
+      userAgent: navigator.userAgent
+    }),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(r => console.log("Tersimpan"))
+  .catch(e => console.log("Gagal:", e));
+}
+
 </script>
 
 
