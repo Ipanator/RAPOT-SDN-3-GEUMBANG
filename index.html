@@ -316,16 +316,20 @@
   const muteBtn = document.getElementById("muteBtn");
 
   // Tombol masuk
-  document.getElementById("mulaiBtn").onclick = () => {
-    document.getElementById("splashScreen").style.display = "none";
+document.getElementById("mulaiBtn").onclick = () => {
 
-    if (!audioOpening.paused) audioOpening.pause();
+  // 🟩 kirim catatan ke simpan.txt
+  fetch("simpan.php", { method: "POST" });
 
-    audio.muted = false;
-    audio.volume = 1.0;
-    audio.play().catch(()=>{});
-    muteBtn.textContent = "🔊";
-  };
+  document.getElementById("splashScreen").style.display = "none";
+
+  if (!audioOpening.paused) audioOpening.pause();
+
+  audio.muted = false;
+  audio.volume = 1.0;
+  audio.play().catch(()=>{});
+  muteBtn.textContent = "🔊";
+};
 
   // Tombol mute/unmute
   muteBtn.onclick = () => {
