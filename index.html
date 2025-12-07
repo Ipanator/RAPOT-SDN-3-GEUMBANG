@@ -195,6 +195,18 @@
   transform: scale(1.08);
 }
 
+/* Hacker rain canvas */
+#hackerRain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: transparent;
+}
+
+#splashScreen * {
+  position: relative;
+  z-index: 2;
+}
 
     /* MUTE button */
     #muteBtn {
@@ -237,7 +249,9 @@
 <body>
 
   <!-- SPLASH -->
- <div id="splashScreen">
+<div id="splashScreen">
+  <canvas id="hackerRain"></canvas>
+
   <h1 class="splash-title">
     SELAMAT DATANG DI<br>
     WEBSITE SD NEGERI 3 GELUMBANG
@@ -278,7 +292,6 @@
     <img src="logo1.png" class="logo-left">
   </div>
 
-  <!-- Tombol  "http://Ipansebau-43411.portmap.host:43411" class=" btn-info" target="_blank">Rapot Online    link rapot-->
   <div class="btn-container">
     <a href="https://sdn-3-gelumbang.vercel.app/rapot.html" class=" btn-info" target>Rapot Online</a>
     <a href="https://sdn-3-gelumbang.vercel.app/album.html" class="btn-info" target="_blank">Galeri</a>
@@ -305,19 +318,52 @@
     © By Ipan 2025 SD Negeri 3 Gelumbang. Hak Cipta Dilindungi UU No. 28 Tahun 2014
   </footer>
 
-
-<audio id="audioOpening">
-  <source src="audio2.mp3" type="audio/mpeg">
-</audio>
-
 <script>
   const audio = document.getElementById("audioPlayer");
   const audioOpening = document.getElementById("audioOpening");
   const muteBtn = document.getElementById("muteBtn");
 
-  document.getElementById("mulaiBtn").onclick = () => {
+  // === Hacker rain effect ===
+  const canvas = document.getElementById("hackerRain");
+  const ctx = canvas.getContext("2d");
 
-    saveLog(); // <-- tambahkan ini
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  const letters = "0123456789ABCDEF";
+  const fontSize = 16;
+  let columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(0);
+
+  function drawHackerRain() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ff9c";
+    ctx.font = fontSize + "px monospace";
+
+    drops.forEach((y, i) => {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      const x = i * fontSize;
+      ctx.fillText(text, x, y * fontSize);
+
+      if (y * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    });
+  }
+
+  let hackerInterval = setInterval(drawHackerRain, 33);
+
+  // SPLASH Masuk
+  document.getElementById("mulaiBtn").onclick = () => {
+    clearInterval(hackerInterval); // stop hacker rain
+    saveLog();
 
     document.getElementById("splashScreen").style.display = "none";
 
@@ -327,8 +373,7 @@
     audio.volume = 1.0;
     audio.play().catch(()=>{});
     muteBtn.textContent = "🔊";
-};
-
+  };
 
   // Tombol mute/unmute
   muteBtn.onclick = () => {
@@ -367,28 +412,23 @@
   window.addEventListener("storage", function(e) {
       if (e.key !== "YT_PLAYING") return;
 
-      // Jika video diputar
       if (e.newValue.startsWith("yes")) {
-          audio.volume = 0.15;   // kecilkan musik
+          audio.volume = 0.15;
       }
 
-      // Jika video ditutup
       if (e.newValue.startsWith("no")) {
-          audio.volume = 1.0;    // kembalikan normal
+          audio.volume = 1.0;
       }
   });
 
-  
-
-  /* Fallback tambahan jika user berpindah tab */
   window.addEventListener("blur", () => {
       audio.volume = 0.2;
   });
+
   // === KIRIM DATA KE GOOGLE SHEETS ===
 function saveLog() {
   const endpoint = "https://script.google.com/macros/s/AKfycbzoKf-F6zKNkcwtGMsvBkSPmohQ3ulzFZaFxx1B3xyiaooN9dLkmRLQJbokWABcglcD5g/exec";
 
-  // Generate nama acak (biar ada identitas)
   const namaOtomatis = "User-" + Math.floor(Math.random() * 99999);
 
   fetch(endpoint, {
@@ -404,7 +444,6 @@ function saveLog() {
 }
 
 </script>
-
 
 </body>
 </html>
