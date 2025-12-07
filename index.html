@@ -361,10 +361,47 @@
       `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
   }, 1000);
 
+  /* =========================================================
+      PENERIMA SINYAL DARI HALAMAN video.html
+     ========================================================= */
+  window.addEventListener("storage", function(e) {
+      if (e.key !== "YT_PLAYING") return;
 
+      // Jika video diputar
+      if (e.newValue.startsWith("yes")) {
+          audio.volume = 0.15;   // kecilkan musik
+      }
+
+      // Jika video ditutup
+      if (e.newValue.startsWith("no")) {
+          audio.volume = 1.0;    // kembalikan normal
+      }
+  });
+
+  
+
+  /* Fallback tambahan jika user berpindah tab */
+  window.addEventListener("blur", () => {
+      audio.volume = 0.2;
+  });
+  // === KIRIM DATA KE GOOGLE SHEETS ===
+function saveLog() {
+  const endpoint = "https://script.google.com/macros/s/AKfycbzoKf-F6zKNkcwtGMsvBkSPmohQ3ulzFZaFxx1B3xyiaooN9dLkmRLQJbokWABcglcD5g/exec";
+
+  // Generate nama acak (biar ada identitas)
+  const namaOtomatis = "User-" + Math.floor(Math.random() * 99999);
+
+  fetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify({
+      nama: namaOtomatis,
+      userAgent: navigator.userAgent
+    }),
+    headers: { "Content-Type": "application/json" }
   })
-
-
+  .then(r => console.log("Tersimpan"))
+  .catch(e => console.log("Gagal:", e));
+}
 
 </script>
 
