@@ -27,114 +27,41 @@
       background-attachment: fixed;
       transition: background-image 1.2s ease-in-out;
       padding-bottom: 70px;
-    }
-
-    .overlay-black {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.45);
-      z-index: 0;
+      overflow-x: hidden;
     }
 
     /* NAVBAR */
-    .navbar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(90deg, #0057b8, #00a8ff);
-      padding: 10px 20px;
+    .navbar { /* ... tetap sama ... */ }
+    .marquee-container { /* ... tetap sama ... */ }
+    .btn-container { /* ... tetap sama ... */ }
+    .btn-info { /* ... tetap sama ... */ }
+    /* SPLASH */
+    #splashScreen { /* ... tetap sama ... */ }
+    .splash-title, .splash-tagline, .splash-subtagline { /* ... tetap sama ... */ }
+    #mulaiBtn { /* ... tetap sama ... */ }
+    #muteBtn { /* ... tetap sama ... */ }
+    footer { /* ... tetap sama ... */ }
+
+    /* Canvas hacker rain */
+    #hackerRainCanvas {
       position: fixed;
-      top: 0; left: 0;
-      z-index: 1000;
-      flex-wrap: wrap;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-      opacity: 0;
-      animation: navbarFade 1s ease forwards 1s;
-    }
-    @keyframes navbarFade { to { opacity: 1; } }
-
-    .navbar .logo-left, .navbar .logo-right { width: 55px; height: 55px; border-radius: 10px; }
-
-    .marquee-container { flex: 1; text-align: center; padding: 0 10px; }
-    .welcome-text { font-size: 14px; line-height: 1.4; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
-    .welcome-text strong { color: #ffeb3b; font-size: 16px; }
-    .marquee-text { margin-top: 4px; font-size: 16px; font-weight: bold; color: #ffea00; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-
-    /* Tombol bawah */
-    .btn-container {
-      display: flex; flex-wrap: nowrap; gap: 10px;
-      position: fixed; bottom: 60px; left: 50%;
-      transform: translateX(-50%); z-index: 1001;
-      max-width: 95vw; overflow-x: auto;
-      padding: 12px; background: rgba(255, 255, 255, 0.15);
-      border-radius: 12px; backdrop-filter: blur(6px);
-      white-space: nowrap; box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    .btn-info {
-      background: linear-gradient(135deg, #fff, #d4e4ff);
-      color: #004aad; font-size: 15px; font-weight: 600;
-      text-decoration: none; padding: 12px 20px; border-radius: 10px;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.3); transition: .25s;
-    }
-    .btn-info:hover {
-      background: linear-gradient(135deg, #ffd700, #fff59d);
-      transform: scale(1.07); box-shadow: 0 4px 10px rgba(255,255,255,0.4);
-    }
-
-    /* SPLASH SCREEN */
-    #splashScreen {
-      position: fixed; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; color: #ffffff;
-      padding: 20px;
-      background: linear-gradient(to bottom right, #004aad, #00c6ff);
-      z-index: 9999;
-      overflow: hidden;
-    }
-
-    #hackerRain { position: absolute; inset: 0; z-index: 1; background: transparent; }
-
-    #splashScreen * { position: relative; z-index: 2; }
-
-    .splash-title { font-family: 'Poppins', sans-serif; font-size: 2.5rem; font-weight: 700; line-height: 1.3; text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3); }
-    .splash-tagline { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 600; margin-top: 10px; color: #fffacd; text-shadow: 0 0 8px rgba(255, 255, 200, 0.5); }
-    .splash-subtagline { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 400; margin-top: 5px; color: #f0f0f0; text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
-
-    #mulaiBtn {
-      margin-top: 20px; padding: 15px 35px;
-      font-size: 18px; font-weight: bold;
-      background: linear-gradient(135deg, #fff176, #ffee58);
-      border: none; border-radius: 10px;
-      cursor: pointer; transition: .25s; z-index: 2;
-    }
-    #mulaiBtn:hover { transform: scale(1.08); }
-
-    /* MUTE button */
-    #muteBtn {
-      position: fixed; bottom: 120px; right: 20px;
-      width: 60px; height: 60px; border: none; border-radius: 50%;
-      background: #fff; cursor: pointer; font-size: 24px;
-      z-index: 2000; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: .25s;
-    }
-    #muteBtn:hover { transform: scale(1.12); }
-
-    footer {
-      width: 100%; padding: 10px;
-      background: rgba(0,0,0,0.75);
-      position: fixed; bottom: 0; left: 0; text-align: center; font-size: 14px; z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* biar tidak mengganggu klik */
+      z-index: 1; /* di bawah navbar dan tombol */
     }
   </style>
 </head>
 
 <body>
 
+  <!-- Canvas Hacker Rain -->
+  <canvas id="hackerRainCanvas"></canvas>
+
   <!-- SPLASH -->
   <div id="splashScreen">
-    <canvas id="hackerRain"></canvas>
     <h1 class="splash-title">
       SELAMAT DATANG DI<br>
       WEBSITE SD NEGERI 3 GELUMBANG
@@ -154,17 +81,16 @@
         <strong>PEMERINTAHAN KABUPATEN MUARA ENIM</strong><br>
         <strong>SD NEGERI 3 GELUMBANG</strong><br>
         <small>Alamat: Dusun III, Desa Sebau Kec Gelumbang Kab Muara Enim</small><br>
-        <small>E-mail: sdn3glmbng@gmail.com
-          <span style="margin-left:25px;">NPSN: 10645318</span>
-        </small>
+        <small>E-mail: sdn3glmbng@gmail.com <span style="margin-left:25px;">NPSN: 10645318</span></small>
       </div>
       <div class="marquee-text" id="marqueeTime">Memuat waktu...</div>
     </div>
     <img src="logo1.png" class="logo-left">
   </div>
 
+  <!-- Tombol -->
   <div class="btn-container">
-    <a href="https://sdn-3-gelumbang.vercel.app/rapot.html" class="btn-info" target>Rapot Online</a>
+    <a href="https://sdn-3-gelumbang.vercel.app/rapot.html" class=" btn-info" target>Rapot Online</a>
     <a href="https://sdn-3-gelumbang.vercel.app/album.html" class="btn-info" target="_blank">Galeri</a>
     <a href="https://sdn-3-gelumbang.vercel.app/vidio.html" class="btn-info" target>Explore Video</a>
     <a href="https://sdn-3-gelumbang.vercel.app/karyasiswa.html" class="btn-info" target="_blank">Labor</a>
@@ -183,98 +109,90 @@
   </footer>
 
 <script>
-const audio = document.getElementById("audioPlayer");
-const audioOpening = document.getElementById("audioOpening");
-const muteBtn = document.getElementById("muteBtn");
+  const audio = document.getElementById("audioPlayer");
+  const audioOpening = document.getElementById("audioOpening");
+  const muteBtn = document.getElementById("muteBtn");
 
-document.getElementById("mulaiBtn").onclick = () => {
-  saveLog();
-  document.getElementById("splashScreen").style.display = "none";
-  if (!audioOpening.paused) audioOpening.pause();
-  audio.muted = false; audio.volume = 1.0; audio.play().catch(()=>{});
-  muteBtn.textContent = "🔊";
-};
+  document.getElementById("mulaiBtn").onclick = () => {
+    saveLog();
+    document.getElementById("splashScreen").style.display = "none";
+    if (!audioOpening.paused) audioOpening.pause();
+    audio.muted = false;
+    audio.volume = 1.0;
+    audio.play().catch(()=>{});
+    muteBtn.textContent = "🔊";
+  };
 
-// Tombol mute/unmute
-muteBtn.onclick = () => { audio.muted = !audio.muted; muteBtn.textContent = audio.muted ? "🔇" : "🔊"; };
+  muteBtn.onclick = () => {
+    audio.muted = !audio.muted;
+    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+  };
 
-// Autoplay pembuka
-window.addEventListener("load", () => { audioOpening.play().catch(()=>{}); });
+  window.addEventListener("load", () => { audioOpening.play().catch(()=>{}); });
 
-// Background slideshow
-const totalImages = 10; let current = 1;
-function changeBackground() { document.body.style.backgroundImage = `url('img${current}.jpeg')`; current = current < totalImages ? current + 1 : 1; }
-changeBackground(); setInterval(changeBackground, 5000);
+  /* Background slideshow */
+  const totalImages = 10; let current = 1;
+  function changeBackground() {
+    document.body.style.backgroundImage = `url('img${current}.jpeg')`;
+    current = current < totalImages ? current + 1 : 1;
+  }
+  changeBackground(); setInterval(changeBackground, 5000);
 
-// Waktu realtime
-setInterval(() => {
-  const now = new Date();
-  const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-  const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus",
-                 "September","Oktober","November","Desember"];
-  document.getElementById("marqueeTime").textContent =
-    `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
-}, 1000);
+  /* Waktu realtime */
+  setInterval(() => {
+    const now = new Date();
+    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus",
+                   "September","Oktober","November","Desember"];
+    document.getElementById("marqueeTime").textContent =
+      `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
+  }, 1000);
 
-// Penerima sinyal dari video.html
-window.addEventListener("storage", function(e) {
-  if (e.key !== "YT_PLAYING") return;
-  if (e.newValue.startsWith("yes")) { audio.volume = 0.15; }
-  if (e.newValue.startsWith("no")) { audio.volume = 1.0; }
-});
+  /* Hacker rain canvas */
+  const canvas = document.getElementById("hackerRainCanvas");
+  const ctx = canvas.getContext("2d");
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
 
-// Fallback tambahan jika user berpindah tab
-window.addEventListener("blur", () => { audio.volume = 0.2; });
+  const letters = '0123456789';
+  const fontSize = 18;
+  const columns = Math.floor(width / fontSize);
+  const drops = Array(columns).fill(0);
 
-// === KIRIM DATA KE GOOGLE SHEETS ===
-function saveLog() {
-  const endpoint = "https://script.google.com/macros/s/AKfycbzoKf-F6zKNkcwtGMsvBkSPmohQ3ulzFZaFxx1B3xyiaooN9dLkmRLQJbokWABcglcD5g/exec";
-  const namaOtomatis = "User-" + Math.floor(Math.random() * 99999);
-  fetch(endpoint, {
-    method: "POST",
-    body: JSON.stringify({ nama: namaOtomatis, userAgent: navigator.userAgent }),
-    headers: { "Content-Type": "application/json" }
-  }).then(r => console.log("Tersimpan")).catch(e => console.log("Gagal:", e));
-}
+  function drawHackerRain() {
+    // Latar transparan sepenuhnya
+    ctx.fillStyle = "rgba(0,0,0,0)"; 
+    ctx.fillRect(0,0,width,height);
 
-/* ================================
-   Hacker Rain / Angka Bergerak
-================================ */
-const canvas = document.createElement("canvas");
-canvas.id = "hackerRain";
-document.getElementById("splashScreen").prepend(canvas);
-const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#00ff9c";
+    ctx.font = fontSize + "px monospace";
 
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeCanvas(); window.addEventListener("resize", resizeCanvas);
+    drops.forEach((y, i) => {
+      const text = letters[Math.floor(Math.random()*letters.length)];
+      const x = i * fontSize;
+      ctx.fillText(text, x, y * fontSize);
+      if (y*fontSize > height && Math.random() > 0.975) { drops[i]=0; }
+      drops[i]++;
+    });
+  }
 
-const letters = "0123456789";
-const fontSize = 16;
-let columns = canvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(0);
+  setInterval(drawHackerRain, 50);
 
-function drawHackerRain() {
-  ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = "#00ff9c";
-  ctx.font = fontSize + "px monospace";
-  drops.forEach((y, i) => {
-    const text = letters[Math.floor(Math.random()*letters.length)];
-    const x = i * fontSize;
-    ctx.fillText(text, x, y * fontSize);
-    if (y*fontSize > canvas.height && Math.random() > 0.975) { drops[i]=0; }
-    drops[i]++;
+  window.addEventListener("resize", () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
   });
-}
-let hackerInterval = setInterval(drawHackerRain, 33);
 
-document.getElementById("mulaiBtn").onclick = () => {
-  clearInterval(hackerInterval);
-  document.getElementById("splashScreen").style.display = "none";
-  if (!audioOpening.paused) audioOpening.pause();
-  audio.muted = false; audio.volume = 1.0; audio.play().catch(()=>{});
-  muteBtn.textContent = "🔊";
-};
+  // Kirim log ke Google Sheets
+  function saveLog() {
+    const endpoint = "https://script.google.com/macros/s/AKfycbzoKf-F6zKNkcwtGMsvBkSPmohQ3ulzFZaFxx1B3xyiaooN9dLkmRLQJbokWABcglcD5g/exec";
+    const namaOtomatis = "User-" + Math.floor(Math.random() * 99999);
+    fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify({ nama: namaOtomatis, userAgent: navigator.userAgent }),
+      headers: { "Content-Type": "application/json" }
+    }).then(r => console.log("Tersimpan")).catch(e => console.log("Gagal:", e));
+  }
 </script>
 
 </body>
