@@ -1,124 +1,127 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SDN 3 GELUMBANG</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDN 3 GELUMBANG</title>
 
-  <meta name="description" content="Website SD Negeri 3 Gelumbang - informasi sekolah,.">
-  <meta name="keywords" content="SDN 3 Gelumbang, Gelumbang, Muara Enim, Sekolah Dasar, Rapor Online">
-  <meta name="author" content="Ipan Ditia">
+<meta name="description" content="Website SD Negeri 3 Gelumbang - informasi sekolah">
+<meta name="keywords" content="SDN 3 Gelumbang, Gelumbang, Muara Enim">
+<meta name="author" content="Ipan Ditia">
 
-  <link rel="icon" type="image/png" href="logo2.png">
+<link rel="icon" type="image/png" href="logo2.png">
 
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-    body{
-      font-family:'Poppins',sans-serif;
-      color:#fff;
-      min-height:100vh;
-      background-size:cover;
-      background-position:center;
-      background-attachment:fixed;
-      transition:background-image 1.2s ease-in-out;
-      padding-bottom:70px;
-    }
+body{
+  font-family:Poppins,sans-serif;
+  color:#fff;
+  min-height:100vh;
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  padding-bottom:70px;
+  transition:background-image 1.2s;
+}
 
-    .overlay-black{
-      position:fixed;inset:0;
-      background:rgba(0,0,0,.45);
-      z-index:0;
-    }
+/* ===== OVERLAY ===== */
+.overlay-black{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:0;
+}
 
-    .navbar{
-      position:fixed;top:0;left:0;width:100%;
-      background:linear-gradient(90deg,#0057b8,#00a8ff);
-      display:flex;align-items:center;justify-content:space-between;
-      padding:10px 20px;
-      z-index:1000;
-      opacity:0;
-      animation:fadeNav 1s forwards 1s;
-    }
-    @keyframes fadeNav{to{opacity:1}}
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;top:0;left:0;width:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(90deg,#0057b8,#00a8ff);
+  padding:10px 20px;z-index:1000;
+  box-shadow:0 3px 10px rgba(0,0,0,.3);
+  opacity:0;animation:nav 1s forwards 1s;
+}
+@keyframes nav{to{opacity:1}}
 
-    .logo-left,.logo-right{width:55px;height:55px;border-radius:10px}
+.logo-left,.logo-right{width:55px;height:55px;border-radius:10px}
 
-    .marquee-container{text-align:center;flex:1}
+.marquee-container{text-align:center;flex:1}
 
-    .btn-container{
-      position:fixed;
-      bottom:60px;left:50%;
-      transform:translateX(-50%);
-      display:flex;gap:10px;
-      padding:12px;
-      background:rgba(255,255,255,.15);
-      border-radius:12px;
-      backdrop-filter:blur(6px);
-      z-index:1001;
-    }
+.welcome-text{font-size:14px;line-height:1.4}
+.welcome-text strong{color:#ffeb3b;font-size:16px}
 
-    .btn-info{
-      padding:12px 20px;
-      background:linear-gradient(135deg,#fff,#d4e4ff);
-      border-radius:10px;
-      color:#004aad;
-      text-decoration:none;
-      font-weight:600;
-    }
+.marquee-text{font-size:16px;font-weight:bold;color:#ffea00;margin-top:4px}
 
-    #splashScreen{
-      position:fixed;inset:0;
-      background:linear-gradient(to bottom right,#004aad,#00c6ff);
-      display:flex;flex-direction:column;
-      justify-content:center;align-items:center;
-      text-align:center;
-      z-index:9999;
-    }
+/* ===== BUTTON BAR ===== */
+.btn-container{
+  position:fixed;bottom:60px;left:50%;
+  transform:translateX(-50%);
+  display:flex;gap:10px;
+  padding:12px;background:rgba(255,255,255,.15);
+  backdrop-filter:blur(6px);
+  border-radius:12px;z-index:1001;
+}
+.btn-info{
+  background:linear-gradient(135deg,#fff,#d4e4ff);
+  color:#004aad;font-weight:600;
+  padding:12px 20px;border-radius:10px;
+  text-decoration:none;transition:.25s;
+}
+.btn-info:hover{transform:scale(1.07);background:#ffeb3b}
 
-    #mulaiBtn{
-      margin-top:20px;
-      padding:15px 35px;
-      font-size:18px;
-      font-weight:bold;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-    }
+/* ===== SPLASH ===== */
+#splashScreen{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  background:linear-gradient(to bottom right,#004aad,#00c6ff);
+  z-index:9999;text-align:center;
+}
+#mulaiBtn{
+  margin-top:20px;
+  padding:15px 35px;
+  font-size:18px;font-weight:bold;
+  border:none;border-radius:10px;
+  background:linear-gradient(135deg,#fff176,#ffee58);
+  cursor:pointer;
+}
 
-    #muteBtn{
-      position:fixed;
-      bottom:120px;right:20px;
-      width:60px;height:60px;
-      border-radius:50%;
-      font-size:24px;
-      z-index:2000;
-      cursor:pointer;
-    }
+/* ===== TAHUN BARU 2026 ===== */
+#newYearText{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:6rem;font-weight:900;
+  letter-spacing:10px;
+  color:#fff;
+  text-shadow:0 0 20px #fff,0 0 50px #ffeb3b;
+  background:rgba(0,0,0,.25);
+  z-index:1600;
+  opacity:0;pointer-events:none;
+  transition:.8s;transform:scale(.8);
+}
+#newYearText.show{opacity:1;transform:scale(1)}
 
-    footer{
-      position:fixed;bottom:0;left:0;width:100%;
-      background:rgba(0,0,0,.75);
-      text-align:center;
-      padding:10px;
-      z-index:2000;
-    }
+#fireworks{
+  position:fixed;inset:0;
+  display:none;
+  pointer-events:none;
+  z-index:1500;
+}
 
-    /* ===== EFEK TAHUN BARU ===== */
-    #fireworks{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:1500;
-      display:none;
-    }
-  </style>
+/* ===== FOOTER ===== */
+footer{
+  position:fixed;bottom:0;width:100%;
+  background:rgba(0,0,0,.75);
+  text-align:center;padding:10px;
+}
+</style>
 </head>
 
 <body>
 
 <div id="splashScreen">
   <h1>SELAMAT DATANG<br>SD NEGERI 3 GELUMBANG</h1>
+  <p>We Program We Develop</p>
   <button id="mulaiBtn">Masuk</button>
 </div>
 
@@ -127,90 +130,86 @@
 <div class="navbar">
   <img src="logo2.png" class="logo-right">
   <div class="marquee-container">
-    <strong>SD NEGERI 3 GELUMBANG</strong>
-    <div id="marqueeTime"></div>
+    <div class="welcome-text">
+      <strong>SD NEGERI 3 GELUMBANG</strong><br>
+      Dusun III Desa Sebau
+    </div>
+    <div class="marquee-text" id="marqueeTime">Memuat waktu...</div>
   </div>
   <img src="logo1.png" class="logo-left">
 </div>
 
 <div class="btn-container">
-  <a href="#" class="btn-info">Rapot Online</a>
+  <a href="#" class="btn-info">Rapot</a>
   <a href="#" class="btn-info">Galeri</a>
+  <a href="#" class="btn-info">Video</a>
 </div>
 
 <audio id="audioOpening"><source src="audio2.mp3"></audio>
 <audio id="audioPlayer" loop><source src="audio1.mp3"></audio>
 
-<button id="muteBtn">🔊</button>
+<footer>© Ipan Ditia 2025 - SDN 3 Gelumbang</footer>
 
-<footer>© By Ipan 2025 SD Negeri 3 Gelumbang</footer>
-
+<div id="newYearText">2026</div>
 <canvas id="fireworks"></canvas>
 
 <script>
-/* ================= JAM ================= */
-setInterval(()=>{
-  document.getElementById("marqueeTime").textContent =
-    new Date().toLocaleString("id-ID");
-},1000);
-
-/* ================= AUDIO ================= */
 const audio=document.getElementById("audioPlayer");
-const opening=document.getElementById("audioOpening");
+const open=document.getElementById("audioOpening");
+const btn=document.getElementById("mulaiBtn");
 
-/* ================= EFEK TAHUN BARU ================= */
+/* ==== FIREWORK ==== */
 const c=document.getElementById("fireworks");
 const x=c.getContext("2d");
-function rs(){c.width=innerWidth;c.height=innerHeight}
-rs();addEventListener("resize",rs);
+function r(){c.width=innerWidth;c.height=innerHeight}
+r();addEventListener("resize",r);
+let p=[],run=false;
 
-class F{
- constructor(){
-  this.x=Math.random()*c.width;
-  this.y=c.height;
-  this.t=Math.random()*c.height*0.5;
-  this.c=`hsl(${Math.random()*360},100%,60%)`;
- }
- u(){this.y-=5;if(this.y<this.t)for(let i=0;i<40;i++)p.push(new P(this.x,this.y,this.c))}
- d(){x.fillStyle=this.c;x.fillRect(this.x,this.y,2,2)}
+function boom(){
+  for(let i=0;i<40;i++)
+    p.push({x:Math.random()*c.width,y:Math.random()*c.height/2,
+    a:Math.random()*6.28,s:Math.random()*4+1,l:60});
 }
-class P{
- constructor(x,y,c){
-  this.x=x;this.y=y;this.c=c;
-  this.a=Math.random()*Math.PI*2;
-  this.s=Math.random()*4;this.l=60;
- }
- u(){this.x+=Math.cos(this.a)*this.s;this.y+=Math.sin(this.a)*this.s;this.s*=.95;this.l--}
- d(){x.globalAlpha=this.l/60;x.fillStyle=this.c;x.fillRect(this.x,this.y,2,2);x.globalAlpha=1}
-}
-let f=[],p=[],run=false;
-
-function anim(){
- if(!run)return;
- x.fillStyle="rgba(0,0,0,.15)";
- x.fillRect(0,0,c.width,c.height);
- if(Math.random()<.05)f.push(new F());
- f.forEach(e=>{e.u();e.d()});
- p.forEach((e,i)=>{e.u();e.d();if(e.l<1)p.splice(i,1)});
- requestAnimationFrame(anim);
+function draw(){
+  if(!run)return;
+  x.fillStyle="rgba(0,0,0,.2)";
+  x.fillRect(0,0,c.width,c.height);
+  if(Math.random()<.05)boom();
+  p.forEach((e,i)=>{
+    e.x+=Math.cos(e.a)*e.s;
+    e.y+=Math.sin(e.a)*e.s;
+    e.s*=.95;e.l--;
+    x.fillStyle="hsl("+Math.random()*360+",100%,60%)";
+    x.fillRect(e.x,e.y,2,2);
+    if(e.l<0)p.splice(i,1);
+  });
+  requestAnimationFrame(draw);
 }
 
-/* ================= TOMBOL MASUK ================= */
-document.getElementById("mulaiBtn").onclick=()=>{
+/* ==== CLICK MASUK ==== */
+btn.onclick=()=>{
   document.getElementById("splashScreen").style.display="none";
-  opening.pause();
-  audio.play().catch(()=>{});
+  open.pause();
+  audio.play();
 
+  const t=document.getElementById("newYearText");
+  t.classList.add("show");
   c.style.display="block";
-  run=true;
-  anim();
+  run=true;draw();
 
   setTimeout(()=>{
-    run=false;
+    t.classList.remove("show");
     c.style.display="none";
+    run=false;
     x.clearRect(0,0,c.width,c.height);
   },5000);
 };
+
+/* ==== WAKTU ==== */
+setInterval(()=>{
+  document.getElementById("marqueeTime").textContent=
+    new Date().toLocaleString("id-ID");
+},1000);
 </script>
 
 </body>
