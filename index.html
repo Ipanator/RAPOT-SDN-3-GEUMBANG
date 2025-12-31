@@ -14,397 +14,216 @@
   <link rel="icon" type="image/png" href="logo2.png">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * {margin:0;padding:0;box-sizing:border-box;}
 
     body {
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      transition: background-image 1.2s ease-in-out;
-      padding-bottom: 70px; /* Agar footer selalu terlihat */
+      font-family:'Poppins',sans-serif;
+      color:#fff;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      background-attachment:fixed;
+      transition:background-image 1.2s ease-in-out;
+      padding-bottom:70px;
     }
 
-    .overlay-black {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.45);
-      z-index: 0;
+    .overlay-black{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,.45);
+      z-index:0;
     }
 
-    /* NAVBAR */
-    .navbar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(90deg, #0057b8, #00a8ff);
-      padding: 10px 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      flex-wrap: wrap;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-      opacity: 0;
-      animation: navbarFade 1s ease forwards 1s;
+    /* ===== NAVBAR ===== */
+    .navbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:linear-gradient(90deg,#0057b8,#00a8ff);
+      padding:10px 20px;
+      position:fixed;
+      top:0;left:0;
+      z-index:1000;
+      box-shadow:0 3px 10px rgba(0,0,0,.3);
+      opacity:0;
+      animation:navbarFade 1s ease forwards 1s;
+    }
+    @keyframes navbarFade{to{opacity:1}}
+
+    .logo-left,.logo-right{
+      width:55px;height:55px;border-radius:10px;
     }
 
-    @keyframes navbarFade {
-      to { opacity: 1; }
+    .marquee-container{flex:1;text-align:center;padding:0 10px}
+    .welcome-text{font-size:14px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+    .welcome-text strong{color:#ffeb3b;font-size:16px}
+    .marquee-text{margin-top:4px;font-size:16px;font-weight:bold;color:#ffea00}
+
+    /* ===== BUTTON ===== */
+    .btn-container{
+      display:flex;gap:10px;
+      position:fixed;bottom:60px;left:50%;
+      transform:translateX(-50%);
+      z-index:1001;
+      background:rgba(255,255,255,.15);
+      padding:12px;border-radius:12px;
+      backdrop-filter:blur(6px);
+    }
+    .btn-info{
+      background:linear-gradient(135deg,#fff,#d4e4ff);
+      color:#004aad;
+      padding:12px 20px;
+      border-radius:10px;
+      font-weight:600;
+      text-decoration:none;
+      transition:.25s;
+    }
+    .btn-info:hover{transform:scale(1.07)}
+
+    /* ===== SPLASH ===== */
+    #splashScreen{
+      position:fixed;inset:0;
+      background:linear-gradient(to bottom right,#004aad,#00c6ff);
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      z-index:9999;
+      text-align:center;
+    }
+    #mulaiBtn{
+      margin-top:20px;
+      padding:15px 35px;
+      font-size:18px;
+      font-weight:bold;
+      border:none;border-radius:10px;
+      cursor:pointer;
     }
 
-    .navbar .logo-left,
-    .navbar .logo-right {
-      width: 55px;
-      height: 55px;
-      border-radius: 10px;
+    /* ===== MUTE ===== */
+    #muteBtn{
+      position:fixed;
+      bottom:120px;right:20px;
+      width:60px;height:60px;
+      border-radius:50%;
+      border:none;
+      font-size:24px;
+      z-index:2000;
+      cursor:pointer;
     }
 
-    .marquee-container {
-      flex: 1;
-      text-align: center;
-      padding: 0 10px;
+    footer{
+      position:fixed;bottom:0;left:0;
+      width:100%;
+      background:rgba(0,0,0,.75);
+      padding:10px;
+      text-align:center;
+      z-index:2000;
     }
 
-    .welcome-text {
-      font-size: 14px;
-      line-height: 1.4;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    }
-
-    .welcome-text strong {
-      color: #ffeb3b;
-      font-size: 16px;
-    }
-
-    .marquee-text {
-      margin-top: 4px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #ffea00;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-    }
-
-    /* Tombol bawah */
-    .btn-container {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 10px;
-      position: fixed;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1001;
-      max-width: 95vw;
-      overflow-x: auto;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      backdrop-filter: blur(6px);
-      white-space: nowrap;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-
-    .btn-info {
-      background: linear-gradient(135deg, #fff, #d4e4ff);
-      color: #004aad;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.3);
-      transition: .25s;
-    }
-
-    .btn-info:hover {
-      background: linear-gradient(135deg, #ffd700, #fff59d);
-      transform: scale(1.07);
-      box-shadow: 0 4px 10px rgba(255,255,255,0.4);
-    }
-
-    /* Splash */
-
-#splashScreen {
-  position: fixed; /* Penting agar menutupi seluruh halaman */
-  inset: 0; /* sama dengan top:0; left:0; right:0; bottom:0 */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #ffffff;
-  padding: 20px;
-  background: linear-gradient(to bottom right, #004aad, #00c6ff); /* Splash background */
-  z-index: 9999; /* Di atas semua elemen */
-}
-
-.splash-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.3;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
-}
-
-.splash-tagline {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-top: 10px;
-  color: #fffacd;
-  text-shadow: 0 0 8px rgba(255, 255, 200, 0.5);
-}
-
-.splash-subtagline {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  margin-top: 5px;
-  color: #f0f0f0;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-}
-
-#mulaiBtn {
-  margin-top: 20px;
-  padding: 15px 35px;
-  font-size: 18px;
-  font-weight: bold;
-  background: linear-gradient(135deg, #fff176, #ffee58);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: .25s;
-  z-index: 10000;
-}
-
-#mulaiBtn:hover {
-  transform: scale(1.08);
-}
-
-
-    /* MUTE button */
-    #muteBtn {
-      position: fixed;
-      bottom: 120px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border: none;
-      border-radius: 50%;
-      background: #fff;
-      cursor: pointer;
-      font-size: 24px;
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: .25s;
-    }
-
-    #muteBtn:hover {
-      transform: scale(1.12);
-    }
-
-    footer {
-      width: 100%;
-      padding: 10px;
-      background: rgba(0,0,0,0.75);
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      text-align: center;
-      font-size: 14px;
-      z-index: 2000;
+    /* ===== TAHUN BARU (KANVAS) ===== */
+    #fireworks{
+      position:fixed;
+      inset:0;
+      z-index:1500;
+      pointer-events:none;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- SPLASH -->
- <div id="splashScreen">
-  <h1 class="splash-title">
-    SELAMAT DATANG DI<br>
-    WEBSITE SD NEGERI 3 GELUMBANG
-  </h1>
-  <p class="splash-tagline">
-    We Program We Develop
-  </p>
-  <p class="splash-subtagline">
-    (Kami memprogram, kami mengembangkan)
-  </p>
+<!-- ===== SPLASH ===== -->
+<div id="splashScreen">
+  <h1>SELAMAT DATANG<br>SD NEGERI 3 GELUMBANG</h1>
   <button id="mulaiBtn">Masuk</button>
 </div>
 
+<div class="overlay-black"></div>
 
-  <div class="overlay-black"></div>
-
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <img src="logo2.png" class="logo-right">
-    <div class="marquee-container">
-
-      <div class="welcome-text">
-        <strong>PEMERINTAHAN KABUPATEN MUARA ENIM</strong><br>
-        <strong>SD NEGERI 3 GELUMBANG</strong><br>
-
-        <small>Alamat: Dusun III, Desa Sebau Kec Gelumbang Kab Muara Enim</small><br>
-
-        <small>
-          E-mail: sdn3glmbng@gmail.com
-          <span style="margin-left:25px;">NPSN: 10645318</span>
-        </small>
-
-      </div>
-
-      <div class="marquee-text" id="marqueeTime">Memuat waktu...</div>
-
+<!-- ===== NAVBAR ===== -->
+<div class="navbar">
+  <img src="logo2.png" class="logo-right">
+  <div class="marquee-container">
+    <div class="welcome-text">
+      <strong>SD NEGERI 3 GELUMBANG</strong><br>
+      <small>Muara Enim</small>
     </div>
-    <img src="logo1.png" class="logo-left">
+    <div class="marquee-text" id="marqueeTime"></div>
   </div>
+  <img src="logo1.png" class="logo-left">
+</div>
 
-  <!-- Tombol  "http://Ipansebau-43411.portmap.host:43411" class=" btn-info" target="_blank">Rapot Online    link rapot-->
-  <div class="btn-container">
-    <a href="https://sdn-3-gelumbang.vercel.app/rapot.html" class=" btn-info" target="_blank">Rapot Online</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/album.html" class="btn-info" target="_blank">Galeri</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/vidio.html" class="btn-info" target>Explore Video</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/karyasiswa.html" class="btn-info" target="_blank">Labor</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/karyasiswa.html" class="btn-info" target="_blank" target="_blank">Penerimaan Murid Baru</a>
-    <a href="https://dapo.dikdasmen.go.id/sekolah/FBA964F3EBEF1E4D616D" class="btn-info" target="_blank">Info Sekolah</a>
-    <a href="https://wa.me/6285369662075" class="btn-info" target="_blank">Kirim Pesan</a>
-  </div>
+<div class="btn-container">
+  <a href="#" class="btn-info">Rapot Online</a>
+  <a href="#" class="btn-info">Galeri</a>
+</div>
 
-
-  <!-- AUDIO -->
-<audio id="audioOpening">
-  <source src="audio2.mp3" type="audio/mpeg">
+<audio id="audioPlayer" loop>
+  <source src="audio1.mp3" type="audio/mpeg">
 </audio>
 
-  <audio id="audioPlayer" loop>
-    <source src="audio1.mp3" type="audio/mpeg">
-  </audio>
+<button id="muteBtn">🔊</button>
 
-  <button id="muteBtn">🔊</button>
+<footer>
+  © By Ipan 2025 SD Negeri 3 Gelumbang
+</footer>
 
-  <footer>
-    © By Ipan 2025 SD Negeri 3 Gelumbang. Hak Cipta Dilindungi UU No. 28 Tahun 2014
-  </footer>
-
-
-<audio id="audioOpening">
-  <source src="audio2.mp3" type="audio/mpeg">
-</audio>
+<!-- ===== EFEK TAHUN BARU ===== -->
+<canvas id="fireworks"></canvas>
 
 <script>
-  const audio = document.getElementById("audioPlayer");
-  const audioOpening = document.getElementById("audioOpening");
-  const muteBtn = document.getElementById("muteBtn");
+/* ===== JAM ===== */
+setInterval(()=>{
+  const n=new Date();
+  document.getElementById("marqueeTime").textContent=n.toLocaleString("id-ID");
+},1000);
 
-  document.getElementById("mulaiBtn").onclick = () => {
-
-    saveLog(); // <-- tambahkan ini
-
-    document.getElementById("splashScreen").style.display = "none";
-
-    if (!audioOpening.paused) audioOpening.pause();
-
-    audio.muted = false;
-    audio.volume = 1.0;
-    audio.play().catch(()=>{});
-    muteBtn.textContent = "🔊";
+/* ===== AUDIO ===== */
+const audio=document.getElementById("audioPlayer");
+document.getElementById("mulaiBtn").onclick=()=>{
+  document.getElementById("splashScreen").style.display="none";
+  audio.play().catch(()=>{});
 };
 
+/* ===== KEMBANG API ===== */
+const c=document.getElementById("fireworks");
+const x=c.getContext("2d");
+function r(){c.width=innerWidth;c.height=innerHeight}
+r();addEventListener("resize",r);
 
-  // Tombol mute/unmute
-  muteBtn.onclick = () => {
-    audio.muted = !audio.muted;
-    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-  };
-
-  // Autoplay pembuka
-  window.addEventListener("load", () => {
-    audioOpening.play().catch(()=>{});
-  });
-
-  /* Background slideshow */
-  const totalImages = 10;
-  let current = 1;
-  function changeBackground() {
-    document.body.style.backgroundImage = `url('img${current}.jpeg')`;
-    current = current < totalImages ? current + 1 : 1;
-  }
-  changeBackground();
-  setInterval(changeBackground, 5000);
-
-  /* Waktu realtime */
-  setInterval(() => {
-    const now = new Date();
-    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus",
-                   "September","Oktober","November","Desember"];
-    document.getElementById("marqueeTime").textContent =
-      `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
-  }, 1000);
-
-  /* =========================================================
-      PENERIMA SINYAL DARI HALAMAN video.html
-     ========================================================= */
-  window.addEventListener("storage", function(e) {
-      if (e.key !== "YT_PLAYING") return;
-
-      // Jika video diputar
-      if (e.newValue.startsWith("yes")) {
-          audio.volume = 0.15;   // kecilkan musik
-      }
-
-      // Jika video ditutup
-      if (e.newValue.startsWith("no")) {
-          audio.volume = 1.0;    // kembalikan normal
-      }
-  });
-
-  
-
-  /* Fallback tambahan jika user berpindah tab */
-  window.addEventListener("blur", () => {
-      audio.volume = 0.2;
-  });
-  // === KIRIM DATA KE GOOGLE SHEETS ===
-function saveLog() {
-  const endpoint = "https://script.google.com/macros/s/AKfycbzoKf-F6zKNkcwtGMsvBkSPmohQ3ulzFZaFxx1B3xyiaooN9dLkmRLQJbokWABcglcD5g/exec";
-
-  // Generate nama acak (biar ada identitas)
-  const namaOtomatis = "User-" + Math.floor(Math.random() * 99999);
-
-  fetch(endpoint, {
-    method: "POST",
-    body: JSON.stringify({
-      nama: namaOtomatis,
-      userAgent: navigator.userAgent
-    }),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(r => console.log("Tersimpan"))
-  .catch(e => console.log("Gagal:", e));
+class F{
+ constructor(){
+  this.x=Math.random()*c.width;
+  this.y=c.height;
+  this.t=Math.random()*c.height*0.5;
+  this.v=4;
+  this.c=`hsl(${Math.random()*360},100%,60%)`;
+ }
+ u(){this.y-=this.v;if(this.y<this.t)for(let i=0;i<40;i++)p.push(new P(this.x,this.y,this.c))}
+ d(){x.fillStyle=this.c;x.fillRect(this.x,this.y,2,2)}
+}
+class P{
+ constructor(x,y,c){
+  this.x=x;this.y=y;this.c=c;
+  this.a=Math.random()*Math.PI*2;
+  this.s=Math.random()*4;this.l=80;
+ }
+ u(){this.x+=Math.cos(this.a)*this.s;this.y+=Math.sin(this.a)*this.s;this.s*=.95;this.l--}
+ d(){x.fillStyle=this.c;x.globalAlpha=this.l/80;x.fillRect(this.x,this.y,2,2);x.globalAlpha=1}
 }
 
+let f=[],p=[];
+(function a(){
+ x.fillStyle="rgba(0,0,0,.15)";
+ x.fillRect(0,0,c.width,c.height);
+ if(Math.random()<.03)f.push(new F());
+ f.forEach(e=>{e.u();e.d()});
+ p.forEach((e,i)=>{e.u();e.d();if(e.l<1)p.splice(i,1)});
+ requestAnimationFrame(a);
+})();
 </script>
-
 
 </body>
 </html>
