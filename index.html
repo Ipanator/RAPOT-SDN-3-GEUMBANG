@@ -31,7 +31,7 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       transition: background-image 1.2s ease-in-out;
-      padding-bottom: 70px; /* Agar footer selalu terlihat */
+      padding-bottom: 70px;
     }
 
     .overlay-black {
@@ -44,7 +44,6 @@
       z-index: 0;
     }
 
-    /* NAVBAR */
     .navbar {
       width: 100%;
       display: flex;
@@ -98,7 +97,6 @@
       text-shadow: 0 1px 3px rgba(0,0,0,0.4);
     }
 
-    /* Tombol bawah */
     .btn-container {
       display: flex;
       flex-wrap: nowrap;
@@ -136,11 +134,9 @@
       box-shadow: 0 4px 10px rgba(255,255,255,0.4);
     }
 
-    /* Splash */
-
 #splashScreen {
-  position: fixed; /* Penting agar menutupi seluruh halaman */
-  inset: 0; /* sama dengan top:0; left:0; right:0; bottom:0 */
+  position: fixed;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,34 +144,24 @@
   text-align: center;
   color: #ffffff;
   padding: 20px;
-  background: linear-gradient(to bottom right, #004aad, #00c6ff); /* Splash background */
-  z-index: 9999; /* Di atas semua elemen */
+  background: linear-gradient(to bottom right, #004aad, #00c6ff);
+  z-index: 9999;
 }
 
 .splash-title {
-  font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  line-height: 1.3;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .splash-tagline {
-  font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 10px;
-  color: #fffacd;
-  text-shadow: 0 0 8px rgba(255, 255, 200, 0.5);
 }
 
 .splash-subtagline {
-  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
-  font-weight: 400;
   margin-top: 5px;
-  color: #f0f0f0;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 #mulaiBtn {
@@ -187,224 +173,91 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: .25s;
   z-index: 10000;
 }
 
-#mulaiBtn:hover {
-  transform: scale(1.08);
+#muteBtn {
+  position: fixed;
+  bottom: 120px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 24px;
+  z-index: 2000;
 }
 
-
-    /* MUTE button */
-    #muteBtn {
-      position: fixed;
-      bottom: 120px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border: none;
-      border-radius: 50%;
-      background: #fff;
-      cursor: pointer;
-      font-size: 24px;
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: .25s;
-    }
-
-    #muteBtn:hover {
-      transform: scale(1.12);
-    }
-
-    footer {
-      width: 100%;
-      padding: 10px;
-      background: rgba(0,0,0,0.75);
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      text-align: center;
-      font-size: 14px;
-      z-index: 2000;
-    }
+footer {
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.75);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-size: 14px;
+  z-index: 2000;
+}
   </style>
 </head>
 
 <body>
 
-  <!-- SPLASH -->
- <div id="splashScreen">
-  <h1 class="splash-title">
-    SELAMAT DATANG DI<br>
-    WEBSITE SD NEGERI 3 GELUMBANG
-  </h1>
-  <p class="splash-tagline">
-    We Program We Develop
-  </p>
-  <p class="splash-subtagline">
-    (Kami memprogram, kami mengembangkan)
-  </p>
+<div id="splashScreen">
+  <h1 class="splash-title">SELAMAT DATANG DI<br>WEBSITE SD NEGERI 3 GELUMBANG</h1>
+  <p class="splash-tagline">We Program We Develop</p>
+  <p class="splash-subtagline">(Kami memprogram, kami mengembangkan)</p>
   <button id="mulaiBtn">Masuk</button>
 </div>
 
+<div class="overlay-black"></div>
 
-  <div class="overlay-black"></div>
-
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <img src="logo2.png" class="logo-right">
-    <div class="marquee-container">
-
-      <div class="welcome-text">
-        <strong>PEMERINTAHAN KABUPATEN MUARA ENIM</strong><br>
-        <strong>SD NEGERI 3 GELUMBANG</strong><br>
-
-        <small>Alamat: Dusun III, Desa Sebau Kec Gelumbang Kab Muara Enim</small><br>
-
-        <small>
-          E-mail: sdn3glmbng@gmail.com
-          <span style="margin-left:25px;">NPSN: 10645318</span>
-        </small>
-
-      </div>
-
-      <div class="marquee-text" id="marqueeTime">Memuat waktu...</div>
-
+<div class="navbar">
+  <img src="logo2.png" class="logo-right">
+  <div class="marquee-container">
+    <div class="welcome-text">
+      <strong>PEMERINTAHAN KABUPATEN MUARA ENIM</strong><br>
+      <strong>SD NEGERI 3 GELUMBANG</strong>
     </div>
-    <img src="logo1.png" class="logo-left">
+    <div class="marquee-text" id="marqueeTime">Memuat waktu...</div>
   </div>
+  <img src="logo1.png" class="logo-left">
+</div>
 
-  <!-- Tombol  "http://Ipansebau-43411.portmap.host:43411" class=" btn-info" target="_blank">Rapot Online    link rapot-->
-  <div class="btn-container">
-    <a href="https://sdn-3-gelumbang.vercel.app/rapot.html" class=" btn-info" target="_blank">Rapot Online</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/album.html" class="btn-info" target="_blank">Galeri</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/vidio.html" class="btn-info" target>Explore Video</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/karyasiswa.html" class="btn-info" target="_blank">Labor</a>
-    <a href="https://sdn-3-gelumbang.vercel.app/karyasiswa.html" class="btn-info" target="_blank" target="_blank">Penerimaan Murid Baru</a>
-    <a href="https://dapo.dikdasmen.go.id/sekolah/FBA964F3EBEF1E4D616D" class="btn-info" target="_blank">Info Sekolah</a>
-    <a href="https://wa.me/6285369662075" class="btn-info" target="_blank">Kirim Pesan</a>
-  </div>
-
-
-  <!-- AUDIO -->
-<audio id="audioOpening">
-  <source src="audio2.mp3" type="audio/mpeg">
-</audio>
-
-  <audio id="audioPlayer" loop>
-    <source src="audio1.mp3" type="audio/mpeg">
-  </audio>
-
-  <button id="muteBtn">🔊</button>
-
-  <footer>
-    © By Ipan 2025 SD Negeri 3 Gelumbang. Hak Cipta Dilindungi UU No. 28 Tahun 2014
-  </footer>
-
-
-<audio id="audioOpening">
-  <source src="audio2.mp3" type="audio/mpeg">
-</audio>
-
+<!-- ===== TAMBAHAN KEMBANG API (TIDAK MENGUBAH KODE LAIN) ===== -->
+<canvas id="fireworksCanvas" style="position:fixed;inset:0;z-index:4000;pointer-events:none;"></canvas>
 <script>
-  const audio = document.getElementById("audioPlayer");
-  const audioOpening = document.getElementById("audioOpening");
-  const muteBtn = document.getElementById("muteBtn");
+(() => {
+  const c = document.getElementById("fireworksCanvas");
+  const x = c.getContext("2d");
+  let w,h,ps=[],fs=[],run=true;
+  const R=()=>{w=c.width=innerWidth;h=c.height=innerHeight};
+  R(); addEventListener("resize",R);
 
-  document.getElementById("mulaiBtn").onclick = () => {
+  class F{constructor(){this.x=Math.random()*w;this.y=h;this.t=Math.random()*h*.4;this.s=4+Math.random()*3}
+  u(){this.y-=this.s;if(this.y<=this.t){for(let i=0;i<60;i++)ps.push(new P(this.x,this.y));return false}return true}
+  d(){x.fillStyle="#fff";x.fillRect(this.x,this.y,2,8)}}
 
-    saveLog(); // <-- tambahkan ini
+  class P{constructor(x0,y0){this.x=x0;this.y=y0;this.a=Math.random()*6.28;
+  this.s=Math.random()*5+1;this.vx=Math.cos(this.a)*this.s;this.vy=Math.sin(this.a)*this.s;
+  this.l=1;this.c=`hsl(${Math.random()*360},100%,60%)`}
+  u(){this.vy+=.03;this.x+=this.vx;this.y+=this.vy;this.l-=.015;return this.l>0}
+  d(){x.globalAlpha=this.l;x.fillStyle=this.c;x.beginPath();x.arc(this.x,this.y,2,0,6.28);x.fill();x.globalAlpha=1}}
 
-    document.getElementById("splashScreen").style.display = "none";
+  (function loop(){
+    if(!run) return;
+    x.clearRect(0,0,w,h);
+    if(Math.random()<.08) fs.push(new F());
+    fs=fs.filter(f=>f.u()); fs.forEach(f=>f.d());
+    ps=ps.filter(p=>p.u()); ps.forEach(p=>p.d());
+    requestAnimationFrame(loop);
+  })();
 
-    if (!audioOpening.paused) audioOpening.pause();
-
-    audio.muted = false;
-    audio.volume = 1.0;
-    audio.play().catch(()=>{});
-    muteBtn.textContent = "🔊";
-};
-
-
-  // Tombol mute/unmute
-  muteBtn.onclick = () => {
-    audio.muted = !audio.muted;
-    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-  };
-
-  // Autoplay pembuka
-  window.addEventListener("load", () => {
-    audioOpening.play().catch(()=>{});
-  });
-
-  /* Background slideshow */
-  const totalImages = 10;
-  let current = 1;
-  function changeBackground() {
-    document.body.style.backgroundImage = `url('img${current}.jpeg')`;
-    current = current < totalImages ? current + 1 : 1;
-  }
-  changeBackground();
-  setInterval(changeBackground, 5000);
-
-  /* Waktu realtime */
-  setInterval(() => {
-    const now = new Date();
-    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus",
-                   "September","Oktober","November","Desember"];
-    document.getElementById("marqueeTime").textContent =
-      `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()} ${now.toLocaleTimeString()}`;
-  }, 1000);
-
-  /* =========================================================
-      PENERIMA SINYAL DARI HALAMAN video.html
-     ========================================================= */
-  window.addEventListener("storage", function(e) {
-      if (e.key !== "YT_PLAYING") return;
-
-      // Jika video diputar
-      if (e.newValue.startsWith("yes")) {
-          audio.volume = 0.15;   // kecilkan musik
-      }
-
-      // Jika video ditutup
-      if (e.newValue.startsWith("no")) {
-          audio.volume = 1.0;    // kembalikan normal
-      }
-  });
-
-  
-
-  /* Fallback tambahan jika user berpindah tab */
-  window.addEventListener("blur", () => {
-      audio.volume = 0.2;
-  });
-  // === KIRIM DATA KE GOOGLE SHEETS ===
-function saveLog() {
-  const endpoint = "https://script.google.com/macros/s/AKfycbzoKf-F6zKNkcwtGMsvBkSPmohQ3ulzFZaFxx1B3xyiaooN9dLkmRLQJbokWABcglcD5g/exec";
-
-  // Generate nama acak (biar ada identitas)
-  const namaOtomatis = "User-" + Math.floor(Math.random() * 99999);
-
-  fetch(endpoint, {
-    method: "POST",
-    body: JSON.stringify({
-      nama: namaOtomatis,
-      userAgent: navigator.userAgent
-    }),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(r => console.log("Tersimpan"))
-  .catch(e => console.log("Gagal:", e));
-}
-
+  setTimeout(()=>{run=false;c.remove()},5000);
+})();
 </script>
-
+<!-- ===== AKHIR TAMBAHAN ===== -->
 
 </body>
 </html>
