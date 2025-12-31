@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SDN 3 GELUMBANG</title>
 
+  <!-- SEO -->
   <meta name="description" content="Website SD Negeri 3 Gelumbang - informasi sekolah,.">
   <meta name="keywords" content="SDN 3 Gelumbang, Gelumbang, Muara Enim, Sekolah Dasar, Rapor Online">
   <meta name="author" content="Ipan Ditia">
@@ -12,148 +13,207 @@
   <link rel="icon" type="image/png" href="logo2.png">
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
+    *{margin:0;padding:0;box-sizing:border-box;}
+
     body{
       font-family:'Poppins',sans-serif;
       color:#fff;
       min-height:100vh;
-      display:flex;
-      flex-direction:column;
       background-size:cover;
       background-position:center;
-      background-repeat:no-repeat;
       background-attachment:fixed;
-      transition:background-image 1.2s ease-in-out;
-      padding-bottom:70px
+      padding-bottom:70px;
     }
-    .overlay-black{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:0}
-    .navbar{
-      width:100%;display:flex;justify-content:space-between;align-items:center;
-      background:linear-gradient(90deg,#0057b8,#00a8ff);
-      padding:10px 20px;position:fixed;top:0;left:0;z-index:1000;
-      box-shadow:0 3px 10px rgba(0,0,0,.3);opacity:0;
-      animation:navbarFade 1s ease forwards 1s
+
+    .overlay-black{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,.45);
+      z-index:0;
     }
-    @keyframes navbarFade{to{opacity:1}}
-    .navbar img{width:55px;height:55px;border-radius:10px}
-    .marquee-container{flex:1;text-align:center}
-    .btn-container{
-      display:flex;gap:10px;position:fixed;bottom:60px;left:50%;
-      transform:translateX(-50%);z-index:1001;padding:12px;
-      background:rgba(255,255,255,.15);border-radius:12px;
-      backdrop-filter:blur(6px)
-    }
-    .btn-info{
-      background:linear-gradient(135deg,#fff,#d4e4ff);
-      color:#004aad;padding:12px 20px;border-radius:10px;
-      font-weight:600;text-decoration:none
-    }
+
+    /* SPLASH */
     #splashScreen{
-      position:fixed;inset:0;display:flex;flex-direction:column;
-      align-items:center;justify-content:center;text-align:center;
-      background:linear-gradient(to bottom right,#004aad,#00c6ff);
-      z-index:9999
+      position:fixed;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:linear-gradient(to bottom right,#000000,#001a00);
+      z-index:9999;
+      overflow:hidden;
     }
+
+    #fireCanvas{
+      position:absolute;
+      inset:0;
+      z-index:1;
+    }
+
+    .splash-content{
+      position:relative;
+      z-index:2;
+    }
+
+    .splash-title{
+      font-size:2.5rem;
+      text-shadow:0 0 15px #00ff99;
+    }
+
+    .splash-tagline{
+      font-size:1.5rem;
+      color:#00ff99;
+      margin-top:10px;
+    }
+
+    .splash-subtagline{
+      font-size:1rem;
+      color:#b6ffda;
+    }
+
     #mulaiBtn{
-      margin-top:20px;padding:15px 35px;font-size:18px;
-      border:none;border-radius:10px;cursor:pointer;
-      background:linear-gradient(135deg,#fff176,#ffee58);
-      z-index:10000
+      margin-top:25px;
+      padding:15px 35px;
+      font-size:18px;
+      font-weight:bold;
+      background:#00ff99;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      transition:.3s;
     }
-    #muteBtn{
-      position:fixed;bottom:120px;right:20px;width:60px;height:60px;
-      border-radius:50%;border:none;font-size:24px;z-index:2000
+
+    #mulaiBtn:hover{transform:scale(1.1);}
+
+    /* NAVBAR & lainnya TETAP */
+    .navbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:linear-gradient(90deg,#0057b8,#00a8ff);
+      padding:10px 20px;
+      position:fixed;
+      top:0;
+      z-index:1000;
+      opacity:0;
+      animation:nav 1s forwards 1s;
     }
+    @keyframes nav{to{opacity:1}}
+
+    .logo-left,.logo-right{width:55px;height:55px;border-radius:10px;}
+
+    .btn-container{
+      position:fixed;
+      bottom:60px;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      gap:10px;
+      z-index:1001;
+    }
+
+    .btn-info{
+      background:#fff;
+      color:#004aad;
+      padding:12px 20px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+    }
+
     footer{
-      position:fixed;bottom:0;left:0;width:100%;
-      background:rgba(0,0,0,.75);text-align:center;padding:10px;
-      z-index:2000
+      position:fixed;
+      bottom:0;
+      width:100%;
+      background:rgba(0,0,0,.7);
+      text-align:center;
+      padding:10px;
+      z-index:2000;
     }
   </style>
 </head>
 
 <body>
 
+<!-- SPLASH -->
 <div id="splashScreen">
-  <h1>SELAMAT DATANG DI<br>WEBSITE SD NEGERI 3 GELUMBANG</h1>
-  <p>We Program We Develop</p>
-  <button id="mulaiBtn">Masuk</button>
+  <canvas id="fireCanvas"></canvas>
+
+  <div class="splash-content">
+    <h1 class="splash-title">SELAMAT DATANG DI<br>SD NEGERI 3 GELUMBANG</h1>
+    <p class="splash-tagline">We Program We Develop</p>
+    <p class="splash-subtagline">(Kami memprogram, kami mengembangkan)</p>
+    <button id="mulaiBtn">Masuk</button>
+  </div>
 </div>
 
 <div class="overlay-black"></div>
 
-<div class="navbar">
-  <img src="logo2.png">
-  <div class="marquee-container">
-    <strong>SD NEGERI 3 GELUMBANG</strong>
-    <div id="marqueeTime">Memuat waktu...</div>
-  </div>
-  <img src="logo1.png">
-</div>
-
-<div class="btn-container">
-  <a href="#" class="btn-info">Rapot Online</a>
-</div>
-
+<!-- AUDIO -->
 <audio id="audioOpening"><source src="audio2.mp3"></audio>
 <audio id="audioPlayer" loop><source src="audio1.mp3"></audio>
-<button id="muteBtn">🔊</button>
 
-<footer>© By Ipan 2025 SD Negeri 3 Gelumbang</footer>
-
-<!-- ===== TAMBAHAN KEMBANG API KODE & ANGKA ===== -->
-<canvas id="codeFireworks" style="position:fixed;inset:0;z-index:9998;pointer-events:none"></canvas>
+<footer>
+© By Ipan 2025 SD Negeri 3 Gelumbang
+</footer>
 
 <script>
-const canvas=document.getElementById("codeFireworks");
+/* ===============================
+   KEMBANG API KODE HIJAU HACKER
+   =============================== */
+const canvas=document.getElementById("fireCanvas");
 const ctx=canvas.getContext("2d");
-let W,H,particles=[],run=false;
+let W,H,particles=[],run=true;
 function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight}
 resize();addEventListener("resize",resize);
 
-const chars="0123456789<>/{}=HTMLCSSJS";
-class Particle{
-  constructor(x,y){
-    this.x=x;this.y=y;
-    this.vx=(Math.random()-0.5)*6;
-    this.vy=(Math.random()-0.5)*6;
-    this.life=100;
-    this.char=chars[Math.floor(Math.random()*chars.length)];
-    this.color=`hsl(${Math.random()*360},100%,60%)`
-  }
-  update(){
-    this.x+=this.vx;
-    this.y+=this.vy;
-    this.vy+=0.03;
-    this.life--
-  }
-  draw(){
-    ctx.fillStyle=this.color;
-    ctx.font="18px monospace";
-    ctx.fillText(this.char,this.x,this.y)
-  }
-}
+const chars="01{}[]<>/\\=+-_$#@";
 
 function boom(){
   const x=Math.random()*W;
   const y=Math.random()*H/2;
-  for(let i=0;i<60;i++)particles.push(new Particle(x,y))
+  for(let i=0;i<60;i++){
+    particles.push({
+      x,y,
+      vx:(Math.random()-0.5)*4,
+      vy:(Math.random()-0.5)*4,
+      life:80,
+      char:chars[Math.floor(Math.random()*chars.length)],
+      size:14+Math.random()*10
+    });
+  }
 }
 
-function loop(){
+function draw(){
   if(!run)return;
-  ctx.clearRect(0,0,W,H);
-  if(Math.random()<0.08)boom();
-  particles=particles.filter(p=>p.life>0);
-  particles.forEach(p=>{p.update();p.draw()});
-  requestAnimationFrame(loop)
+  ctx.fillStyle="rgba(0,0,0,.25)";
+  ctx.fillRect(0,0,W,H);
+
+  particles.forEach((p,i)=>{
+    ctx.fillStyle=`rgba(0,255,120,${p.life/80})`;
+    ctx.font=`${p.size}px 'Courier New', monospace`;
+    ctx.fillText(p.char,p.x,p.y);
+    p.x+=p.vx;p.y+=p.vy;p.life--;
+    if(p.life<=0)particles.splice(i,1);
+  });
+  requestAnimationFrame(draw);
 }
 
+setInterval(boom,700);
+draw();
+
+/* ===============================
+   MASUK
+   =============================== */
 document.getElementById("mulaiBtn").onclick=()=>{
-  run=true;loop();
-  setTimeout(()=>{run=false;canvas.remove()},5000);
+  run=false;
   document.getElementById("splashScreen").style.display="none";
-}
+  document.getElementById("audioOpening").pause();
+  const audio=document.getElementById("audioPlayer");
+  audio.play().catch(()=>{});
+};
 </script>
 
 </body>
