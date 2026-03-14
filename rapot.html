@@ -29,7 +29,7 @@ position:relative;
 overflow:hidden;
 }
 
-/* Background code */
+/* background code */
 
 .code-bg{
 position:absolute;
@@ -49,7 +49,7 @@ left:auto;
 right:40px;
 }
 
-/* Card */
+/* card */
 
 .container{
 position:relative;
@@ -65,8 +65,6 @@ text-align:center;
 box-shadow:0 20px 50px rgba(0,0,0,0.55);
 }
 
-/* Icon */
-
 .icon{
 width:70px;
 height:70px;
@@ -81,8 +79,6 @@ border-radius:16px;
 color:#60a5fa;
 }
 
-/* Title */
-
 h1{
 font-size:28px;
 font-weight:600;
@@ -90,15 +86,13 @@ margin-bottom:15px;
 color:#f1f5f9;
 }
 
-/* Text */
-
 p{
 font-size:15.8px;
 line-height:1.8;
 color:#cbd5f5;
 }
 
-/* Info */
+/* info box */
 
 .box-info{
 margin-top:28px;
@@ -110,7 +104,7 @@ line-height:1.7;
 border-left:4px solid #3b82f6;
 }
 
-/* Button */
+/* button */
 
 .button{
 margin-top:35px;
@@ -134,12 +128,36 @@ transform:translateY(-2px);
 box-shadow:0 10px 28px rgba(37,99,235,0.55);
 }
 
-/* Footer */
+/* running log */
 
-.footer{
+.access-log{
 margin-top:30px;
 font-size:13px;
-opacity:0.65;
+color:#60a5fa;
+opacity:0.9;
+white-space:nowrap;
+overflow:hidden;
+position:relative;
+}
+
+.access-log span{
+display:inline-block;
+padding-left:100%;
+animation:runningText 14s linear infinite;
+font-family:'Fira Code',monospace;
+}
+
+@keyframes runningText{
+0%{transform:translateX(0);}
+100%{transform:translateX(-100%);}
+}
+
+/* footer */
+
+.footer{
+margin-top:25px;
+font-size:13px;
+opacity:0.6;
 }
 
 @media (max-width:600px){
@@ -161,19 +179,19 @@ display:none;
 
 <div class="code-bg">
 &lt;?php<br>
-$system = "E-Raport SDN3";<br>
-$status = "online";<br>
-if($status == "online"){<br>
-&nbsp;&nbsp;echo "System Ready";<br>
+$system="eraport";<br>
+$status="online";<br>
+if($status=="online"){<br>
+&nbsp;&nbsp;echo "system ready";<br>
 }<br>
 ?&gt;
 </div>
 
 <div class="code-bg right">
 function accessSystem(){<br>
-&nbsp;&nbsp;return "E-Raport";<br>
+&nbsp;&nbsp;return "SDN3";<br>
 }<br>
-console.log("SDN3 Gelumbang");
+console.log("eraport loaded");
 </div>
 
 <div class="container">
@@ -183,7 +201,7 @@ console.log("SDN3 Gelumbang");
 <h1>Pemberitahuan Akses Sistem E-Raport</h1>
 
 <p>
-Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan menggunakan teknologi pemrograman berbasis web untuk mendukung pengolahan data akademik yang lebih cepat, tertata, dan terintegrasi secara digital.
+Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan menggunakan teknologi pemrograman berbasis web untuk mendukung pengolahan data akademik secara lebih cepat, tertata, dan terintegrasi.
 </p>
 
 <div class="box-info">
@@ -194,11 +212,33 @@ Apabila diperlukan akses di luar waktu operasional pengembang, sistem hanya dapa
 <a href="http://10.96.189.165:8535">Lanjutkan ke Sistem</a>
 </div>
 
+<div class="access-log">
+<span id="userAccess">Memuat identitas pengguna...</span>
+</div>
+
 <div class="footer">
 SD NEGERI 3 GELUMBANG • Sistem E-Raport
 </div>
 
 </div>
+
+<script>
+
+function getParameterByName(name){
+let url=new URL(window.location.href);
+return url.searchParams.get(name);
+}
+
+let user=getParameterByName("user");
+
+if(!user){
+user="Pengguna Sistem";
+}
+
+document.getElementById("userAccess").innerText=
+"Akses sistem terdeteksi oleh pengguna : "+user+" | SDN 3 Gelumbang | "+new Date().toLocaleString();
+
+</script>
 
 </body>
 </html>
