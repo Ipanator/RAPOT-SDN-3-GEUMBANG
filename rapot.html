@@ -6,7 +6,7 @@
 
 <title>Pemberitahuan Akses E-Raport</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
 
 <style>
 
@@ -25,11 +25,35 @@ justify-content:center;
 background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
 color:#e2e8f0;
 padding:25px;
+position:relative;
+overflow:hidden;
 }
 
-/* Card Container */
+/* Background code */
+
+.code-bg{
+position:absolute;
+top:40px;
+left:40px;
+font-family:'Fira Code',monospace;
+font-size:13px;
+color:rgba(255,255,255,0.08);
+line-height:1.6;
+pointer-events:none;
+}
+
+.code-bg.right{
+top:auto;
+bottom:40px;
+left:auto;
+right:40px;
+}
+
+/* Card */
 
 .container{
+position:relative;
+z-index:2;
 max-width:750px;
 width:100%;
 background:rgba(255,255,255,0.04);
@@ -38,9 +62,7 @@ backdrop-filter:blur(14px);
 border-radius:20px;
 padding:50px 40px;
 text-align:center;
-box-shadow:
-0 20px 50px rgba(0,0,0,0.55),
-inset 0 1px 0 rgba(255,255,255,0.05);
+box-shadow:0 20px 50px rgba(0,0,0,0.55);
 }
 
 /* Icon */
@@ -66,7 +88,6 @@ font-size:28px;
 font-weight:600;
 margin-bottom:15px;
 color:#f1f5f9;
-letter-spacing:0.3px;
 }
 
 /* Text */
@@ -77,7 +98,7 @@ line-height:1.8;
 color:#cbd5f5;
 }
 
-/* Info Box */
+/* Info */
 
 .box-info{
 margin-top:28px;
@@ -103,7 +124,6 @@ padding:14px 34px;
 border-radius:10px;
 font-size:15px;
 font-weight:500;
-letter-spacing:0.3px;
 display:inline-block;
 transition:all .25s ease;
 box-shadow:0 6px 18px rgba(37,99,235,0.4);
@@ -120,10 +140,7 @@ box-shadow:0 10px 28px rgba(37,99,235,0.55);
 margin-top:30px;
 font-size:13px;
 opacity:0.65;
-letter-spacing:0.5px;
 }
-
-/* Mobile */
 
 @media (max-width:600px){
 
@@ -131,12 +148,8 @@ letter-spacing:0.5px;
 padding:40px 28px;
 }
 
-h1{
-font-size:22px;
-}
-
-p{
-font-size:15px;
+.code-bg{
+display:none;
 }
 
 }
@@ -146,9 +159,26 @@ font-size:15px;
 
 <body>
 
+<div class="code-bg">
+&lt;?php<br>
+$system = "E-Raport SDN3";<br>
+$status = "online";<br>
+if($status == "online"){<br>
+&nbsp;&nbsp;echo "System Ready";<br>
+}<br>
+?&gt;
+</div>
+
+<div class="code-bg right">
+function accessSystem(){<br>
+&nbsp;&nbsp;return "E-Raport";<br>
+}<br>
+console.log("SDN3 Gelumbang");
+</div>
+
 <div class="container">
 
-<div class="icon">ℹ</div>
+<div class="icon">💻</div>
 
 <h1>Pemberitahuan Akses Sistem E-Raport</h1>
 
@@ -157,7 +187,7 @@ Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan menggunakan tekn
 </p>
 
 <div class="box-info">
-Apabila diperlukan akses di luar waktu operasional pengembang, sistem E-Raport hanya dapat diaktifkan pada kondisi tertentu yang bersifat mendesak dengan melakukan koordinasi kepada Pengembang Website SD Negeri 3 Gelumbang.
+Apabila diperlukan akses di luar waktu operasional pengembang, sistem hanya dapat diaktifkan pada kondisi tertentu yang bersifat mendesak dengan melakukan koordinasi kepada Pengembang Website SD Negeri 3 Gelumbang.
 </div>
 
 <div class="button">
