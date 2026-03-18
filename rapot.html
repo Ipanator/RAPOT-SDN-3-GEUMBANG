@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Akses E-Raport</title>
+<title>Akses Sistem E-Raport</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
 
@@ -17,33 +17,67 @@ box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
+/* BACKGROUND MODERN */
+
 body{
 min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
-color:#e2e8f0;
 padding:25px;
 overflow:hidden;
+color:#e2e8f0;
+
+background:linear-gradient(-45deg,#020617,#0f172a,#1e293b,#020617);
+background-size:400% 400%;
+animation:bgmove 15s ease infinite;
 }
+
+@keyframes bgmove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* GRID DIGITAL */
+
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background-image:
+linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+/* CONTAINER */
 
 .container{
-max-width:750px;
+max-width:760px;
 width:100%;
-background:rgba(255,255,255,0.04);
+background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(14px);
-border-radius:20px;
+backdrop-filter:blur(20px);
+border-radius:22px;
 padding:50px 40px;
 text-align:center;
-box-shadow:0 20px 50px rgba(0,0,0,0.55);
+
+box-shadow:
+0 20px 50px rgba(0,0,0,0.6),
+inset 0 0 40px rgba(255,255,255,0.03);
 }
 
+/* ICON */
+
 .icon{
-font-size:32px;
+font-size:36px;
 margin-bottom:20px;
 }
+
+/* TITLE */
 
 h1{
 font-size:28px;
@@ -55,6 +89,8 @@ font-size:15px;
 line-height:1.8;
 }
 
+/* INFO BOX */
+
 .box-info{
 margin-top:25px;
 padding:18px;
@@ -62,32 +98,46 @@ background:rgba(255,255,255,0.05);
 border-radius:12px;
 }
 
+/* STATUS */
+
 .server-status{
 margin-top:18px;
 font-size:14px;
 font-family:'Fira Code',monospace;
-color:#60a5fa;
+color:#38bdf8;
 }
+
+/* BUTTON */
 
 .button{
 margin-top:30px;
 }
 
 .button button{
-background:#3b82f6;
+background:linear-gradient(135deg,#38bdf8,#6366f1);
 color:white;
 border:none;
 padding:14px 35px;
-border-radius:8px;
+border-radius:10px;
 font-size:15px;
 cursor:pointer;
 transition:0.3s;
+
+box-shadow:0 0 20px rgba(99,102,241,0.4);
+}
+
+.button button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 30px rgba(99,102,241,0.6);
 }
 
 .button button:disabled{
 background:#475569;
 cursor:not-allowed;
+box-shadow:none;
 }
+
+/* LOADING */
 
 .loading{
 position:fixed;
@@ -110,11 +160,13 @@ opacity:1;
 visibility:visible;
 }
 
+/* SPINNER */
+
 .spinner{
-width:50px;
-height:50px;
+width:55px;
+height:55px;
 border:5px solid rgba(255,255,255,0.1);
-border-top:5px solid #3b82f6;
+border-top:5px solid #38bdf8;
 border-radius:50%;
 animation:spin 1s linear infinite;
 margin-bottom:15px;
@@ -124,10 +176,12 @@ margin-bottom:15px;
 100%{transform:rotate(360deg);}
 }
 
+/* ACCESS LOG */
+
 .access-log{
 margin-top:25px;
 font-size:13px;
-color:#60a5fa;
+color:#38bdf8;
 white-space:nowrap;
 overflow:hidden;
 font-family:'Fira Code',monospace;
@@ -143,6 +197,8 @@ animation:run 14s linear infinite;
 100%{transform:translateX(-100%);}
 }
 
+/* FOOTER */
+
 .footer{
 margin-top:25px;
 font-size:13px;
@@ -156,16 +212,19 @@ opacity:0.6;
 
 <div class="container">
 
-<div class="icon">💻</div>
+<div class="icon">🖥️</div>
 
-<h1>Pemberitahuan Akses Sistem E-Raport</h1>
+<h1>Portal Sistem E-Raport</h1>
 
 <p>
-Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk mendukung pengolahan data akademik secara lebih cepat dan terintegrasi.
+Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang dikembangkan berbasis web untuk
+mendukung pengolahan data akademik secara lebih cepat,
+terintegrasi, dan modern.
 </p>
 
 <div class="box-info">
-Terjadi kendala sistem dapat berkoordinasi kepada pengembang website SD Negeri 3 Gelumbang.
+Apabila terjadi kendala sistem, silakan berkoordinasi dengan
+pengembang website SD Negeri 3 Gelumbang.
 </div>
 
 <div class="server-status" id="statusServer">
@@ -183,7 +242,7 @@ Menunggu Server Aktif...
 </div>
 
 <div class="footer">
-SD NEGERI 3 GELUMBANG • Sistem E-Raport
+SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 </div>
 
 </div>
@@ -200,6 +259,7 @@ const serverURL="http://10.96.189.165:8535";
 /* DETEKSI OS */
 
 function getOS(){
+
 let ua=navigator.userAgent;
 
 if(ua.indexOf("Android")!=-1) return "Android";
@@ -209,11 +269,13 @@ if(ua.indexOf("Mac")!=-1) return "MacOS";
 if(ua.indexOf("Linux")!=-1) return "Linux";
 
 return "Unknown";
+
 }
 
 /* DETEKSI BROWSER */
 
 function getBrowser(){
+
 let ua=navigator.userAgent;
 
 if(ua.indexOf("Chrome")!=-1) return "Chrome";
@@ -222,6 +284,7 @@ if(ua.indexOf("Safari")!=-1) return "Safari";
 if(ua.indexOf("Edge")!=-1) return "Edge";
 
 return "Browser Lain";
+
 }
 
 let os=getOS();
@@ -238,7 +301,7 @@ let time=now.toLocaleTimeString();
 
 document.getElementById("systemInfo").innerText=
 "Sistem mendeteksi | Perangkat : "+os+
-" | Login : "+browser+
+" | Browser : "+browser+
 " | Access Time : "+date+" "+time;
 
 }
@@ -257,7 +320,7 @@ document.getElementById("statusServer").innerText="✔ Server E-Raport Online";
 
 document.getElementById("btnMasuk").disabled=false;
 
-document.getElementById("btnMasuk").innerText="Lanjutkan ke Sistem";
+document.getElementById("btnMasuk").innerText="Masuk ke Sistem";
 
 })
 .catch(()=>{
