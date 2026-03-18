@@ -17,7 +17,7 @@ box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
-/* BACKGROUND FUTURISTIK */
+/* BACKGROUND */
 
 body{
 min-height:100vh;
@@ -53,32 +53,40 @@ background-size:40px 40px;
 pointer-events:none;
 }
 
-/* PARTIKEL DIGITAL */
+/* METEOR STAR */
 
-.particle{
+.star{
 position:absolute;
-width:2px;
-height:2px;
+width:3px;
+height:3px;
 background:#38bdf8;
-opacity:0.7;
-animation:float 12s linear infinite;
+border-radius:50%;
+box-shadow:0 0 6px #38bdf8,0 0 12px #38bdf8;
+animation:meteor linear infinite;
 }
 
-@keyframes float{
+.star::before{
+content:"";
+position:absolute;
+top:0;
+left:-120px;
+width:120px;
+height:2px;
+background:linear-gradient(90deg,rgba(56,189,248,0),rgba(56,189,248,0.8));
+}
+
+@keyframes meteor{
+
 0%{
-transform:translateY(100vh);
-opacity:0;
-}
-10%{
+transform:translate3d(0,-100px,0) rotate(45deg);
 opacity:1;
 }
-90%{
-opacity:1;
-}
+
 100%{
-transform:translateY(-10vh);
+transform:translate3d(-600px,700px,0) rotate(45deg);
 opacity:0;
 }
+
 }
 
 /* CONTAINER */
@@ -154,8 +162,6 @@ cursor:not-allowed;
 box-shadow:none;
 }
 
-/* ACCESS INFO */
-
 .access-log{
 margin-top:25px;
 font-size:13px;
@@ -181,7 +187,7 @@ font-size:13px;
 opacity:0.6;
 }
 
-/* LOADING SCREEN */
+/* LOADING */
 
 .loading{
 position:fixed;
@@ -204,8 +210,6 @@ opacity:1;
 visibility:visible;
 }
 
-/* SPINNER */
-
 .spinner{
 width:55px;
 height:55px;
@@ -220,8 +224,6 @@ margin-bottom:15px;
 100%{transform:rotate(360deg);}
 }
 
-/* COUNTDOWN */
-
 .countdown{
 font-size:30px;
 font-weight:600;
@@ -229,8 +231,6 @@ color:#38bdf8;
 margin-top:10px;
 letter-spacing:3px;
 }
-
-/* PROGRESS BAR */
 
 .progress{
 width:230px;
@@ -308,23 +308,29 @@ SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 
 const serverURL="http://10.96.189.165:8535";
 
-/* PARTIKEL DIGITAL */
+/* METEOR GENERATOR */
 
-for(let i=0;i<40;i++){
+function createMeteor(){
 
-let p=document.createElement("div");
+let star=document.createElement("div");
+star.className="star";
 
-p.className="particle";
+star.style.left=Math.random()*window.innerWidth+"px";
+star.style.top="-50px";
 
-p.style.left=Math.random()*100+"%";
+let duration=3+Math.random()*4;
+star.style.animationDuration=duration+"s";
 
-p.style.animationDuration=(6+Math.random()*10)+"s";
+document.body.appendChild(star);
 
-p.style.opacity=Math.random();
-
-document.body.appendChild(p);
+setTimeout(()=>{
+star.remove();
+},duration*1000);
 
 }
+
+setInterval(createMeteor,300);
+
 
 /* DETEKSI OS */
 
@@ -360,7 +366,7 @@ return "Browser Lain";
 let os=getOS();
 let browser=getBrowser();
 
-/* JAM REALTIME */
+/* JAM */
 
 function updateTime(){
 
@@ -406,7 +412,6 @@ document.getElementById("btnMasuk").innerText="Server Belum Aktif";
 }
 
 cekServer();
-
 setInterval(cekServer,5000);
 
 /* MASUK SISTEM */
@@ -416,23 +421,19 @@ function openSystem(){
 document.getElementById("loading").classList.add("show");
 
 let waktu=5;
-
 let bar=document.getElementById("bar");
 
 let interval=setInterval(function(){
 
 waktu--;
-
 document.getElementById("countdown").innerText=waktu;
 
 let persen=(5-waktu)*20;
-
 bar.style.width=persen+"%";
 
 if(waktu<=0){
 
 clearInterval(interval);
-
 window.location.href=serverURL;
 
 }
@@ -445,4 +446,3 @@ window.location.href=serverURL;
 
 </body>
 </html>
-
