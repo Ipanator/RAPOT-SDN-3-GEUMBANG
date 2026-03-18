@@ -236,18 +236,18 @@ fetch(serverURL,{mode:"no-cors"})
 .then(()=>{
 const btn=document.getElementById("btnMasuk");
 const status=document.getElementById("statusServer");
-status.innerText="✔ Server Aktif - Siap Digunakan";
+status.innerText="✔ Server Aktif";
 status.style.color="#38bdf8"; // biru
 btn.disabled=false;
-btn.innerText="Masuk ke Sistem";
+btn.innerText="Siap Digunakan";
 })
 .catch(()=>{
 const btn=document.getElementById("btnMasuk");
 const status=document.getElementById("statusServer");
-status.innerText="⚠ Error 404 / Server Tidak Ditemukan";
+status.innerText="⚠ Error 404 Server Tidak Ditemukan";
 status.style.color="#f87171"; // merah
 btn.disabled=true;
-btn.innerText="Server Tidak Aktif";
+btn.innerText="Hubungi Developer";
 });
 }
 cekServer();
