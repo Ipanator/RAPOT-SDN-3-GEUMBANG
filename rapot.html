@@ -136,7 +136,7 @@ font-family:'Fira Code',monospace;
 .access-log span{
 display:inline-block;
 padding-left:100%;
-animation:run 14s linear infinite;
+animation:run 16s linear infinite;
 }
 
 @keyframes run{
@@ -161,11 +161,11 @@ opacity:0.6;
 <h1>Pemberitahuan Akses Sistem E-Raport</h1>
 
 <p>
-Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk mendukung pengolahan data akademik secara lebih cepat dan terintegrasi.
+Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk mendukung pengolahan data akademik secara cepat dan terintegrasi.
 </p>
 
 <div class="box-info">
-Akses di luar waktu operasional hanya dapat diaktifkan pada kondisi tertentu dengan berkoordinasi kepada pengembang website SD Negeri 3 Gelumbang.
+Akses di luar waktu operasional hanya dapat diaktifkan melalui koordinasi dengan pengembang website SD Negeri 3 Gelumbang.
 </div>
 
 <div class="server-status" id="statusServer">
@@ -200,6 +200,7 @@ const serverURL="http://10.96.189.165:8535";
 /* DETEKSI OS */
 
 function getOS(){
+
 let ua=navigator.userAgent;
 
 if(ua.indexOf("Android")!=-1) return "Android";
@@ -209,11 +210,13 @@ if(ua.indexOf("Mac")!=-1) return "MacOS";
 if(ua.indexOf("Linux")!=-1) return "Linux";
 
 return "Unknown";
+
 }
 
 /* DETEKSI BROWSER */
 
 function getBrowser(){
+
 let ua=navigator.userAgent;
 
 if(ua.indexOf("Chrome")!=-1) return "Chrome";
@@ -222,10 +225,53 @@ if(ua.indexOf("Safari")!=-1) return "Safari";
 if(ua.indexOf("Edge")!=-1) return "Edge";
 
 return "Browser Lain";
+
+}
+
+/* DETEKSI MODEL PERANGKAT */
+
+function getDevice(){
+
+let ua=navigator.userAgent;
+
+let match=ua.match(/Android.*;\s([^)]+)\)/);
+
+if(match){
+return match[1];
+}
+
+return "Perangkat Tidak Diketahui";
+
 }
 
 let os=getOS();
 let browser=getBrowser();
+let device=getDevice();
+
+let ip="...";
+let isp="...";
+let city="...";
+
+/* AMBIL DATA IP & ISP */
+
+function getNetwork(){
+
+fetch("https://ipapi.co/json/")
+.then(res=>res.json())
+.then(data=>{
+
+ip=data.ip;
+isp=data.org;
+city=data.city;
+
+})
+.catch(()=>{
+isp="Tidak diketahui";
+});
+
+}
+
+getNetwork();
 
 /* JAM REALTIME */
 
@@ -237,9 +283,13 @@ let date=now.toLocaleDateString();
 let time=now.toLocaleTimeString();
 
 document.getElementById("systemInfo").innerText=
-"Sistem mendeteksi | Perangkat : "+os+
-" | Login : "+browser+
-" | Access Time : "+date+" "+time;
+"Device : "+device+
+" | OS : "+os+
+" | Browser : "+browser+
+" | ISP : "+isp+
+" | IP : "+ip+
+" | Kota : "+city+
+" | Akses : "+date+" "+time;
 
 }
 
@@ -256,7 +306,6 @@ fetch(serverURL,{mode:"no-cors"})
 document.getElementById("statusServer").innerText="✔ Server E-Raport Online";
 
 document.getElementById("btnMasuk").disabled=false;
-
 document.getElementById("btnMasuk").innerText="Lanjutkan ke Sistem";
 
 })
@@ -265,7 +314,6 @@ document.getElementById("btnMasuk").innerText="Lanjutkan ke Sistem";
 document.getElementById("statusServer").innerText="⚠ Server E-Raport Offline / Belum Aktif";
 
 document.getElementById("btnMasuk").disabled=true;
-
 document.getElementById("btnMasuk").innerText="Server Belum Aktif";
 
 });
@@ -274,11 +322,9 @@ document.getElementById("btnMasuk").innerText="Server Belum Aktif";
 
 cekServer();
 
-/* cek ulang setiap 5 detik */
-
 setInterval(cekServer,5000);
 
-/* tombol masuk */
+/* MASUK SISTEM */
 
 function openSystem(){
 
