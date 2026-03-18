@@ -25,7 +25,6 @@ justify-content:center;
 background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
 color:#e2e8f0;
 padding:25px;
-overflow:hidden;
 }
 
 .container{
@@ -81,12 +80,10 @@ padding:14px 35px;
 border-radius:8px;
 font-size:15px;
 cursor:pointer;
-transition:0.3s;
 }
 
 .button button:disabled{
 background:#475569;
-cursor:not-allowed;
 }
 
 .loading{
@@ -128,19 +125,7 @@ margin-bottom:15px;
 margin-top:25px;
 font-size:13px;
 color:#60a5fa;
-white-space:nowrap;
-overflow:hidden;
 font-family:'Fira Code',monospace;
-}
-
-.access-log span{
-display:inline-block;
-padding-left:100%;
-animation:run 16s linear infinite;
-}
-
-@keyframes run{
-100%{transform:translateX(-100%);}
 }
 
 .footer{
@@ -161,11 +146,11 @@ opacity:0.6;
 <h1>Pemberitahuan Akses Sistem E-Raport</h1>
 
 <p>
-Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk mendukung pengolahan data akademik secara cepat dan terintegrasi.
+Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk mendukung pengolahan data akademik secara lebih cepat dan terintegrasi.
 </p>
 
 <div class="box-info">
-Akses di luar waktu operasional hanya dapat diaktifkan melalui koordinasi dengan pengembang website SD Negeri 3 Gelumbang.
+Akses di luar waktu operasional hanya dapat diaktifkan pada kondisi tertentu dengan berkoordinasi kepada pengembang website SD Negeri 3 Gelumbang.
 </div>
 
 <div class="server-status" id="statusServer">
@@ -178,8 +163,8 @@ Menunggu Server Aktif...
 </button>
 </div>
 
-<div class="access-log">
-<span id="systemInfo">Memuat sistem...</span>
+<div class="access-log" id="systemInfo">
+Memuat sistem...
 </div>
 
 <div class="footer">
@@ -190,7 +175,7 @@ SD NEGERI 3 GELUMBANG • Sistem E-Raport
 
 <div class="loading" id="loading">
 <div class="spinner"></div>
-<div>Menghubungkan ke sistem...</div>
+<div id="loadingText">Menghubungkan ke sistem...</div>
 </div>
 
 <script>
@@ -200,7 +185,6 @@ const serverURL="http://10.96.189.165:8535";
 /* DETEKSI OS */
 
 function getOS(){
-
 let ua=navigator.userAgent;
 
 if(ua.indexOf("Android")!=-1) return "Android";
@@ -210,7 +194,6 @@ if(ua.indexOf("Mac")!=-1) return "MacOS";
 if(ua.indexOf("Linux")!=-1) return "Linux";
 
 return "Unknown";
-
 }
 
 /* DETEKSI BROWSER */
@@ -228,50 +211,11 @@ return "Browser Lain";
 
 }
 
-/* DETEKSI MODEL PERANGKAT */
-
-function getDevice(){
-
-let ua=navigator.userAgent;
-
-let match=ua.match(/Android.*;\s([^)]+)\)/);
-
-if(match){
-return match[1];
-}
-
-return "Perangkat Tidak Diketahui";
-
-}
+/* INFO PERANGKAT */
 
 let os=getOS();
 let browser=getBrowser();
-let device=getDevice();
-
-let ip="...";
-let isp="...";
-let city="...";
-
-/* AMBIL DATA IP & ISP */
-
-function getNetwork(){
-
-fetch("https://ipapi.co/json/")
-.then(res=>res.json())
-.then(data=>{
-
-ip=data.ip;
-isp=data.org;
-city=data.city;
-
-})
-.catch(()=>{
-isp="Tidak diketahui";
-});
-
-}
-
-getNetwork();
+let screenRes=screen.width+"x"+screen.height;
 
 /* JAM REALTIME */
 
@@ -283,18 +227,39 @@ let date=now.toLocaleDateString();
 let time=now.toLocaleTimeString();
 
 document.getElementById("systemInfo").innerText=
-"Device : "+device+
-" | OS : "+os+
+"Perangkat : "+os+
 " | Browser : "+browser+
-" | ISP : "+isp+
-" | IP : "+ip+
-" | Kota : "+city+
-" | Akses : "+date+" "+time;
+" | Screen : "+screenRes+
+" | Waktu : "+date+" "+time;
 
 }
 
 setInterval(updateTime,1000);
 updateTime();
+
+/* DETEKSI NETWORK */
+
+let connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+if(connection){
+
+document.getElementById("systemInfo").innerText +=
+" | Network : "+connection.effectiveType;
+
+}
+
+/* DETEKSI BATERAI */
+
+if(navigator.getBattery){
+
+navigator.getBattery().then(function(battery){
+
+document.getElementById("systemInfo").innerText +=
+" | Battery : "+Math.round(battery.level*100)+"%";
+
+});
+
+}
 
 /* CEK SERVER */
 
@@ -306,14 +271,16 @@ fetch(serverURL,{mode:"no-cors"})
 document.getElementById("statusServer").innerText="✔ Server E-Raport Online";
 
 document.getElementById("btnMasuk").disabled=false;
-document.getElementById("btnMasuk").innerText="Lanjutkan ke Sistem";
+
+document.getElementById("btnMasuk").innerText="Masuk ke Sistem";
 
 })
 .catch(()=>{
 
-document.getElementById("statusServer").innerText="⚠ Server E-Raport Offline / Belum Aktif";
+document.getElementById("statusServer").innerText="⚠ Server E-Raport Offline";
 
 document.getElementById("btnMasuk").disabled=true;
+
 document.getElementById("btnMasuk").innerText="Server Belum Aktif";
 
 });
@@ -330,11 +297,24 @@ function openSystem(){
 
 document.getElementById("loading").classList.add("show");
 
-setTimeout(function(){
+let countdown=3;
+
+let timer=setInterval(function(){
+
+document.getElementById("loadingText").innerText=
+"Menghubungkan ke sistem dalam "+countdown+" detik...";
+
+countdown--;
+
+if(countdown<0){
+
+clearInterval(timer);
 
 window.location.href=serverURL;
 
-},3000);
+}
+
+},1000);
 
 }
 
