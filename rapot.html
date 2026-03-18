@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>E-Raport</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -18,7 +16,6 @@ font-family:'Poppins',sans-serif;
 }
 
 /* BACKGROUND */
-
 body{
 min-height:100vh;
 display:flex;
@@ -27,12 +24,10 @@ justify-content:center;
 padding:25px;
 overflow:hidden;
 color:#e2e8f0;
-
 background:linear-gradient(-45deg,#020617,#0f172a,#1e293b,#020617);
 background-size:400% 400%;
 animation:bgmove 15s ease infinite;
 }
-
 @keyframes bgmove{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
@@ -40,7 +35,6 @@ animation:bgmove 15s ease infinite;
 }
 
 /* GRID DIGITAL */
-
 body::before{
 content:"";
 position:absolute;
@@ -53,51 +47,25 @@ background-size:40px 40px;
 pointer-events:none;
 }
 
-/* HUJAN DIGITAL FULL SCREEN */
-
+/* HUJAN DIGITAL */
 .rain{
 position:fixed;
 top:-30px;
 width:2px;
 height:18px;
-
-background:linear-gradient(
-to bottom,
-rgba(56,189,248,0),
-rgba(56,189,248,0.9),
-rgba(56,189,248,0)
-);
-
+background:linear-gradient(to bottom, rgba(56,189,248,0), rgba(56,189,248,0.9), rgba(56,189,248,0));
 opacity:0.7;
-
 animation:rainFall linear infinite;
 pointer-events:none;
 }
-
 @keyframes rainFall{
-
-0%{
-transform:translateY(0);
-opacity:0;
-}
-
-10%{
-opacity:0.8;
-}
-
-90%{
-opacity:0.8;
-}
-
-100%{
-transform:translateY(110vh);
-opacity:0;
-}
-
+0%{transform:translateY(0);opacity:0;}
+10%{opacity:0.8;}
+90%{opacity:0.8;}
+100%{transform:translateY(110vh);opacity:0;}
 }
 
 /* CONTAINER */
-
 .container{
 max-width:760px;
 width:100%;
@@ -107,45 +75,15 @@ backdrop-filter:blur(20px);
 border-radius:22px;
 padding:50px 40px;
 text-align:center;
-
-box-shadow:
-0 20px 50px rgba(0,0,0,0.6),
-inset 0 0 40px rgba(255,255,255,0.03);
+box-shadow:0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(255,255,255,0.03);
 }
 
-.icon{
-font-size:36px;
-margin-bottom:20px;
-}
-
-h1{
-font-size:28px;
-margin-bottom:15px;
-}
-
-p{
-font-size:15px;
-line-height:1.8;
-}
-
-.box-info{
-margin-top:25px;
-padding:18px;
-background:rgba(255,255,255,0.05);
-border-radius:12px;
-}
-
-.server-status{
-margin-top:18px;
-font-size:14px;
-font-family:'Fira Code',monospace;
-color:#38bdf8;
-}
-
-.button{
-margin-top:30px;
-}
-
+.icon{font-size:36px;margin-bottom:20px;}
+h1{font-size:28px;margin-bottom:15px;}
+p{font-size:15px;line-height:1.8;}
+.box-info{margin-top:25px;padding:18px;background:rgba(255,255,255,0.05);border-radius:12px;}
+.server-status{margin-top:18px;font-size:14px;font-family:'Fira Code',monospace;}
+.button{margin-top:30px;}
 .button button{
 background:linear-gradient(135deg,#38bdf8,#6366f1);
 color:white;
@@ -157,12 +95,10 @@ cursor:pointer;
 transition:0.3s;
 box-shadow:0 0 20px rgba(99,102,241,0.4);
 }
-
 .button button:hover{
 transform:translateY(-2px);
 box-shadow:0 0 30px rgba(99,102,241,0.6);
 }
-
 .button button:disabled{
 background:#475569;
 cursor:not-allowed;
@@ -170,34 +106,14 @@ box-shadow:none;
 }
 
 /* ACCESS INFO */
+.access-log{margin-top:25px;font-size:13px;color:#38bdf8;white-space:nowrap;overflow:hidden;font-family:'Fira Code',monospace;}
+.access-log span{display:inline-block;padding-left:100%;animation:run 14s linear infinite;}
+@keyframes run{100%{transform:translateX(-100%);}}
 
-.access-log{
-margin-top:25px;
-font-size:13px;
-color:#38bdf8;
-white-space:nowrap;
-overflow:hidden;
-font-family:'Fira Code',monospace;
-}
+/* FOOTER */
+.footer{margin-top:25px;font-size:13px;opacity:0.6;}
 
-.access-log span{
-display:inline-block;
-padding-left:100%;
-animation:run 14s linear infinite;
-}
-
-@keyframes run{
-100%{transform:translateX(-100%);}
-}
-
-.footer{
-margin-top:25px;
-font-size:13px;
-opacity:0.6;
-}
-
-/* LOADING SCREEN */
-
+/* LOADING */
 .loading{
 position:fixed;
 top:0;
@@ -213,14 +129,12 @@ opacity:0;
 visibility:hidden;
 transition:0.3s;
 }
-
 .loading.show{
 opacity:1;
 visibility:visible;
 }
 
 /* SPINNER */
-
 .spinner{
 width:55px;
 height:55px;
@@ -230,13 +144,9 @@ border-radius:50%;
 animation:spin 1s linear infinite;
 margin-bottom:15px;
 }
-
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
+@keyframes spin{100%{transform:rotate(360deg);}}
 
 /* COUNTDOWN */
-
 .countdown{
 font-size:30px;
 font-weight:600;
@@ -246,7 +156,6 @@ letter-spacing:3px;
 }
 
 /* PROGRESS BAR */
-
 .progress{
 width:230px;
 height:6px;
@@ -255,14 +164,12 @@ border-radius:10px;
 margin-top:15px;
 overflow:hidden;
 }
-
 .bar{
 height:100%;
 width:0%;
 background:linear-gradient(90deg,#38bdf8,#6366f1);
 transition:0.2s;
 }
-
 </style>
 </head>
 
@@ -271,17 +178,14 @@ transition:0.2s;
 <div class="container">
 
 <div class="icon">🖥️</div>
-
 <h1>E-Raport</h1>
 
 <p>
-Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan dengan teknologi digital berbasis web (online) untuk
-mendukung pengolahan data akademik secara cepat, terintegrasi,
+Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk pengolahan data akademik secara cepat.
 </p>
 
 <div class="box-info">
-Jika terjadi kendala sistem, silakan berkoordinasi dengan pengembang website
-SD Negeri 3 Gelumbang.
+Jika terjadi kendala sistem, silakan berkoordinasi dengan pengembang website SD Negeri 3 Gelumbang.
 </div>
 
 <div class="server-status" id="statusServer">
@@ -305,160 +209,100 @@ SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 </div>
 
 <div class="loading" id="loading">
-
 <div class="spinner"></div>
-
 <div>Menginisialisasi Sistem...</div>
-
 <div class="countdown" id="countdown">5</div>
-
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
-
 </div>
 
 <script>
-
 const serverURL="http://10.96.189.165:8535";
 
-/* HUJAN DIGITAL FULL SCREEN */
-
+/* HUJAN DIGITAL */
 function createRain(){
-
 let drop=document.createElement("div");
 drop.className="rain";
-
 drop.style.left=Math.random()*window.innerWidth+"px";
-
 let duration=1 + Math.random()*1.5;
-
 drop.style.animationDuration=duration+"s";
-
 document.body.appendChild(drop);
-
-setTimeout(()=>{
-drop.remove();
-},duration*1000);
-
+setTimeout(()=>{drop.remove();},duration*1000);
 }
-
 setInterval(createRain,30);
 
-/* DETEKSI OS */
-
+/* DETEKSI OS & BROWSER */
 function getOS(){
-
 let ua=navigator.userAgent;
-
 if(ua.indexOf("Android")!=-1) return "Android";
 if(ua.indexOf("Windows")!=-1) return "Windows";
 if(ua.indexOf("iPhone")!=-1) return "iOS";
 if(ua.indexOf("Mac")!=-1) return "MacOS";
 if(ua.indexOf("Linux")!=-1) return "Linux";
-
 return "Unknown";
-
 }
-
-/* DETEKSI BROWSER */
-
 function getBrowser(){
-
 let ua=navigator.userAgent;
-
 if(ua.indexOf("Chrome")!=-1) return "Chrome";
 if(ua.indexOf("Firefox")!=-1) return "Firefox";
 if(ua.indexOf("Safari")!=-1) return "Safari";
 if(ua.indexOf("Edge")!=-1) return "Edge";
-
 return "Browser Lain";
-
 }
-
 let os=getOS();
 let browser=getBrowser();
 
 /* JAM REALTIME */
-
 function updateTime(){
-
 let now=new Date();
-
 let date=now.toLocaleDateString();
 let time=now.toLocaleTimeString();
-
 document.getElementById("systemInfo").innerText=
-"Sistem mendeteksi | Perangkat : "+os+
-" | Browser : "+browser+
-" | Access Time : "+date+" "+time;
-
+"Sistem mendeteksi | Perangkat : "+os+" | Browser : "+browser+" | Access Time : "+date+" "+time;
 }
-
 setInterval(updateTime,1000);
 updateTime();
 
 /* CEK SERVER */
-
 function cekServer(){
-
 fetch(serverURL,{mode:"no-cors"})
 .then(()=>{
-
-document.getElementById("statusServer").innerText="✔ Server E-Raport Online";
-
-document.getElementById("btnMasuk").disabled=false;
-
-document.getElementById("btnMasuk").innerText="Masuk ke Sistem";
-
+const btn=document.getElementById("btnMasuk");
+const status=document.getElementById("statusServer");
+status.innerText="✔ Server E-Raport Online";
+status.style.color="#38bdf8"; // biru
+btn.disabled=false;
+btn.innerText="Masuk ke Sistem";
 })
 .catch(()=>{
-
-document.getElementById("statusServer").innerText="⚠ Server E-Raport Offline / Belum Aktif";
-
-document.getElementById("btnMasuk").disabled=true;
-
-document.getElementById("btnMasuk").innerText="Server Belum Aktif";
-
+const btn=document.getElementById("btnMasuk");
+const status=document.getElementById("statusServer");
+status.innerText="⚠ Server E-Raport Offline / Belum Aktif";
+status.style.color="#f87171"; // merah
+btn.disabled=true;
+btn.innerText="Server Belum Aktif";
 });
-
 }
-
 cekServer();
-setInterval(cekServer,5000);
+setInterval(cekServer,1000); // cek tiap 1 detik
 
 /* MASUK SISTEM */
-
 function openSystem(){
-
 document.getElementById("loading").classList.add("show");
-
 let waktu=5;
-
 let bar=document.getElementById("bar");
-
 let interval=setInterval(function(){
-
 waktu--;
-
 document.getElementById("countdown").innerText=waktu;
-
 let persen=(5-waktu)*20;
-
 bar.style.width=persen+"%";
-
 if(waktu<=0){
-
 clearInterval(interval);
-
 window.location.href=serverURL;
-
 }
-
 },1000);
-
 }
-
 </script>
 
 </body>
