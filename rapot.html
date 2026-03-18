@@ -26,7 +26,7 @@ overflow:hidden;
 color:white;
 }
 
-/* Canvas meteor */
+/* Partikel */
 canvas{
 position:fixed;
 top:0;
@@ -79,7 +79,7 @@ margin-top:10px;
 
 <body>
 
-<canvas id="meteorCanvas"></canvas>
+<canvas id="particles"></canvas>
 
 <div class="container">
 
@@ -116,6 +116,7 @@ if(waktu <= 0){
 
 clearInterval(timer);
 
+/* ganti link tujuan di sini */
 window.location.href="http://10.96.189.165:8535/";
 
 }
@@ -123,42 +124,25 @@ window.location.href="http://10.96.189.165:8535/";
 },1000);
 
 
-/* METEOR EFFECT */
+/* PARTIKEL */
 
-const canvas = document.getElementById("meteorCanvas");
+const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let meteors = [];
+let particles = [];
 
-function createMeteor(){
+for(let i=0;i<80;i++){
 
-meteors.push({
+particles.push({
 x:Math.random()*canvas.width,
-y:-20,
-length:Math.random()*80+20,
-speed:Math.random()*6+4,
-opacity:Math.random()*0.7+0.3
+y:Math.random()*canvas.height,
+size:Math.random()*3,
+speedX:(Math.random()-0.5)*0.5,
+speedY:(Math.random()-0.5)*0.5
 });
-
-}
-
-function drawMeteor(m){
-
-let gradient = ctx.createLinearGradient(m.x,m.y,m.x,m.y+m.length);
-
-gradient.addColorStop(0,"rgba(255,255,255,"+m.opacity+")");
-gradient.addColorStop(1,"rgba(0,255,213,0)");
-
-ctx.strokeStyle = gradient;
-ctx.lineWidth = 2;
-
-ctx.beginPath();
-ctx.moveTo(m.x,m.y);
-ctx.lineTo(m.x,m.y+m.length);
-ctx.stroke();
 
 }
 
@@ -166,22 +150,21 @@ function animate(){
 
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
-for(let i=0;i<meteors.length;i++){
+for(let i=0;i<particles.length;i++){
 
-let m = meteors[i];
+let p = particles[i];
 
-m.y += m.speed;
+p.x += p.speedX;
+p.y += p.speedY;
 
-drawMeteor(m);
+if(p.x<0 || p.x>canvas.width) p.speedX *= -1;
+if(p.y<0 || p.y>canvas.height) p.speedY *= -1;
 
-if(m.y > canvas.height){
-meteors.splice(i,1);
-}
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.fillStyle="rgba(0,255,213,0.7)";
+ctx.fill();
 
-}
-
-if(Math.random() < 0.08){
-createMeteor();
 }
 
 requestAnimationFrame(animate);
