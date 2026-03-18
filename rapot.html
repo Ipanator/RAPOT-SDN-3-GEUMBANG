@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -53,79 +54,43 @@ background-size:40px 40px;
 pointer-events:none;
 }
 
-/* METEOR */
+/* HUJAN DIGITAL */
 
-.star{
+.rain{
 position:absolute;
-width:4px;
-height:4px;
-background:#38bdf8;
-border-radius:50%;
-
-box-shadow:
-0 0 8px #38bdf8,
-0 0 18px #38bdf8,
-0 0 30px rgba(56,189,248,0.7);
-
-animation:meteor linear forwards,
-flicker 1.5s infinite;
-}
-
-/* EKOR METEOR */
-
-.star::before{
-content:"";
-position:absolute;
-top:50%;
-left:-160px;
-transform:translateY(-50%);
-width:160px;
-height:2px;
+width:2px;
+height:18px;
 
 background:linear-gradient(
-90deg,
+to bottom,
 rgba(56,189,248,0),
-rgba(56,189,248,0.6),
-rgba(56,189,248,1)
+rgba(56,189,248,0.8),
+rgba(56,189,248,0)
 );
 
-filter:blur(1px);
+opacity:0.6;
+
+animation:rainFall linear infinite;
 }
 
-/* GERAK METEOR */
-
-@keyframes meteor{
+@keyframes rainFall{
 
 0%{
-transform:translate3d(0,-120px,0) rotate(25deg) scale(0.9);
+transform:translateY(-20px);
 opacity:0;
 }
 
 10%{
-opacity:1;
+opacity:0.8;
 }
 
-80%{
-opacity:1;
+90%{
+opacity:0.8;
 }
 
 100%{
-transform:translate3d(700px,700px,0) rotate(25deg) scale(1.1);
+transform:translateY(100vh);
 opacity:0;
-}
-
-}
-
-/* CAHAYA BERKEDIP */
-
-@keyframes flicker{
-
-0%,100%{
-opacity:1;
-}
-
-50%{
-opacity:0.7;
 }
 
 }
@@ -357,32 +322,28 @@ SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 
 const serverURL="http://10.96.189.165:8535";
 
-/* METEOR GENERATOR */
+/* HUJAN DIGITAL */
 
-function createMeteor(){
+function createRain(){
 
-let star=document.createElement("div");
-star.className="star";
+let drop=document.createElement("div");
+drop.className="rain";
 
-/* posisi random */
+drop.style.left=Math.random()*window.innerWidth+"px";
 
-star.style.left=Math.random()*window.innerWidth+"px";
-star.style.top="-120px";
+let duration=1.5 + Math.random()*2;
 
-/* durasi random */
+drop.style.animationDuration=duration+"s";
 
-let duration=2 + Math.random()*3;
-star.style.animationDuration=duration+"s";
-
-document.body.appendChild(star);
+document.body.appendChild(drop);
 
 setTimeout(()=>{
-star.remove();
+drop.remove();
 },duration*1000);
 
 }
 
-setInterval(createMeteor,400);
+setInterval(createRain,40);
 
 /* DETEKSI OS */
 
@@ -418,7 +379,7 @@ return "Browser Lain";
 let os=getOS();
 let browser=getBrowser();
 
-/* JAM */
+/* JAM REALTIME */
 
 function updateTime(){
 
@@ -473,19 +434,23 @@ function openSystem(){
 document.getElementById("loading").classList.add("show");
 
 let waktu=5;
+
 let bar=document.getElementById("bar");
 
 let interval=setInterval(function(){
 
 waktu--;
+
 document.getElementById("countdown").innerText=waktu;
 
 let persen=(5-waktu)*20;
+
 bar.style.width=persen+"%";
 
 if(waktu<=0){
 
 clearInterval(interval);
+
 window.location.href=serverURL;
 
 }
@@ -498,3 +463,4 @@ window.location.href=serverURL;
 
 </body>
 </html>
+```
