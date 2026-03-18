@@ -138,9 +138,11 @@
 
     /* Splash */
 
+/* Splash */
+
 #splashScreen {
-  position: fixed; /* Penting agar menutupi seluruh halaman */
-  inset: 0; /* sama dengan top:0; left:0; right:0; bottom:0 */
+  position: fixed;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,9 +150,11 @@
   text-align: center;
   color: #ffffff;
   padding: 20px;
-  background: linear-gradient(to bottom right, #004aad, #00c6ff); /* Splash background */
-  z-index: 9999; /* Di atas semua elemen */
+  background: linear-gradient(to bottom right, #004aad, #00c6ff);
+  z-index: 9999;
 }
+
+/* ANIMASI TEKS */
 
 .splash-title {
   font-family: 'Poppins', sans-serif;
@@ -158,6 +162,10 @@
   font-weight: 700;
   line-height: 1.3;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
+
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp 1s ease forwards;
 }
 
 .splash-tagline {
@@ -167,6 +175,11 @@
   margin-top: 10px;
   color: #fffacd;
   text-shadow: 0 0 8px rgba(255, 255, 200, 0.5);
+
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp 1s ease forwards;
+  animation-delay:0.6s;
 }
 
 .splash-subtagline {
@@ -176,49 +189,47 @@
   margin-top: 5px;
   color: #f0f0f0;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp 1s ease forwards;
+  animation-delay:1s;
 }
+
+/* Tombol masuk */
 
 #mulaiBtn {
   margin-top: 20px;
   padding: 15px 35px;
   font-size: 18px;
   font-weight: bold;
-  background: linear-gradient(135deg, #fff176, #ffee58);
+
+  /* WARNA BARU (lebih soft) */
+  background: linear-gradient(135deg,#ffd54f,#ffca28);
+
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: .25s;
-  z-index: 10000;
+
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp 1s ease forwards;
+  animation-delay:1.4s;
 }
 
 #mulaiBtn:hover {
   transform: scale(1.08);
 }
 
+/* KEYFRAME ANIMASI */
 
-    /* MUTE button */
-    #muteBtn {
-      position: fixed;
-      bottom: 120px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border: none;
-      border-radius: 50%;
-      background: #fff;
-      cursor: pointer;
-      font-size: 24px;
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: .25s;
-    }
-
-    #muteBtn:hover {
-      transform: scale(1.12);
-    }
+@keyframes fadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
 
     footer {
       width: 100%;
