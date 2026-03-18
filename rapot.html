@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Akses Sistem</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -22,13 +21,12 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#0b111f;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 overflow:hidden;
 color:white;
 }
 
-/* canvas background */
-
+/* Canvas meteor */
 canvas{
 position:fixed;
 top:0;
@@ -38,55 +36,42 @@ height:100%;
 z-index:0;
 }
 
-/* card */
-
+/* Card */
 .container{
-
 position:relative;
 z-index:2;
-
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:15px;
 padding:40px;
-border-radius:14px;
-
 text-align:center;
 width:320px;
-
-box-shadow:0 0 30px rgba(0,255,255,0.2);
-
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 .title{
-
 font-size:20px;
-margin-bottom:8px;
-
+margin-bottom:10px;
+font-weight:500;
 }
 
 .subtitle{
-
 font-size:13px;
-opacity:0.7;
+opacity:0.8;
 margin-bottom:20px;
-
 }
 
 .countdown{
-
 font-size:48px;
 font-weight:600;
-color:#00ffe5;
-
+margin:15px 0;
+color:#00ffd5;
 }
 
 .info{
-
 font-size:12px;
 opacity:0.7;
 margin-top:10px;
-
 }
 
 </style>
@@ -94,7 +79,7 @@ margin-top:10px;
 
 <body>
 
-<canvas id="bg"></canvas>
+<canvas id="meteorCanvas"></canvas>
 
 <div class="container">
 
@@ -103,7 +88,7 @@ Menghubungkan ke Sistem
 </div>
 
 <div class="subtitle">
-Menyiapkan koneksi aman...
+Menyiapkan akses aman...
 </div>
 
 <div class="countdown" id="count">
@@ -111,7 +96,7 @@ Menyiapkan koneksi aman...
 </div>
 
 <div class="info">
-Harap tunggu sebentar
+Memuat halaman sistem
 </div>
 
 </div>
@@ -125,7 +110,6 @@ let waktu = 5;
 let timer = setInterval(function(){
 
 waktu--;
-
 document.getElementById("count").innerText = waktu;
 
 if(waktu <= 0){
@@ -139,121 +123,72 @@ window.location.href="http://10.96.189.165:8535/";
 },1000);
 
 
-/* CANVAS */
+/* METEOR EFFECT */
 
-const canvas = document.getElementById("bg");
+const canvas = document.getElementById("meteorCanvas");
 const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
-
-/* STARS */
-
-let stars = [];
-
-for(let i=0;i<120;i++){
-
-stars.push({
-
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2,
-speed:Math.random()*0.3
-
-});
-
-}
-
-
-/* METEOR */
 
 let meteors = [];
 
 function createMeteor(){
 
 meteors.push({
-
 x:Math.random()*canvas.width,
-y:-50,
-len:Math.random()*80+10,
-speed:Math.random()*8+4
-
+y:-20,
+length:Math.random()*80+20,
+speed:Math.random()*6+4,
+opacity:Math.random()*0.7+0.3
 });
 
 }
 
+function drawMeteor(m){
 
-/* ANIMATE */
+let gradient = ctx.createLinearGradient(m.x,m.y,m.x,m.y+m.length);
+
+gradient.addColorStop(0,"rgba(255,255,255,"+m.opacity+")");
+gradient.addColorStop(1,"rgba(0,255,213,0)");
+
+ctx.strokeStyle = gradient;
+ctx.lineWidth = 2;
+
+ctx.beginPath();
+ctx.moveTo(m.x,m.y);
+ctx.lineTo(m.x,m.y+m.length);
+ctx.stroke();
+
+}
 
 function animate(){
 
-ctx.fillStyle="#0b111f";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
+for(let i=0;i<meteors.length;i++){
 
-/* stars */
+let m = meteors[i];
 
-ctx.fillStyle="white";
-
-stars.forEach(s=>{
-
-s.y += s.speed;
-
-if(s.y > canvas.height){
-
-s.y = 0;
-s.x = Math.random()*canvas.width;
-
-}
-
-ctx.beginPath();
-ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
-ctx.fill();
-
-});
-
-
-/* meteors */
-
-ctx.strokeStyle="rgba(0,255,255,0.8)";
-ctx.lineWidth=2;
-
-meteors.forEach((m,i)=>{
-
-ctx.beginPath();
-
-ctx.moveTo(m.x,m.y);
-ctx.lineTo(m.x-m.len,m.y-m.len);
-
-ctx.stroke();
-
-m.x -= m.speed;
 m.y += m.speed;
 
-if(m.y > canvas.height){
+drawMeteor(m);
 
+if(m.y > canvas.height){
 meteors.splice(i,1);
+}
 
 }
 
-});
-
+if(Math.random() < 0.08){
+createMeteor();
+}
 
 requestAnimationFrame(animate);
 
 }
 
 animate();
-
-
-/* meteor spawn */
-
-setInterval(function(){
-
-createMeteor();
-
-},1200);
 
 </script>
 
