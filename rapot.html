@@ -9,6 +9,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
 body{
 min-height:100vh;
 display:flex;
@@ -21,7 +22,12 @@ background:linear-gradient(-45deg,#020617,#0f172a,#1e293b,#020617);
 background-size:400% 400%;
 animation:bgmove 15s ease infinite;
 }
-@keyframes bgmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%;}}
+
+@keyframes bgmove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
 
 body::before{
 content:"";
@@ -45,7 +51,13 @@ opacity:0.7;
 animation:rainFall linear infinite;
 pointer-events:none;
 }
-@keyframes rainFall{0%{transform:translateY(0);opacity:0;}10%{opacity:0.8;}90%{opacity:0.8;}100%{transform:translateY(110vh);opacity:0;}}
+
+@keyframes rainFall{
+0%{transform:translateY(0);opacity:0;}
+10%{opacity:0.8;}
+90%{opacity:0.8;}
+100%{transform:translateY(110vh);opacity:0;}
+}
 
 .container{
 max-width:760px;
@@ -59,12 +71,57 @@ text-align:center;
 box-shadow:0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(255,255,255,0.03);
 }
 
-.icon{font-size:36px;margin-bottom:20px;}
+/* TERMINAL SCAN */
+.terminal{
+background:#020617;
+border:1px solid rgba(56,189,248,0.4);
+border-radius:10px;
+padding:12px 15px;
+width:270px;
+margin:0 auto 20px auto;
+text-align:left;
+font-family:'Fira Code',monospace;
+font-size:13px;
+color:#38bdf8;
+box-shadow:0 0 15px rgba(56,189,248,0.3);
+white-space:pre-line;
+}
+
+#scanText::after{
+content:"|";
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%{opacity:1}
+50%{opacity:0}
+100%{opacity:1}
+}
+
 h1{font-size:28px;margin-bottom:15px;}
-p{font-size:15px;line-height:1.8;}
-.box-info{margin-top:25px;padding:18px;background:rgba(255,255,255,0.05);border-radius:12px;}
-.server-status{margin-top:18px;font-size:14px;font-family:'Fira Code',monospace;}
-.button{margin-top:30px;}
+
+p{
+font-size:15px;
+line-height:1.8;
+}
+
+.box-info{
+margin-top:25px;
+padding:18px;
+background:rgba(255,255,255,0.05);
+border-radius:12px;
+}
+
+.server-status{
+margin-top:18px;
+font-size:14px;
+font-family:'Fira Code',monospace;
+}
+
+.button{
+margin-top:30px;
+}
+
 .button button{
 background:linear-gradient(135deg,#38bdf8,#6366f1);
 color:white;
@@ -76,21 +133,42 @@ cursor:pointer;
 transition:0.3s;
 box-shadow:0 0 20px rgba(99,102,241,0.4);
 }
+
 .button button:hover{
 transform:translateY(-2px);
 box-shadow:0 0 30px rgba(99,102,241,0.6);
 }
+
 .button button:disabled{
 background:#475569;
 cursor:not-allowed;
 box-shadow:none;
 }
 
-.access-log{margin-top:25px;font-size:13px;color:#38bdf8;white-space:nowrap;overflow:hidden;font-family:'Fira Code',monospace;}
-.access-log span{display:inline-block;padding-left:100%;animation:run 14s linear infinite;}
-@keyframes run{100%{transform:translateX(-100%);}}
+.access-log{
+margin-top:25px;
+font-size:13px;
+color:#38bdf8;
+white-space:nowrap;
+overflow:hidden;
+font-family:'Fira Code',monospace;
+}
 
-.footer{margin-top:25px;font-size:13px;opacity:0.6;}
+.access-log span{
+display:inline-block;
+padding-left:100%;
+animation:run 14s linear infinite;
+}
+
+@keyframes run{
+100%{transform:translateX(-100%)}
+}
+
+.footer{
+margin-top:25px;
+font-size:13px;
+opacity:0.6;
+}
 
 .loading{
 position:fixed;
@@ -107,6 +185,7 @@ opacity:0;
 visibility:hidden;
 transition:0.3s;
 }
+
 .loading.show{
 opacity:1;
 visibility:visible;
@@ -121,7 +200,10 @@ border-radius:50%;
 animation:spin 1s linear infinite;
 margin-bottom:15px;
 }
-@keyframes spin{100%{transform:rotate(360deg);}}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
 
 .countdown{
 font-size:30px;
@@ -139,6 +221,7 @@ border-radius:10px;
 margin-top:15px;
 overflow:hidden;
 }
+
 .bar{
 height:100%;
 width:0%;
@@ -147,43 +230,58 @@ transition:0.2s;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
-<div class="icon">🖥️</div>
+
+<div class="terminal">
+<div id="scanText"></div>
+</div>
+
 <h1>E-Raport</h1>
+
 <p>
 Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk pengolahan data akademik secara cepat.
 </p>
+
 <div class="box-info">
 Jika terjadi kendala sistem, silakan berkoordinasi dengan pengembang website SD Negeri 3 Gelumbang.
 </div>
+
 <div class="server-status" id="statusServer">
 Memeriksa status server...
 </div>
+
 <div class="button">
 <button id="btnMasuk" onclick="openSystem()" disabled>
 Menunggu Server Aktif...
 </button>
 </div>
+
 <div class="access-log">
 <span id="systemInfo">Memuat sistem...</span>
 </div>
+
 <div class="footer">
 SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 </div>
+
 </div>
 
 <div class="loading" id="loading">
 <div class="spinner"></div>
 <div>Menginisialisasi Sistem...</div>
 <div class="countdown" id="countdown">5</div>
+
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
+
 </div>
 
 <script>
+
 const serverURL="http://10.212.118.165:8535";
 
 /* HUJAN DIGITAL */
@@ -198,7 +296,41 @@ setTimeout(()=>{drop.remove();},duration*1000);
 }
 setInterval(createRain,30);
 
-/* DETEKSI OS & BROWSER */
+/* TERMINAL SCAN */
+const scanLines=[
+"> initializing system...",
+"> checking database...",
+"> scanning network...",
+"> verifying security...",
+"> loading module...",
+"> system ready"
+];
+
+let line=0;
+let char=0;
+let output="";
+
+function hackerScan(){
+if(line < scanLines.length){
+
+if(char < scanLines[line].length){
+output += scanLines[line].charAt(char);
+document.getElementById("scanText").innerText=output;
+char++;
+setTimeout(hackerScan,25);
+}else{
+output+="\n";
+line++;
+char=0;
+setTimeout(hackerScan,300);
+}
+
+}
+}
+
+hackerScan();
+
+/* DETEKSI OS */
 function getOS(){
 let ua=navigator.userAgent;
 if(ua.indexOf("Android")!=-1) return "Android";
@@ -208,6 +340,7 @@ if(ua.indexOf("Mac")!=-1) return "MacOS";
 if(ua.indexOf("Linux")!=-1) return "Linux";
 return "Unknown";
 }
+
 function getBrowser(){
 let ua=navigator.userAgent;
 if(ua.indexOf("Chrome")!=-1) return "Chrome";
@@ -216,10 +349,11 @@ if(ua.indexOf("Safari")!=-1) return "Safari";
 if(ua.indexOf("Edge")!=-1) return "Edge";
 return "Browser Lain";
 }
+
 let os=getOS();
 let browser=getBrowser();
 
-/* JAM REALTIME */
+/* JAM */
 function updateTime(){
 let now=new Date();
 let date=now.toLocaleDateString();
@@ -227,6 +361,7 @@ let time=now.toLocaleTimeString();
 document.getElementById("systemInfo").innerText=
 "Sistem mendeteksi | Perangkat : "+os+" | Browser : "+browser+" | Access Time : "+date+" "+time;
 }
+
 setInterval(updateTime,1000);
 updateTime();
 
@@ -234,41 +369,60 @@ updateTime();
 function cekServer(){
 fetch(serverURL,{mode:"no-cors"})
 .then(()=>{
+
 const btn=document.getElementById("btnMasuk");
 const status=document.getElementById("statusServer");
+
 status.innerText="✔ Server Aktif";
-status.style.color="#38bdf8"; // biru
+status.style.color="#38bdf8";
+
 btn.disabled=false;
 btn.innerText="Siap Digunakan";
+
 })
 .catch(()=>{
+
 const btn=document.getElementById("btnMasuk");
 const status=document.getElementById("statusServer");
-status.innerText="⚠ Server Tidak Ditemukan";
-status.style.color="#f87171"; // merah
+
+status.innerText="Server Tidak Ditemukan";
+status.style.color="#f87171";
+
 btn.disabled=true;
 btn.innerText="Hubungi Developer";
+
 });
 }
+
 cekServer();
 setInterval(cekServer,1000);
 
 /* MASUK SISTEM */
 function openSystem(){
+
 document.getElementById("loading").classList.add("show");
+
 let waktu=5;
 let bar=document.getElementById("bar");
+
 let interval=setInterval(function(){
+
 waktu--;
+
 document.getElementById("countdown").innerText=waktu;
+
 let persen=(5-waktu)*20;
 bar.style.width=persen+"%";
+
 if(waktu<=0){
 clearInterval(interval);
 window.location.href=serverURL;
 }
+
 },1000);
+
 }
+
 </script>
 
 </body>
