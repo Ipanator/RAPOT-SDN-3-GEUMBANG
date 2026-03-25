@@ -9,6 +9,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
 body{
 min-height:100vh;
 display:flex;
@@ -21,7 +22,12 @@ background:linear-gradient(-45deg,#020617,#0f172a,#1e293b,#020617);
 background-size:400% 400%;
 animation:bgmove 15s ease infinite;
 }
-@keyframes bgmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%;}}
+
+@keyframes bgmove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
 
 body::before{
 content:"";
@@ -45,7 +51,13 @@ opacity:0.7;
 animation:rainFall linear infinite;
 pointer-events:none;
 }
-@keyframes rainFall{0%{transform:translateY(0);opacity:0;}10%{opacity:0.8;}90%{opacity:0.8;}100%{transform:translateY(110vh);opacity:0;}}
+
+@keyframes rainFall{
+0%{transform:translateY(0);opacity:0;}
+10%{opacity:0.8;}
+90%{opacity:0.8;}
+100%{transform:translateY(110vh);opacity:0;}
+}
 
 .container{
 max-width:760px;
@@ -59,9 +71,20 @@ text-align:center;
 box-shadow:0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(255,255,255,0.03);
 }
 
-.icon{font-size:36px;margin-bottom:20px;}
-h1{font-size:28px;margin-bottom:15px;}
-p{font-size:15px;line-height:1.8;}
+.icon{
+font-size:36px;
+margin-bottom:20px;
+}
+
+h1{
+font-size:28px;
+margin-bottom:15px;
+}
+
+p{
+font-size:15px;
+line-height:1.8;
+}
 
 .box-info{
 margin-top:25px;
@@ -76,6 +99,8 @@ font-size:14px;
 font-family:'Fira Code',monospace;
 }
 
+/* VISITOR ONLINE */
+
 .visitor{
 margin-top:8px;
 font-size:13px;
@@ -83,7 +108,9 @@ color:#22c55e;
 font-family:'Fira Code',monospace;
 }
 
-.button{margin-top:30px;}
+.button{
+margin-top:30px;
+}
 
 .button button{
 background:linear-gradient(135deg,#38bdf8,#6366f1);
@@ -123,7 +150,9 @@ padding-left:100%;
 animation:run 14s linear infinite;
 }
 
-@keyframes run{100%{transform:translateX(-100%);}}
+@keyframes run{
+100%{transform:translateX(-100%)}
+}
 
 .footer{
 margin-top:25px;
@@ -162,7 +191,9 @@ animation:spin 1s linear infinite;
 margin-bottom:15px;
 }
 
-@keyframes spin{100%{transform:rotate(360deg);}}
+@keyframes spin{
+100%{transform:rotate(360deg)}
+}
 
 .countdown{
 font-size:30px;
@@ -187,6 +218,39 @@ width:0%;
 background:linear-gradient(90deg,#38bdf8,#6366f1);
 transition:0.2s;
 }
+
+/* ICON SCANNING */
+
+.scan-box{
+width:70px;
+height:70px;
+border:2px solid #38bdf8;
+border-radius:8px;
+position:relative;
+margin:auto;
+overflow:hidden;
+box-shadow:0 0 10px #38bdf8;
+}
+
+.scan-line{
+position:absolute;
+width:100%;
+height:3px;
+background:#38bdf8;
+animation:scanMove 2s linear infinite;
+}
+
+@keyframes scanMove{
+0%{top:0}
+100%{top:100%}
+}
+
+.scan-text{
+font-size:11px;
+margin-top:8px;
+color:#38bdf8;
+font-family:'Fira Code',monospace;
+}
 </style>
 </head>
 
@@ -194,7 +258,12 @@ transition:0.2s;
 
 <div class="container">
 
-<div class="icon">💻</div>
+<div class="icon">
+<div class="scan-box">
+<div class="scan-line"></div>
+</div>
+<div class="scan-text">SYSTEM SCANNING</div>
+</div>
 
 <h1>E-Raport</h1>
 
@@ -234,9 +303,11 @@ SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 <div class="spinner"></div>
 <div>Menginisialisasi Sistem...</div>
 <div class="countdown" id="countdown">5</div>
+
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
+
 </div>
 
 <script>
@@ -244,80 +315,116 @@ SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 const serverURL="http://10.212.118.165:8535";
 
 /* HUJAN DIGITAL */
+
 function createRain(){
+
 let drop=document.createElement("div");
+
 drop.className="rain";
+
 drop.style.left=Math.random()*window.innerWidth+"px";
+
 let duration=1 + Math.random()*1.5;
+
 drop.style.animationDuration=duration+"s";
+
 document.body.appendChild(drop);
-setTimeout(()=>{drop.remove();},duration*1000);
+
+setTimeout(()=>{drop.remove()},duration*1000);
+
 }
+
 setInterval(createRain,30);
 
+
 /* DETEKSI OS */
+
 function getOS(){
+
 let ua=navigator.userAgent;
+
 if(ua.indexOf("Android")!=-1) return "Android";
 if(ua.indexOf("Windows")!=-1) return "Windows";
 if(ua.indexOf("iPhone")!=-1) return "iOS";
 if(ua.indexOf("Mac")!=-1) return "MacOS";
 if(ua.indexOf("Linux")!=-1) return "Linux";
+
 return "Unknown";
+
 }
 
 function getBrowser(){
+
 let ua=navigator.userAgent;
+
 if(ua.indexOf("Chrome")!=-1) return "Chrome";
 if(ua.indexOf("Firefox")!=-1) return "Firefox";
 if(ua.indexOf("Safari")!=-1) return "Safari";
 if(ua.indexOf("Edge")!=-1) return "Edge";
+
 return "Browser Lain";
+
 }
 
 let os=getOS();
+
 let browser=getBrowser();
 
+
 /* JAM REALTIME */
+
 function updateTime(){
+
 let now=new Date();
+
 let date=now.toLocaleDateString();
+
 let time=now.toLocaleTimeString();
 
 document.getElementById("systemInfo").innerText=
-"Sistem mendeteksi | Perangkat : "+os+
-" | Browser : "+browser+
-" | Access Time : "+date+" "+time;
+"Sistem mendeteksi | Perangkat : "+os+" | Browser : "+browser+" | Access Time : "+date+" "+time;
+
 }
+
 setInterval(updateTime,1000);
+
 updateTime();
 
+
 /* CEK SERVER */
+
 function cekServer(){
 
 fetch(serverURL,{mode:"no-cors"})
+
 .then(()=>{
 
 const btn=document.getElementById("btnMasuk");
+
 const status=document.getElementById("statusServer");
 
 status.innerText="✔ Server Aktif";
+
 status.style.color="#38bdf8";
 
 btn.disabled=false;
-btn.innerText="Masuk Sistem";
+
+btn.innerText="Siap Digunakan";
 
 })
 
 .catch(()=>{
 
 const btn=document.getElementById("btnMasuk");
+
 const status=document.getElementById("statusServer");
 
 status.innerText="⚠ Server Tidak Ditemukan";
+
 status.style.color="#f87171";
 
 btn.disabled=true;
+
 btn.innerText="Hubungi Developer";
 
 });
@@ -325,9 +432,11 @@ btn.innerText="Hubungi Developer";
 }
 
 cekServer();
-setInterval(cekServer,2000);
 
-/* VISITOR RANDOM CERDAS */
+setInterval(cekServer,1000);
+
+
+/* VISITOR ONLINE RANDOM SESUAI WAKTU */
 
 let jumlah=3;
 
@@ -336,40 +445,63 @@ function updateVisitor(){
 let jam=new Date().getHours();
 
 let min=1;
+
 let max=20;
 
 if(jam>=7 && jam<=15){
-min=5;
+
+min=6;
+
 max=20;
+
 }
+
 else if(jam>=15 && jam<=18){
+
 min=3;
+
 max=10;
+
 }
+
 else if(jam>=18 && jam<=22){
+
 min=1;
+
 max=5;
+
 }
+
 else{
+
 min=1;
+
 max=2;
+
 }
 
-let naik=Math.random()>0.5;
+if(Math.random()>0.5){
 
-if(naik) jumlah++;
-else jumlah--;
+jumlah++;
+
+}else{
+
+jumlah--;
+
+}
 
 if(jumlah<min) jumlah=min;
+
 if(jumlah>max) jumlah=max;
 
-document.getElementById("visitor").innerText=
-"Pengguna Online : "+jumlah+" orang";
+document.getElementById("visitor").innerText="Pengguna Online : "+jumlah+" orang";
 
 }
 
 setInterval(updateVisitor,4000);
+
 updateVisitor();
+
 
 /* MASUK SISTEM */
 
