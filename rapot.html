@@ -575,25 +575,31 @@ cekServer();
 
 setInterval(cekServer,1000);
 
-/* USER ONLINE */
+/* PENGUNJUNG HARI INI */
 
-function updateOnlineUser(){
+function hitungPengunjung(){
 
-let jam=new Date().getHours();
+let today = new Date().toISOString().slice(0,10);
 
-let jumlah;
+let lastDate = localStorage.getItem("visitorDate");
+let jumlah = localStorage.getItem("visitorCount");
 
-if(jam>=22 || jam<=5){
+if(lastDate !== today){
+jumlah = 1;
+localStorage.setItem("visitorDate", today);
+localStorage.setItem("visitorCount", jumlah);
+}
+else{
+jumlah = parseInt(jumlah || 0) + 1;
+localStorage.setItem("visitorCount", jumlah);
+}
 
-jumlah=1;
+document.getElementById("onlineUser").innerText =
+"Pengunjung Hari Ini : " + jumlah + " orang";
 
 }
 
-else if(jam>=6 && jam<=10){
-
-jumlah=Math.floor(Math.random()*10)+10;
-
-}
+hitungPengunjung();
 
 else if(jam>=11 && jam<=16){
 
