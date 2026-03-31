@@ -41,8 +41,6 @@ background-size:40px 40px;
 pointer-events:none;
 }
 
-/* HUJAN DIGITAL */
-
 .rain{
 position:fixed;
 top:-30px;
@@ -61,8 +59,6 @@ pointer-events:none;
 100%{transform:translateY(110vh);opacity:0;}
 }
 
-/* CONTAINER */
-
 .container{
 max-width:760px;
 width:100%;
@@ -74,8 +70,6 @@ padding:50px 40px;
 text-align:center;
 box-shadow:0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(255,255,255,0.03);
 }
-
-/* TERMINAL */
 
 .icon{
 font-family:'Fira Code',monospace;
@@ -92,17 +86,6 @@ margin:0 auto 20px auto;
 text-align:left;
 box-shadow:0 0 10px rgba(56,189,248,0.3);
 white-space:pre-line;
-}
-
-#scan::after{
-content:"|";
-animation:blink 1s infinite;
-}
-
-@keyframes blink{
-0%{opacity:1}
-50%{opacity:0}
-100%{opacity:1}
 }
 
 h1{font-size:28px;margin-bottom:15px;}
@@ -122,11 +105,6 @@ font-size:14px;
 font-family:'Fira Code',monospace;
 }
 
-#onlineUser{
-color:#22c55e;
-font-weight:600;
-}
-
 .button{margin-top:30px;}
 
 .button button{
@@ -137,22 +115,7 @@ padding:14px 35px;
 border-radius:10px;
 font-size:15px;
 cursor:pointer;
-transition:0.3s;
-box-shadow:0 0 20px rgba(99,102,241,0.4);
 }
-
-.button button:hover{
-transform:translateY(-2px);
-box-shadow:0 0 30px rgba(99,102,241,0.6);
-}
-
-.button button:disabled{
-background:#475569;
-cursor:not-allowed;
-box-shadow:none;
-}
-
-/* TEXT BERJALAN */
 
 .access-log{
 margin-top:25px;
@@ -179,8 +142,6 @@ font-size:13px;
 opacity:0.6;
 }
 
-/* LOADING */
-
 .loading{
 position:fixed;
 top:0;
@@ -194,7 +155,6 @@ justify-content:center;
 flex-direction:column;
 opacity:0;
 visibility:hidden;
-transition:0.3s;
 }
 
 .loading.show{
@@ -215,31 +175,6 @@ margin-bottom:15px;
 @keyframes spin{
 100%{transform:rotate(360deg)}
 }
-
-.countdown{
-font-size:30px;
-font-weight:600;
-color:#38bdf8;
-margin-top:10px;
-letter-spacing:3px;
-}
-
-.progress{
-width:230px;
-height:6px;
-background:rgba(255,255,255,0.1);
-border-radius:10px;
-margin-top:15px;
-overflow:hidden;
-}
-
-.bar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#38bdf8,#6366f1);
-transition:0.2s;
-}
-
 </style>
 </head>
 
@@ -265,8 +200,8 @@ Jika terjadi kendala sistem, silakan berkoordinasi dengan pengembang website SD 
 Memeriksa status server...
 </div>
 
-<div class="server-status" id="onlineUser">
-Pengguna Online : 1 orang
+<div class="server-status" id="visitorToday">
+Pengunjung Hari Ini : 1 orang
 </div>
 
 <div class="button">
@@ -289,33 +224,20 @@ SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
 <div class="spinner"></div>
 <div>Menginisialisasi Sistem...</div>
 <div class="countdown" id="countdown">5</div>
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
 </div>
 
 <script>
 
 const serverURL="http://10.212.118.165:8535";
 
-/* TERMINAL SCAN */
-
-function updateScan(text){
-document.getElementById("scan").innerText=text;
-}
-
 /* HUJAN DIGITAL */
 
 function createRain(){
 
 let drop=document.createElement("div");
-
 drop.className="rain";
-
 drop.style.left=Math.random()*window.innerWidth+"px";
-
 let duration=1+Math.random()*1.5;
-
 drop.style.animationDuration=duration+"s";
 
 document.body.appendChild(drop);
@@ -326,6 +248,7 @@ setTimeout(()=>{drop.remove()},duration*1000);
 
 setInterval(createRain,30);
 
+
 /* DETEKSI OS */
 
 function getOS(){
@@ -333,18 +256,15 @@ function getOS(){
 let ua=navigator.userAgent;
 
 if(ua.indexOf("Android")!=-1) return "Android";
-
 if(ua.indexOf("Windows")!=-1) return "Windows";
-
 if(ua.indexOf("iPhone")!=-1) return "iOS";
-
 if(ua.indexOf("Mac")!=-1) return "MacOS";
-
 if(ua.indexOf("Linux")!=-1) return "Linux";
 
 return "Unknown";
 
 }
+
 
 /* DETEKSI BROWSER */
 
@@ -353,11 +273,8 @@ function getBrowser(){
 let ua=navigator.userAgent;
 
 if(ua.indexOf("Chrome")!=-1) return "Chrome";
-
 if(ua.indexOf("Firefox")!=-1) return "Firefox";
-
 if(ua.indexOf("Safari")!=-1) return "Safari";
-
 if(ua.indexOf("Edge")!=-1) return "Edge";
 
 return "Browser Lain";
@@ -365,120 +282,113 @@ return "Browser Lain";
 }
 
 let os=getOS();
-
 let browser=getBrowser();
 
-/* TEXT BERJALAN */
 
 function updateTime(){
 
 let now=new Date();
 
-let date=now.toLocaleDateString();
-
-let time=now.toLocaleTimeString();
-
-let text="Sistem mendeteksi | Perangkat : "+os+
+let text="Perangkat : "+os+
 " | Browser : "+browser+
-" | Access Time : "+date+" "+time;
+" | "+now.toLocaleString();
 
 document.getElementById("systemInfo").textContent=text;
 
 }
 
 setInterval(updateTime,3000);
-
 updateTime();
+
 
 /* CEK SERVER */
 
 function cekServer(){
 
-updateScan("> scanning server...");
-
 fetch(serverURL,{mode:"no-cors"})
 .then(()=>{
 
 let btn=document.getElementById("btnMasuk");
-
 let status=document.getElementById("statusServer");
 
 status.innerText="✔ Server Aktif";
-
 status.style.color="#38bdf8";
 
 btn.disabled=false;
-
 btn.innerText="Masuk Sistem";
-
-updateScan("> server online\n> access granted");
 
 })
 
 .catch(()=>{
 
 let btn=document.getElementById("btnMasuk");
-
 let status=document.getElementById("statusServer");
 
 status.innerText="⚠ Server Tidak Ditemukan";
-
 status.style.color="#f87171";
 
 btn.disabled=true;
-
 btn.innerText="Hubungi Developer";
-
-updateScan("> server offline\n> connection failed");
 
 });
 
 }
 
 cekServer();
+setInterval(cekServer,5000);
 
-setInterval(cekServer,1000);
 
-/* USER ONLINE */
+/* COUNTER PENGUNJUNG REALISTIS */
 
-function updateOnlineUser(){
+function visitorCounter(){
 
-let jam=new Date().getHours();
+let today=new Date().toDateString();
 
-let jumlah;
+let storedDate=localStorage.getItem("visitorDate");
+let visitor=localStorage.getItem("visitorCount");
 
-if(jam>=22 || jam<=5){
+if(storedDate!==today){
 
-jumlah=1;
+visitor=1;
 
-}
-
-else if(jam>=6 && jam<=10){
-
-jumlah=Math.floor(Math.random()*10)+10;
+localStorage.setItem("visitorDate",today);
+localStorage.setItem("visitorCount",visitor);
 
 }
 
-else if(jam>=11 && jam<=16){
+if(!visitor){
 
-jumlah=Math.floor(Math.random()*5)+3;
-
-}
-
-else{
-
-jumlah=Math.floor(Math.random()*6)+2;
+visitor=1;
+localStorage.setItem("visitorCount",visitor);
 
 }
 
-document.getElementById("onlineUser").innerText=
-"Pengguna Online : "+jumlah+" orang";
+document.getElementById("visitorToday").innerText=
+"Pengunjung Hari Ini : "+visitor+" orang";
+
+function tambah(){
+
+let add=Math.floor(Math.random()*2)+1;
+
+visitor=parseInt(visitor)+add;
+
+localStorage.setItem("visitorCount",visitor);
+
+document.getElementById("visitorToday").innerText=
+"Pengunjung Hari Ini : "+visitor+" orang";
+
+let next=Math.floor(Math.random()*240000)+120000;
+
+setTimeout(tambah,next);
 
 }
 
-updateOnlineUser();
+setTimeout(tambah,180000);
 
-setInterval(updateOnlineUser,5000);
+}
+
+visitorCounter();
+
 
 /* MASUK SISTEM */
 
@@ -486,29 +396,11 @@ function openSystem(){
 
 document.getElementById("loading").classList.add("show");
 
-let waktu=5;
-
-let bar=document.getElementById("bar");
-
-let interval=setInterval(function(){
-
-waktu--;
-
-document.getElementById("countdown").innerText=waktu;
-
-let persen=(5-waktu)*20;
-
-bar.style.width=persen+"%";
-
-if(waktu<=0){
-
-clearInterval(interval);
+setTimeout(()=>{
 
 window.location.href=serverURL;
 
-}
-
-},1000);
+},5000);
 
 }
 
