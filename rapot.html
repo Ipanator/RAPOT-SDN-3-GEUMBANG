@@ -3,195 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Raport</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+<title>Counter Pengunjung</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
 body{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:25px;
-color:#e2e8f0;
-background:linear-gradient(-45deg,#020617,#0f172a,#1e293b,#020617);
-background-size:400% 400%;
-animation:bgmove 15s ease infinite;
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding-top:40px;
 }
 
-@keyframes bgmove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+.counter-box{
+    font-size:28px;
+    font-weight:bold;
+    color:#22c55e;
 }
 
-.container{
-max-width:760px;
-width:100%;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(20px);
-border-radius:22px;
-padding:50px 40px;
-text-align:center;
-box-shadow:0 20px 50px rgba(0,0,0,0.6);
+marquee{
+    font-size:20px;
+    color:#38bdf8;
+    margin-top:30px;
 }
-
-h1{
-font-size:28px;
-margin-bottom:15px;
-}
-
-p{
-font-size:15px;
-line-height:1.8;
-}
-
-.box-info{
-margin-top:25px;
-padding:18px;
-background:rgba(255,255,255,0.05);
-border-radius:12px;
-}
-
-.server-status{
-margin-top:18px;
-font-size:14px;
-font-family:'Fira Code',monospace;
-}
-
-#visitorToday{
-color:#38bdf8;
-font-weight:600;
-text-shadow:0 0 8px rgba(56,189,248,0.7);
-letter-spacing:1px;
-}
-
-.button{
-margin-top:30px;
-}
-
-.button button{
-background:linear-gradient(135deg,#38bdf8,#6366f1);
-color:white;
-border:none;
-padding:14px 35px;
-border-radius:10px;
-font-size:15px;
-cursor:pointer;
-transition:0.3s;
-box-shadow:0 0 20px rgba(99,102,241,0.4);
-}
-
-.button button:hover{
-transform:translateY(-2px);
-box-shadow:0 0 30px rgba(99,102,241,0.6);
-}
-
-.footer{
-margin-top:25px;
-font-size:13px;
-opacity:0.6;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<h1>E-Raport</h1>
-
-<p>
-Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web
-untuk pengolahan data akademik secara cepat.
-</p>
-
-<div class="box-info">
-Jika terjadi kendala sistem, silakan berkoordinasi dengan pengembang website SD Negeri 3 Gelumbang.
+<div class="counter-box">
+Total Pengunjung: <span id="visitorCount">0</span>
 </div>
 
-<div class="server-status" id="visitorToday">
-Pengunjung Hari Ini : 1 orang
-</div>
-
-<div class="button">
-<button onclick="masuk()">Masuk Sistem</button>
-</div>
-
-<div class="footer">
-SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
-</div>
-
-</div>
+<marquee behavior="scroll" direction="left">
+Selamat datang di website kami — Terima kasih telah berkunjung
+</marquee>
 
 <script>
 
-/* COUNTER PENGUNJUNG REALTIME */
+let visitorCount = localStorage.getItem("visitorCount");
+let lastUpdate = localStorage.getItem("lastUpdate");
 
-function visitorCounter(){
-
-let today = new Date().toDateString();
-
-let storedDate = localStorage.getItem("visitorDate");
-let visitor = parseInt(localStorage.getItem("visitorCount"));
-
-if(!visitor) visitor = 0;
-
-/* reset jika hari baru */
-
-if(storedDate !== today){
-
-visitor = 0;
-
-localStorage.setItem("visitorDate", today);
-
+if(!visitorCount){
+    visitorCount = 1200;
+    lastUpdate = Date.now();
 }
 
-/* setiap buka halaman dihitung */
+visitorCount = parseInt(visitorCount);
 
-visitor++;
+function updateCounter(){
 
-localStorage.setItem("visitorCount", visitor);
+    let now = Date.now();
+    let diff = now - lastUpdate;
 
-/* tampilkan */
+    let minutes = Math.floor(diff / 60000);
 
-document.getElementById("visitorToday").innerText =
-"Pengunjung Hari Ini : " + visitor + " orang";
+    if(minutes > 0){
+        visitorCount += minutes * 3;
+        lastUpdate = now;
 
-/* bertambah otomatis setiap 5 menit */
+        localStorage.setItem("visitorCount", visitorCount);
+        localStorage.setItem("lastUpdate", lastUpdate);
+    }
 
-setInterval(function(){
-
-visitor++;
-
-localStorage.setItem("visitorCount", visitor);
-
-document.getElementById("visitorToday").innerText =
-"Pengunjung Hari Ini : " + visitor + " orang";
-
-},300000);
-
+    document.getElementById("visitorCount").innerText =
+        visitorCount.toLocaleString();
 }
 
-visitorCounter();
+updateCounter();
 
+setInterval(()=>{
+    visitorCount += 1;
 
-function masuk(){
+    localStorage.setItem("visitorCount", visitorCount);
+    localStorage.setItem("lastUpdate", Date.now());
 
-alert("Sistem sedang diarahkan ke server E-Raport.");
+    document.getElementById("visitorCount").innerText =
+        visitorCount.toLocaleString();
 
-}
+}, 180000); // bertambah setiap 3 menit
 
 </script>
 
