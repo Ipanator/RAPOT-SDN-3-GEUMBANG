@@ -577,29 +577,56 @@ setInterval(cekServer,1000);
 
 /* PENGUNJUNG HARI INI */
 
-function hitungPengunjung(){
+function pengunjungHariIni(){
 
-let today = new Date().toISOString().slice(0,10);
+let now = new Date();
+let today = now.toDateString();
+
+/* cek pergantian hari */
 
 let lastDate = localStorage.getItem("visitorDate");
-let jumlah = localStorage.getItem("visitorCount");
 
 if(lastDate !== today){
-jumlah = 1;
+
 localStorage.setItem("visitorDate", today);
-localStorage.setItem("visitorCount", jumlah);
+localStorage.setItem("visitorCount", 0);
+
+/* seed random harian */
+
+let seed = new Date().getDate() + Math.floor(Math.random()*1000);
+localStorage.setItem("visitorSeed", seed);
+
 }
-else{
-jumlah = parseInt(jumlah || 0) + 1;
+
+/* ambil data */
+
+let jumlah = parseInt(localStorage.getItem("visitorCount") || 0);
+let seed = parseInt(localStorage.getItem("visitorSeed") || 1);
+
+/* random berdasarkan seed */
+
+let tambah = (Math.floor(Math.random()*3)+1);
+
+/* naik */
+
+jumlah += tambah;
+
 localStorage.setItem("visitorCount", jumlah);
-}
+
+/* tampilkan */
 
 document.getElementById("onlineUser").innerText =
-"Pengunjung Hari Ini : " + jumlah + " pengunjung";
+"Pengunjung Hari Ini : "+jumlah+" orang";
+
+/* jeda random */
+
+let delay = (Math.floor(Math.random()*3)+1) * 60000;
+
+setTimeout(pengunjungHariIni, delay);
 
 }
 
-hitungPengunjung();
+pengunjungHariIni();
 
 else if(jam>=11 && jam<=16){
 
