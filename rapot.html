@@ -2,104 +2,365 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Pengunjung Website</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Raport</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
-font-family:Arial;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:25px;
+overflow:hidden;
+color:#e2e8f0;
+background:linear-gradient(-45deg,#020617,#0f172a,#1e293b,#020617);
+background-size:400% 400%;
+animation:bgmove 15s ease infinite;
+}
+
+@keyframes bgmove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background-image:
+linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+.rain{
+position:fixed;
+top:-30px;
+width:2px;
+height:18px;
+background:linear-gradient(to bottom, rgba(56,189,248,0), rgba(56,189,248,0.9), rgba(56,189,248,0));
+opacity:0.7;
+animation:rainFall linear infinite;
+pointer-events:none;
+}
+
+@keyframes rainFall{
+0%{transform:translateY(0);opacity:0;}
+10%{opacity:0.8;}
+90%{opacity:0.8;}
+100%{transform:translateY(110vh);opacity:0;}
+}
+
+.container{
+max-width:760px;
+width:100%;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border-radius:22px;
+padding:50px 40px;
 text-align:center;
-background:#0b1c2c;
+box-shadow:0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(255,255,255,0.03);
+}
+
+.icon{
+font-family:'Fira Code',monospace;
+font-size:12px;
+color:#38bdf8;
+background:#020617;
+border:1px solid rgba(56,189,248,0.4);
+border-radius:8px;
+padding:10px;
+width:220px;
+height:55px;
+overflow:hidden;
+margin:0 auto 20px auto;
+text-align:left;
+box-shadow:0 0 10px rgba(56,189,248,0.3);
+white-space:pre-line;
+}
+
+#scan::after{
+content:"|";
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%{opacity:1}
+50%{opacity:0}
+100%{opacity:1}
+}
+
+h1{font-size:28px;margin-bottom:15px;}
+p{font-size:15px;line-height:1.8;}
+
+.box-info{
+margin-top:25px;
+padding:18px;
+background:rgba(255,255,255,0.05);
+border-radius:12px;
+}
+
+.server-status{
+margin-top:18px;
+font-size:14px;
+font-family:'Fira Code',monospace;
+}
+
+#onlineUser{
+color:#22c55e;
+font-weight:600;
+}
+
+.button{margin-top:30px;}
+
+.button button{
+background:linear-gradient(135deg,#38bdf8,#6366f1);
 color:white;
-margin-top:100px;
+border:none;
+padding:14px 35px;
+border-radius:10px;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 20px rgba(99,102,241,0.4);
 }
 
-#visitorToday{
-font-size:28px;
-font-weight:bold;
-color:#00ffcc;
+.button button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 30px rgba(99,102,241,0.6);
 }
 
+.button button:disabled{
+background:#475569;
+cursor:not-allowed;
+box-shadow:none;
+}
+
+.access-log{
+margin-top:25px;
+font-size:13px;
+color:#38bdf8;
+white-space:nowrap;
+overflow:hidden;
+font-family:'Fira Code',monospace;
+}
+
+.access-log span{
+display:inline-block;
+padding-left:100%;
+animation:run 14s linear infinite;
+}
+
+@keyframes run{
+100%{transform:translateX(-100%)}
+}
+
+.footer{
+margin-top:25px;
+font-size:13px;
+opacity:0.6;
+}
+
+.loading{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#020617;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+opacity:0;
+visibility:hidden;
+transition:0.3s;
+}
+
+.loading.show{
+opacity:1;
+visibility:visible;
+}
+
+.spinner{
+width:55px;
+height:55px;
+border:5px solid rgba(255,255,255,0.1);
+border-top:5px solid #38bdf8;
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin-bottom:15px;
+}
+
+@keyframes spin{
+100%{transform:rotate(360deg)}
+}
+
+.countdown{
+font-size:30px;
+font-weight:600;
+color:#38bdf8;
+margin-top:10px;
+letter-spacing:3px;
+}
+
+.progress{
+width:230px;
+height:6px;
+background:rgba(255,255,255,0.1);
+border-radius:10px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#38bdf8,#6366f1);
+transition:0.2s;
+}
 </style>
-
 </head>
+
 <body>
 
-<h2 id="visitorToday">Pengunjung Hari Ini : 1 orang</h2>
+<div class="container">
+
+<div class="icon" id="scan">
+> booting system...
+</div>
+
+<h1>E-Raport</h1>
+
+<p>
+Sistem <b>E-Raport</b> SD Negeri 3 Gelumbang telah dikembangkan berbasis web untuk pengolahan data akademik secara cepat.
+</p>
+
+<div class="box-info">
+Jika terjadi kendala sistem, silakan berkoordinasi dengan pengembang website SD Negeri 3 Gelumbang.
+</div>
+
+<div class="server-status" id="statusServer">
+Memeriksa status server...
+</div>
+
+<div class="server-status" id="onlineUser">
+Pengguna Online : 1 orang
+</div>
+
+<div class="button">
+<button id="btnMasuk" onclick="openSystem()" disabled>
+Menunggu Server Aktif...
+</button>
+</div>
+
+<div class="access-log">
+<span id="systemInfo">Memuat sistem...</span>
+</div>
+
+<div class="footer">
+SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
+</div>
+
+</div>
+
+<div class="loading" id="loading">
+<div class="spinner"></div>
+<div>Menginisialisasi Sistem...</div>
+<div class="countdown" id="countdown">5</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+</div>
 
 <script>
 
-/* =========================
-   COUNTER PENGUNJUNG REALISTIS
-   ========================= */
+const serverURL="http://10.212.118.165:8535";
 
-function visitorCounter(){
+/* HUJAN DIGITAL */
 
-let today = new Date().toDateString()
-
-let savedDate = localStorage.getItem("visitorDate")
-let visitor = parseInt(localStorage.getItem("visitorCount") || 1)
-
-/* RESET SETIAP HARI */
-
-if(savedDate !== today){
-
-visitor = 1
-
-localStorage.setItem("visitorDate", today)
-localStorage.setItem("visitorCount", visitor)
-
+function createRain(){
+let drop=document.createElement("div");
+drop.className="rain";
+drop.style.left=Math.random()*window.innerWidth+"px";
+let duration=1+Math.random()*1.5;
+drop.style.animationDuration=duration+"s";
+document.body.appendChild(drop);
+setTimeout(()=>{drop.remove()},duration*1000);
 }
 
-/* JAM SEKARANG */
+setInterval(createRain,30);
 
-let hour = new Date().getHours()
 
-/* TARGET REALISTIS */
+/* USER ONLINE REALISTIS */
 
-let target = 50
+let onlineUser=1;
 
-if(hour >= 6 && hour < 12){
+function updateOnlineUser(){
 
-target = 300 + Math.floor(Math.random()*150)
+let jam=new Date().getHours();
+let target=1;
 
+if(jam>=6 && jam<12){
+target=300+Math.floor(Math.random()*100);
 }
-else if(hour >= 12 && hour < 18){
-
-target = 700 + Math.floor(Math.random()*200)
-
+else if(jam>=12 && jam<18){
+target=700+Math.floor(Math.random()*150);
 }
-else if(hour >= 18 && hour < 22){
-
-target = 850 + Math.floor(Math.random()*50)
-
+else if(jam>=18 && jam<22){
+target=750+Math.floor(Math.random()*50);
 }
 else{
+target=30+Math.floor(Math.random()*10);
+}
 
-target = 900 + Math.floor(Math.random()*20)
+if(onlineUser<target){
+onlineUser+=Math.floor(Math.random()*4)+1;
+}
+
+document.getElementById("onlineUser").innerText=
+"Pengguna Online : "+onlineUser+" orang";
 
 }
 
-/* TAMBAH MENUJU TARGET */
+updateOnlineUser();
+setInterval(updateOnlineUser,5000);
 
-if(visitor < target){
 
-visitor += Math.floor(Math.random()*3) + 1
+/* MASUK SISTEM */
 
+function openSystem(){
+
+document.getElementById("loading").classList.add("show");
+
+let waktu=5;
+let bar=document.getElementById("bar");
+
+let interval=setInterval(function(){
+
+waktu--;
+document.getElementById("countdown").innerText=waktu;
+
+bar.style.width=((5-waktu)/5*100)+"%";
+
+if(waktu<=0){
+clearInterval(interval);
+window.location.href=serverURL;
 }
 
-localStorage.setItem("visitorCount", visitor)
-
-document.getElementById("visitorToday").innerText =
-"Pengunjung Hari Ini : " + visitor + " orang"
-
-/* UPDATE REALTIME */
-
-setTimeout(visitorCounter,60000)
+},1000);
 
 }
-
-visitorCounter()
 
 </script>
 
