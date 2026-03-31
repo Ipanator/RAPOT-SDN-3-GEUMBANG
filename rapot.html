@@ -628,25 +628,6 @@ setTimeout(pengunjungHariIni, delay);
 
 pengunjungHariIni();
 
-else if(jam>=11 && jam<=16){
-
-jumlah=Math.floor(Math.random()*5)+3;
-
-}
-
-else{
-
-jumlah=Math.floor(Math.random()*6)+2;
-
-}
-
-document.getElementById("onlineUser").innerText=
-"pengunjung hari ini : "+jumlah+" pengunjung";
-
-}
-
-updateOnlineUser();
-
 setInterval(updateOnlineUser,5000);
 
 </script>
