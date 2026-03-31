@@ -89,6 +89,7 @@ white-space:pre-line;
 }
 
 h1{font-size:28px;margin-bottom:15px;}
+
 p{font-size:15px;line-height:1.8;}
 
 .box-info{
@@ -271,7 +272,9 @@ let browser=getBrowser();
 
 function updateTime(){
 let now=new Date();
-let text="Perangkat : "+os+" | Browser : "+browser+" | "+now.toLocaleString();
+let text="Perangkat : "+os+
+" | Browser : "+browser+
+" | "+now.toLocaleString();
 document.getElementById("systemInfo").textContent=text;
 }
 
@@ -295,7 +298,6 @@ btn.disabled=false;
 btn.innerText="Masuk Sistem";
 
 })
-
 .catch(()=>{
 
 let btn=document.getElementById("btnMasuk");
@@ -314,54 +316,70 @@ btn.innerText="Hubungi Developer";
 cekServer();
 setInterval(cekServer,5000);
 
-/* COUNTER PENGUNJUNG TIDAK RESET */
+/* COUNTER PENGUNJUNG */
 
 function visitorCounter(){
 
-let visitor = localStorage.getItem("visitorCount");
-let lastTime = localStorage.getItem("visitorLastTime");
+let today=new Date().toDateString();
+let storedDate=localStorage.getItem("visitorDate");
+let visitor=localStorage.getItem("visitorCount");
+let lastTime=localStorage.getItem("visitorLastTime");
+
+if(storedDate!==today){
+visitor=1;
+localStorage.setItem("visitorDate",today);
+localStorage.setItem("visitorCount",visitor);
+localStorage.setItem("visitorLastTime",Date.now());
+}
 
 if(!visitor){
-visitor = 128;
-localStorage.setItem("visitorCount", visitor);
+visitor=1;
+localStorage.setItem("visitorCount",visitor);
 }
 
 if(!lastTime){
-lastTime = Date.now();
-localStorage.setItem("visitorLastTime", lastTime);
+lastTime=Date.now();
+localStorage.setItem("visitorLastTime",lastTime);
 }
 
-visitor = parseInt(visitor);
-lastTime = parseInt(lastTime);
+visitor=parseInt(visitor);
+lastTime=parseInt(lastTime);
 
-let now = Date.now();
+let now=Date.now();
+let diff=now-lastTime;
+let minutes=Math.floor(diff/60000);
 
-let diff = now - lastTime;
-let minutes = Math.floor(diff / 60000);
+let hour=new Date().getHours();
+let speed=6;
 
-if(minutes > 0){
+if(hour>=6 && hour<12) speed=1;
+else if(hour>=12 && hour<18) speed=2;
+else if(hour>=18 && hour<22) speed=4;
+else speed=8;
 
-let add = Math.floor(minutes / 3);
+if(minutes>0){
 
-visitor += add;
+let add=Math.floor(minutes/speed);
 
-localStorage.setItem("visitorCount", visitor);
-localStorage.setItem("visitorLastTime", now);
+visitor+=add;
+
+localStorage.setItem("visitorCount",visitor);
+localStorage.setItem("visitorLastTime",now);
 
 }
 
-document.getElementById("visitorToday").innerText =
-"Pengunjung Hari Ini : " + visitor + " orang";
+document.getElementById("visitorToday").innerText=
+"Pengunjung Hari Ini : "+visitor+" orang";
 
 setInterval(()=>{
 
 visitor++;
 
-localStorage.setItem("visitorCount", visitor);
-localStorage.setItem("visitorLastTime", Date.now());
+localStorage.setItem("visitorCount",visitor);
+localStorage.setItem("visitorLastTime",Date.now());
 
-document.getElementById("visitorToday").innerText =
-"Pengunjung Hari Ini : " + visitor + " orang";
+document.getElementById("visitorToday").innerText=
+"Pengunjung Hari Ini : "+visitor+" orang";
 
 },180000);
 
@@ -372,10 +390,13 @@ visitorCounter();
 /* MASUK SISTEM */
 
 function openSystem(){
+
 document.getElementById("loading").classList.add("show");
+
 setTimeout(()=>{
 window.location.href=serverURL;
 },5000);
+
 }
 
 </script>
