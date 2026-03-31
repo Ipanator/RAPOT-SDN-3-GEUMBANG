@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
 
 <style>
+
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
@@ -41,6 +43,8 @@ background-size:40px 40px;
 pointer-events:none;
 }
 
+/* HUJAN DIGITAL */
+
 .rain{
 position:fixed;
 top:-30px;
@@ -59,6 +63,8 @@ pointer-events:none;
 100%{transform:translateY(110vh);opacity:0;}
 }
 
+/* CONTAINER */
+
 .container{
 max-width:760px;
 width:100%;
@@ -70,6 +76,8 @@ padding:50px 40px;
 text-align:center;
 box-shadow:0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(255,255,255,0.03);
 }
+
+/* TERMINAL */
 
 .icon{
 font-family:'Fira Code',monospace;
@@ -105,6 +113,15 @@ font-size:14px;
 font-family:'Fira Code',monospace;
 }
 
+/* PENGUNJUNG */
+
+#visitorToday{
+color:#38bdf8;
+font-weight:600;
+text-shadow:0 0 8px rgba(56,189,248,0.6);
+letter-spacing:1px;
+}
+
 .button{margin-top:30px;}
 
 .button button{
@@ -115,6 +132,13 @@ padding:14px 35px;
 border-radius:10px;
 font-size:15px;
 cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 20px rgba(99,102,241,0.4);
+}
+
+.button button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 30px rgba(99,102,241,0.6);
 }
 
 .access-log{
@@ -142,6 +166,8 @@ font-size:13px;
 opacity:0.6;
 }
 
+/* LOADING */
+
 .loading{
 position:fixed;
 top:0;
@@ -155,6 +181,7 @@ justify-content:center;
 flex-direction:column;
 opacity:0;
 visibility:hidden;
+transition:0.3s;
 }
 
 .loading.show{
@@ -175,6 +202,7 @@ margin-bottom:15px;
 @keyframes spin{
 100%{transform:rotate(360deg)}
 }
+
 </style>
 </head>
 
@@ -233,73 +261,47 @@ const serverURL="http://10.212.118.165:8535";
 /* HUJAN DIGITAL */
 
 function createRain(){
-
 let drop=document.createElement("div");
 drop.className="rain";
 drop.style.left=Math.random()*window.innerWidth+"px";
 let duration=1+Math.random()*1.5;
 drop.style.animationDuration=duration+"s";
-
 document.body.appendChild(drop);
-
 setTimeout(()=>{drop.remove()},duration*1000);
-
 }
-
 setInterval(createRain,30);
 
-
-/* DETEKSI OS */
+/* DETEKSI PERANGKAT */
 
 function getOS(){
-
 let ua=navigator.userAgent;
-
 if(ua.indexOf("Android")!=-1) return "Android";
 if(ua.indexOf("Windows")!=-1) return "Windows";
 if(ua.indexOf("iPhone")!=-1) return "iOS";
 if(ua.indexOf("Mac")!=-1) return "MacOS";
 if(ua.indexOf("Linux")!=-1) return "Linux";
-
 return "Unknown";
-
 }
 
-
-/* DETEKSI BROWSER */
-
 function getBrowser(){
-
 let ua=navigator.userAgent;
-
 if(ua.indexOf("Chrome")!=-1) return "Chrome";
 if(ua.indexOf("Firefox")!=-1) return "Firefox";
 if(ua.indexOf("Safari")!=-1) return "Safari";
 if(ua.indexOf("Edge")!=-1) return "Edge";
-
 return "Browser Lain";
-
 }
 
 let os=getOS();
 let browser=getBrowser();
 
-
 function updateTime(){
-
 let now=new Date();
-
-let text="Perangkat : "+os+
-" | Browser : "+browser+
-" | "+now.toLocaleString();
-
+let text="Perangkat : "+os+" | Browser : "+browser+" | "+now.toLocaleString();
 document.getElementById("systemInfo").textContent=text;
-
 }
-
 setInterval(updateTime,3000);
 updateTime();
-
 
 /* CEK SERVER */
 
@@ -307,29 +309,20 @@ function cekServer(){
 
 fetch(serverURL,{mode:"no-cors"})
 .then(()=>{
-
 let btn=document.getElementById("btnMasuk");
 let status=document.getElementById("statusServer");
-
 status.innerText="✔ Server Aktif";
 status.style.color="#38bdf8";
-
 btn.disabled=false;
 btn.innerText="Masuk Sistem";
-
 })
-
 .catch(()=>{
-
 let btn=document.getElementById("btnMasuk");
 let status=document.getElementById("statusServer");
-
 status.innerText="⚠ Server Tidak Ditemukan";
 status.style.color="#f87171";
-
 btn.disabled=true;
 btn.innerText="Hubungi Developer";
-
 });
 
 }
@@ -337,30 +330,23 @@ btn.innerText="Hubungi Developer";
 cekServer();
 setInterval(cekServer,5000);
 
-
-/* COUNTER PENGUNJUNG REALISTIS */
+/* COUNTER PENGUNJUNG */
 
 function visitorCounter(){
 
 let today=new Date().toDateString();
-
 let storedDate=localStorage.getItem("visitorDate");
 let visitor=localStorage.getItem("visitorCount");
 
 if(storedDate!==today){
-
 visitor=1;
-
 localStorage.setItem("visitorDate",today);
 localStorage.setItem("visitorCount",visitor);
-
 }
 
 if(!visitor){
-
 visitor=1;
 localStorage.setItem("visitorCount",visitor);
-
 }
 
 document.getElementById("visitorToday").innerText=
@@ -369,7 +355,6 @@ document.getElementById("visitorToday").innerText=
 function tambah(){
 
 let add=Math.floor(Math.random()*2)+1;
-
 visitor=parseInt(visitor)+add;
 
 localStorage.setItem("visitorCount",visitor);
@@ -378,7 +363,6 @@ document.getElementById("visitorToday").innerText=
 "Pengunjung Hari Ini : "+visitor+" orang";
 
 let next=Math.floor(Math.random()*240000)+120000;
-
 setTimeout(tambah,next);
 
 }
@@ -389,18 +373,25 @@ setTimeout(tambah,180000);
 
 visitorCounter();
 
-
 /* MASUK SISTEM */
 
 function openSystem(){
 
 document.getElementById("loading").classList.add("show");
 
-setTimeout(()=>{
+let waktu=5;
 
+let interval=setInterval(function(){
+
+waktu--;
+document.getElementById("countdown").innerText=waktu;
+
+if(waktu<=0){
+clearInterval(interval);
 window.location.href=serverURL;
+}
 
-},5000);
+},1000);
 
 }
 
@@ -408,3 +399,4 @@ window.location.href=serverURL;
 
 </body>
 </html>
+```
