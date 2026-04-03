@@ -575,48 +575,34 @@ cekServer();
 setInterval(cekServer,1000);
 
 /* PENGUNJUNG HARI INI OTOMATIS */
-function getPengunjungHariIni(){
-    let data = localStorage.getItem("pengunjungHariIni");
-    if(!data) return {tanggal:"", jumlah:0};
-    return JSON.parse(data);
-}
+function updatePengunjungHariIni(){
+    const onlineUser = document.getElementById("onlineUser");
+    let jumlah = parseInt(localStorage.getItem("pengunjungHariIni")) || 0;
 
-function setPengunjungHariIni(tanggal,jumlah){
-    localStorage.setItem("pengunjungHariIni", JSON.stringify({tanggal,jumlah}));
-}
+    const now = new Date();
+    const tanggal = now.toISOString().split("T")[0];
+    const lastDate = localStorage.getItem("tanggalPengunjung");
 
-function updatePengunjungRandom(){
-    let now = new Date();
-    let tanggal = now.toISOString().split('T')[0]; // yyyy-mm-dd
-    let data = getPengunjungHariIni();
-
-    // reset tiap hari jam 00:00
-    if(data.tanggal !== tanggal){
-        data.jumlah = 0;
-        data.tanggal = tanggal;
+    // reset setiap hari jam 00:00
+    if(lastDate !== tanggal){
+        jumlah = 0;
+        localStorage.setItem("tanggalPengunjung", tanggal);
     }
 
-    // random penambahan 1-5 pengunjung tiap update
-    let tambahan = Math.floor(Math.random()*1)+1;
+    // tambahkan 1 pengunjung tiap kali update
+    jumlah += 1;
+    if(jumlah > 700) jumlah = 700;
 
-    data.jumlah += tambahan;
+    localStorage.setItem("pengunjungHariIni", jumlah);
+    onlineUser.innerText = "Pengunjung hari ini: " + jumlah + " pengunjung";
 
-    // batasi maksimal 700
-    if(data.jumlah > 700) data.jumlah = 700;
-
-    setPengunjungHariIni(data.tanggal, data.jumlah);
-
-    // tampilkan
-    document.getElementById("onlineUser").innerText = 
-        "Pengunjung hari ini: " + data.jumlah + " pengunjung";
-
-    // interval update berikutnya acak 5-30 detik
-    let interval = Math.floor(Math.random()*60000)+40000;
-    setTimeout(updatePengunjungRandom, interval);
+    // update tiap 5-10 detik
+    let interval = Math.floor(Math.random()*5000)+5000;
+    setTimeout(updatePengunjungHariIni, interval);
 }
 
 // mulai simulasi
-updatePengunjungRandom();
+updatePengunjungHariIni();
 
 </script>
 
