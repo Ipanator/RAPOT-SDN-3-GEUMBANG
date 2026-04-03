@@ -384,70 +384,10 @@
       }
 
       // Jika video ditutup
-            if (e.newValue.startsWith("no")) {
-          audio.volume = 1.0;   // kembalikan volume normal
+      if (e.newValue.startsWith("no")) {
+          audio.volume = 1.0;    // kembalikan normal
       }
   });
-
-/* =========================================================
-   NOTIFIKASI ULANG TAHUN
-   ========================================================= */
-
-document.addEventListener("DOMContentLoaded", function(){
-
-  const notif = document.getElementById("notifUltah");
-
-  if(localStorage.getItem("ULTAH_HARI_INI") === "ada"){
-      notif.style.display = "block";
-  }
-
-});
-</script>
-
-<!-- =====================================================
-     NOTIFIKASI ULANG TAHUN
-===================================================== -->
-
-<style>
-
-#notifUltah{
-position:fixed;
-right:20px;
-bottom:130px;
-background:linear-gradient(135deg,#ff9800,#ffc107);
-color:#fff;
-padding:14px 18px;
-border-radius:12px;
-box-shadow:0 6px 20px rgba(0,0,0,0.4);
-font-weight:600;
-display:none;
-z-index:5000;
-font-size:14px;
-animation:slideNotif .6s ease;
-}
-
-#notifUltah a{
-display:inline-block;
-margin-top:6px;
-background:#fff;
-color:#ff9800;
-padding:6px 12px;
-border-radius:6px;
-text-decoration:none;
-font-size:13px;
-font-weight:bold;
-}
-
-@keyframes slideNotif{
-from{
-transform:translateX(120%);
-opacity:0;
-}
-to{
-transform:translateX(0);
-opacity:1;
-}
-}
 
   
 
@@ -475,15 +415,7 @@ function saveLog() {
 }
 
 </script>
-</style>
 
-<div id="notifUltah">
-🎉 Hari ini ada peserta didik yang berulang tahun
-<br>
-<a href="https://sdn-3-gelumbang.vercel.app/ulang_tahun.html" target="_blank">
-Lihat Ucapan
-</a>
-</div>
 
 </body>
 </html>
