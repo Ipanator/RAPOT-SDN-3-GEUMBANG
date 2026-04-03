@@ -15,7 +15,7 @@ body {
     flex-direction:column;
     align-items:center;
     justify-content:flex-start;
-    background: linear-gradient(135deg,#f6d365,#fda085);
+    background: linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee); /* neon gradient */
     background-size: 400% 400%;
     animation: gradientBG 20s ease infinite;
     overflow:hidden;
@@ -27,16 +27,16 @@ body {
     100%{background-position:0% 50%}
 }
 
-/* Header Bersinar */
+/* Header Bersinar Neon */
 #main-title {
     font-size:3rem;
     margin:30px 20px 40px;
     text-align:center;
-    background: linear-gradient(90deg, #ffeb3b, #ff9800, #ffd54f);
+    background: linear-gradient(90deg, #fffc00, #ff00ff, #00ffff, #ff7f50);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     position: relative;
-    text-shadow: 2px 2px 12px rgba(0,0,0,0.4);
+    text-shadow: 0 0 5px #fff, 0 0 10px #ff0, 0 0 20px #f0f, 0 0 30px #0ff, 0 0 40px #f80, 0 0 55px #fff;
 }
 #main-title span {
     display: inline-block;
@@ -44,12 +44,12 @@ body {
     margin:0 5px;
 }
 @keyframes shimmer {
-    0% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
-    50% {text-shadow: 0 0 12px rgba(255,255,255,0.8);}
-    100% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
+    0% {text-shadow: 0 0 5px #fff;}
+    50% {text-shadow: 0 0 20px #ff0, 0 0 25px #f0f, 0 0 30px #0ff;}
+    100% {text-shadow: 0 0 5px #fff;}
 }
 
-/* Card Nama Peserta */
+/* Card Nama Peserta Neon */
 #birthday-container {
     display:grid;
     grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
@@ -59,27 +59,29 @@ body {
     margin-bottom:50px;
 }
 .card {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
+    background: rgba(0,0,0,0.2); /* gelap supaya neon lebih pop */
+    backdrop-filter: blur(14px);
     padding:20px;
     border-radius:15px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.3);
+    box-shadow:0 0 10px #ff0, 0 0 20px #f0f, 0 0 30px #0ff;
     text-align:center;
     transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 .card:hover {
     transform: translateY(-10px);
-    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    box-shadow:0 0 20px #ff0, 0 0 35px #f0f, 0 0 50px #0ff;
 }
 .name {
     font-size:1.4rem;
     font-weight:700;
-    color:#ffeb3b;
+    color:#ff0; /* neon kuning */
+    text-shadow: 0 0 5px #fff, 0 0 10px #ff0, 0 0 15px #f0f;
     margin-bottom:8px;
 }
 .birth {
     font-size:1rem;
-    color:#fff;
+    color:#0ff; /* neon cyan */
+    text-shadow: 0 0 3px #fff, 0 0 6px #0ff;
 }
 
 /* Canvas confetti & particle */
