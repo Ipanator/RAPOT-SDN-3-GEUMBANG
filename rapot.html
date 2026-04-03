@@ -575,34 +575,63 @@ cekServer();
 setInterval(cekServer,1000);
 
 /* PENGUNJUNG HARI INI OTOMATIS */
-function updatePengunjungHariIni(){
-    const onlineUser = document.getElementById("onlineUser");
-    let jumlah = parseInt(localStorage.getItem("pengunjungHariIni")) || 0;
+const MAX_PENGUNJUNG = 700;
 
-    const now = new Date();
-    const tanggal = now.toISOString().split("T")[0];
-    const lastDate = localStorage.getItem("tanggalPengunjung");
-
-    // reset setiap hari jam 00:00
-    if(lastDate !== tanggal){
-        jumlah = 0;
-        localStorage.setItem("tanggalPengunjung", tanggal);
+// baca data pengunjung terakhir
+function getDataPengunjung() {
+    let data = JSON.parse(localStorage.getItem("pengunjungSimulasi"));
+    if(!data){
+        data = {tanggal: new Date().toISOString().split("T")[0], jumlah: 0};
+        localStorage.setItem("pengunjungSimulasi", JSON.stringify(data));
     }
-
-    // tambahkan 1 pengunjung tiap kali update
-    jumlah += 1;
-    if(jumlah > 700) jumlah = 700;
-
-    localStorage.setItem("pengunjungHariIni", jumlah);
-    onlineUser.innerText = "Pengunjung hari ini: " + jumlah + " pengunjung";
-
-    // update tiap 5-10 detik
-    let interval = Math.floor(Math.random()*5000)+5000;
-    setTimeout(updatePengunjungHariIni, interval);
+    return data;
 }
 
-// mulai simulasi
-updatePengunjungHariIni();
+// simpan data pengunjung
+function setDataPengunjung(data){
+    localStorage.setItem("pengunjungSimulasi", JSON.stringify(data));
+}
+
+// update pengunjung otomatis
+function updatePengunjung() {
+    let data = getDataPengunjung();
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+
+    // reset tiap hari
+    if(data.tanggal !== today){
+        data.tanggal = today;
+        data.jumlah = 0;
+    }
+
+    // tambah 1 pengunjung
+    data.jumlah += 1;
+    if(data.jumlah > MAX_PENGUNJUNG) data.jumlah = MAX_PENGUNJUNG;
+
+    setDataPengunjung(data);
+
+    // tampilkan di halaman jika ada
+    const el = document.getElementById("onlineUser");
+    if(el) el.innerText = "Pengunjung hari ini: " + data.jumlah + " pengunjung";
+
+    // interval update acak 5-10 detik
+    let interval = Math.floor(Math.random()*5000)+5000;
+    setTimeout(updatePengunjung, interval);
+}
+
+// jalankan simulasi otomatis
+updatePengunjung();
+
+// sinkronisasi antar-tab
+window.addEventListener("storage", function(e){
+    if(e.key === "pengunjungSimulasi"){
+        const el = document.getElementById("onlineUser");
+        if(el){
+            const data = JSON.parse(e.newValue);
+            el.innerText = "Pengunjung hari ini: " + data.jumlah + " pengunjung";
+        }
+    }
+});
 
 </script>
 
