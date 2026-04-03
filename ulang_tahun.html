@@ -8,88 +8,101 @@
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600&family=Nunito:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
 <style>
-body {
+
+*{
+box-sizing:border-box;
+}
+
+body{
 margin:0;
 padding:0;
-font-family:'Fira Sans', sans-serif;
+font-family:'Fira Sans',sans-serif;
 min-height:100vh;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:flex-start;
-background: linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);
-background-size: 400% 400%;
-animation: gradientBG 20s ease infinite;
-overflow:hidden;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);
+background-size:400% 400%;
+animation:gradientBG 20s ease infinite;
 color:#fff;
+overflow-x:hidden;
 }
 
-@keyframes gradientBG {
+@keyframes gradientBG{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
 100%{background-position:0% 50%}
 }
 
-/* Header Bersinar Neon */
-#main-title {
-font-family:'Orbitron', sans-serif;
+/* ================= HEADER ================= */
+
+#main-title{
+font-family:'Orbitron',sans-serif;
 font-size:3rem;
 margin:30px 20px 10px;
 text-align:center;
 line-height:1.2;
-background: linear-gradient(90deg, #fffc00, #ff00ff, #00ffff, #ff7f50);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-text-shadow: 0 0 5px #fff, 0 0 10px #ff0, 0 0 20px #f0f, 0 0 30px #0ff;
+
+background:linear-gradient(90deg,#fffc00,#ff00ff,#00ffff,#ff7f50);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-shadow:0 0 5px #fff,0 0 10px #ff0,0 0 20px #f0f,0 0 30px #0ff;
 }
 
-#main-title span {
+#main-title span{
 display:block;
-animation: shimmer 2.5s infinite;
+animation:shimmer 2.5s infinite;
 }
 
-@keyframes shimmer {
-0% {text-shadow: 0 0 5px #fff;}
-50% {text-shadow: 0 0 20px #ff0, 0 0 25px #f0f, 0 0 30px #0ff;}
-100% {text-shadow: 0 0 5px #fff;}
+@keyframes shimmer{
+0%{text-shadow:0 0 5px #fff;}
+50%{text-shadow:0 0 20px #ff0,0 0 25px #f0f,0 0 30px #0ff;}
+100%{text-shadow:0 0 5px #fff;}
 }
 
-/* Teks tanggal */
-#age-text {
-font-family:'Orbitron', sans-serif;
+/* ================= TANGGAL ================= */
+
+#age-text{
+font-family:'Orbitron',sans-serif;
 font-size:1.5rem;
-margin:10px 0 30px;
+margin:10px 20px 30px;
 color:#0ff;
 text-shadow:0 0 5px #fff,0 0 10px #0ff,0 0 15px #f0f;
 text-align:center;
+max-width:900px;
 }
 
-/* Card siswa */
-#birthday-container {
+/* ================= GRID SISWA ================= */
+
+#birthday-container{
 display:grid;
-grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:20px;
-width:90%;
+width:92%;
 max-width:1200px;
 margin-bottom:40px;
 }
 
-.card {
-background: rgba(0,0,0,0.2);
-backdrop-filter: blur(14px);
-padding:20px;
+.card{
+background:rgba(0,0,0,0.25);
+backdrop-filter:blur(14px);
+padding:22px;
 border-radius:15px;
-box-shadow:0 0 10px #ff0, 0 0 20px #f0f, 0 0 30px #0ff;
+
+box-shadow:0 0 10px #ff0,0 0 20px #f0f,0 0 30px #0ff;
+
 text-align:center;
-transition: transform 0.5s ease, box-shadow 0.5s ease;
+transition:transform .4s ease,box-shadow .4s ease;
 }
 
-.card:hover {
-transform: translateY(-10px);
-box-shadow:0 0 20px #ff0, 0 0 35px #f0f, 0 0 50px #0ff;
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 20px #ff0,0 0 35px #f0f,0 0 50px #0ff;
 }
 
-.name {
+.name{
 font-size:1.4rem;
 font-weight:600;
 color:#ff0;
@@ -97,39 +110,105 @@ text-shadow:0 0 5px #fff,0 0 10px #ff0,0 0 15px #f0f;
 margin-bottom:8px;
 }
 
-.birth {
-font-family:'Nunito', sans-serif;
+.birth{
+font-family:'Nunito',sans-serif;
 font-size:1rem;
 color:#0ff;
 text-shadow:0 0 3px #fff,0 0 6px #0ff;
 }
 
-/* DOA */
+/* ================= DOA ================= */
+
 #doa-text{
 max-width:900px;
 margin:40px 20px 60px;
 text-align:center;
-font-family:'Nunito', sans-serif;
+font-family:'Nunito',sans-serif;
 font-size:1.15rem;
 line-height:1.7;
 color:#fff;
+
 background:rgba(0,0,0,0.25);
-padding:20px 30px;
+padding:22px 30px;
 border-radius:14px;
+
 backdrop-filter:blur(10px);
+
 text-shadow:0 0 5px #fff,0 0 10px #0ff;
+
 box-shadow:0 0 15px rgba(255,255,255,0.3);
 }
 
-/* Canvas */
+/* ================= PARTICLE ================= */
+
 canvas{
-position:absolute;
+position:fixed;
 top:0;
 left:0;
 pointer-events:none;
 width:100%;
 height:100%;
+z-index:-1;
 }
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width:900px){
+
+#main-title{
+font-size:2.3rem;
+}
+
+#age-text{
+font-size:1.3rem;
+}
+
+}
+
+/* HP besar */
+@media (max-width:600px){
+
+#main-title{
+font-size:1.9rem;
+}
+
+#age-text{
+font-size:1.15rem;
+}
+
+.name{
+font-size:1.2rem;
+}
+
+.birth{
+font-size:0.9rem;
+}
+
+#doa-text{
+font-size:1rem;
+padding:18px;
+}
+
+}
+
+/* HP kecil */
+@media (max-width:400px){
+
+#main-title{
+font-size:1.6rem;
+}
+
+#age-text{
+font-size:1rem;
+}
+
+.card{
+padding:18px;
+}
+
+}
+
 </style>
 </head>
 
@@ -146,7 +225,7 @@ height:100%;
 <div id="birthday-container"></div>
 
 <div id="doa-text">
-Semoga di usia yang bertambah ini, ananda senantiasa diberi kesehatan, keberkahan, kemudahan dalam belajar, serta tumbuh menjadi generasi yang cerdas, berakhlak baik,dan membanggakan orang tua, guru, serta sekolah.
+Semoga di usia yang bertambah ini, ananda senantiasa diberi kesehatan, keberkahan, kemudahan dalam belajar, serta tumbuh menjadi generasi yang cerdas, berakhlak baik, dan membanggakan orang tua, guru, serta sekolah.
 </div>
 
 <audio id="birthday-audio" src="ulang_tahun.mp3" preload="auto"></audio>
@@ -161,40 +240,40 @@ const today = new Date();
 const todayStr = today.toISOString().slice(5,10);
 
 fetch('data_ultah.json')
-.then(res => res.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
-const container = document.getElementById('birthday-container');
-const ageText = document.getElementById('age-text');
+const container=document.getElementById('birthday-container');
+const ageText=document.getElementById('age-text');
 
-const birthdayToday = data.filter(s => s.birth.slice(5) === todayStr);
+const birthdayToday=data.filter(s=>s.birth.slice(5)===todayStr);
 
 if(birthdayToday.length){
 
 document.getElementById('birthday-audio').play();
 
 function confettiLoop(){
-confetti({particleCount:5, angle:60, spread:55, origin:{x:0}});
-confetti({particleCount:5, angle:120, spread:55, origin:{x:1}});
+confetti({particleCount:5,angle:60,spread:55,origin:{x:0}});
+confetti({particleCount:5,angle:120,spread:55,origin:{x:1}});
 requestAnimationFrame(confettiLoop);
 }
 confettiLoop();
 
 birthdayToday.forEach(s=>{
 
-const birthDate = new Date(s.birth);
-const age = today.getFullYear() - birthDate.getFullYear();
+const birthDate=new Date(s.birth);
+const age=today.getFullYear()-birthDate.getFullYear();
 
-const day = today.getDate();
-const month = today.toLocaleString('id-ID',{month:'long'});
-const year = today.getFullYear();
+const day=today.getDate();
+const month=today.toLocaleString('id-ID',{month:'long'});
+const year=today.getFullYear();
 
-ageText.innerHTML = `Hari ini, ${day} ${month} ${year} menjadi momen istimewa bagi ananda yang berulang tahun`;
+ageText.innerHTML=`Hari ini, ${day} ${month} ${year} menjadi momen istimewa bagi ananda yang berulang tahun`;
 
-const card = document.createElement('div');
-card.className = 'card';
+const card=document.createElement('div');
+card.className='card';
 
-card.innerHTML = `
+card.innerHTML=`
 <div class="name">${s.name}</div>
 <div class="birth">${s.place} - ${s.birth} (Umur ${age})</div>
 `;
@@ -216,15 +295,16 @@ console.error(err);
 document.getElementById('birthday-container').innerHTML='<h2>Gagal memuat data</h2>';
 });
 
-/* PARTICLE BACKGROUND */
 
-const canvas = document.getElementById("particles");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+/* PARTICLES */
 
-const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("particles");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-const particles = [];
+const ctx=canvas.getContext("2d");
+
+const particles=[];
 
 for(let i=0;i<150;i++){
 particles.push({
