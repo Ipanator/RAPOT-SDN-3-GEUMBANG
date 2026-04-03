@@ -6,60 +6,71 @@
 <title>Ulang Tahun SDN 3 Gelumbang</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-* {margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif;}
 body {
+    margin:0;
+    padding:0;
+    font-family:'Poppins', sans-serif;
     min-height:100vh;
     display:flex;
-    justify-content:center;
-    align-items:center;
     flex-direction:column;
-    text-align:center;
-    color:#fff;
+    align-items:center;
+    justify-content:flex-start;
     background: linear-gradient(135deg,#f6d365,#fda085);
     background-size: 400% 400%;
     animation: gradientBG 20s ease infinite;
-    overflow: hidden;
+    overflow:hidden;
+    color:#fff;
 }
 @keyframes gradientBG {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
 }
-h1 {font-size:3rem; margin-bottom:5px; text-shadow:2px 2px 8px rgba(0,0,0,0.4);}
-h2 {font-size:2rem; margin-bottom:20px; text-shadow:1px 1px 6px rgba(0,0,0,0.3);}
+h1 {
+    font-size:3rem;
+    margin:30px 20px 20px;
+    text-align:center;
+    text-shadow:2px 2px 8px rgba(0,0,0,0.4);
+}
+#birthday-container {
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+    width:90%;
+    max-width:1200px;
+    margin-bottom:50px;
+}
 .card {
     background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    padding:30px 40px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
-    max-width:400px;
-    margin:15px auto;
-    opacity:0;
-    transform: translateY(50px);
-    transition: all 0.8s ease;
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%) translateY(50px);
+    backdrop-filter: blur(12px);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.3);
+    text-align:center;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
-.card.show {
-    opacity:1;
-    transform: translate(-50%,-50%) translateY(0);
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
-.name {font-size:2rem; font-weight:700; margin-bottom:10px; color:#ffeb3b; text-shadow:1px 1px 5px rgba(0,0,0,0.5);}
-.birth {font-size:1.2rem; font-weight:400; color:#fff; text-shadow:1px 1px 4px rgba(0,0,0,0.4);}
-#no-birthday {color:#fff; font-size:1.5rem; margin-top:30px;}
-canvas {position:absolute; top:0; left:0; pointer-events:none;}
+.name {
+    font-size:1.4rem;
+    font-weight:700;
+    color:#ffeb3b;
+    margin-bottom:8px;
+}
+.birth {
+    font-size:1rem;
+    color:#fff;
+}
+canvas {position:absolute; top:0; left:0; pointer-events:none; width:100%; height:100%;}
 </style>
 </head>
 <body>
 
-<h1>Selamat Ulang Tahun</h1>
-<h2>SD Negeri 3 Gelumbang</h2>
+<h1>Selamat Ulang Tahun Peserta Didik SDN 3 Gelumbang</h1>
 
 <div id="birthday-container"></div>
-<div id="no-birthday" style="display:none;">Tidak ada peserta yang ulang tahun hari ini.</div>
 
 <audio id="birthday-audio" src="ulang_tahun.mp3" preload="auto"></audio>
 <canvas id="confetti"></canvas>
@@ -68,9 +79,7 @@ canvas {position:absolute; top:0; left:0; pointer-events:none;}
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
 // CONFIG
-const config = {
-    slideDuration: 5000
-};
+const config = {}
 
 // Tanggal hari ini
 const today = new Date();
@@ -94,11 +103,8 @@ fetch('data_ultah.json')
         }
         confettiLoop();
 
-        // Slide show peserta
-        let current = 0;
-        const showCard = () => {
-            container.innerHTML = '';
-            const s = birthdayToday[current];
+        // Tampilkan semua peserta sekaligus
+        birthdayToday.forEach(s=>{
             const birthDate = new Date(s.birth);
             const age = today.getFullYear() - birthDate.getFullYear();
             const card = document.createElement('div');
@@ -106,30 +112,26 @@ fetch('data_ultah.json')
             card.innerHTML = `<div class="name">${s.name}</div>
                               <div class="birth">${s.place} - ${s.birth} (Umur ${age})</div>`;
             container.appendChild(card);
-            setTimeout(() => card.classList.add('show'), 50);
-            current = (current + 1) % birthdayToday.length;
-        };
-        showCard();
-        setInterval(showCard, config.slideDuration);
+        });
 
     } else {
-        document.getElementById('no-birthday').style.display='block';
+        container.innerHTML = '<h2>Tidak ada peserta yang ulang tahun hari ini</h2>';
     }
 })
-.catch(err => {console.error(err); document.getElementById('no-birthday').style.display='block';});
+.catch(err => {console.error(err); document.getElementById('birthday-container').innerHTML='<h2>Gagal memuat data</h2>';});
 
-// Particles background terus bergerak
+// Particles background
 const canvas = document.getElementById('particles');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const ctx = canvas.getContext('2d');
 const particles = [];
-for(let i=0;i<120;i++){
-    particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2+1, d: Math.random()*1+0.5});
+for(let i=0;i<150;i++){
+    particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,d:Math.random()*1+0.5});
 }
 function drawParticles(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "rgba(255,255,255,0.6)";
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
     particles.forEach(p=>{
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
