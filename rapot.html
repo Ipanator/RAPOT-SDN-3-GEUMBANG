@@ -263,70 +263,43 @@ setInterval(cekServer,1000);
 /* PENGUNJUNG HARI INI OTOMATIS */
 const MAX_PENGUNJUNG = 700;
 
-// ambil data pengunjung dari storage
-function getDataPengunjung() {
-    let data = JSON.parse(localStorage.getItem("pengunjungSimulasi"));
-    const today = new Date().toISOString().split("T")[0];
+// pengaturan simulasi
+const MIN_INTERVAL = 2; // menit
+const MAX_INTERVAL = 5; // menit
+const MIN_ADD = 1; // pengunjung
+const MAX_ADD = 5; // pengunjung
 
-    if(!data || data.tanggal !== today){
-        // reset tiap hari jam 00:00
-        data = {tanggal: today, jumlah: 0};
-        localStorage.setItem("pengunjungSimulasi", JSON.stringify(data));
+function getPengunjungHariIni() {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    const minutesSinceMidnight = Math.floor((now - startOfDay) / 60000);
+
+    // simulasi penambahan random berdasarkan menit
+    let pengunjung = 0;
+    let t = 0;
+    while (t < minutesSinceMidnight) {
+        const interval = Math.floor(Math.random() * (MAX_INTERVAL - MIN_INTERVAL + 1)) + MIN_INTERVAL;
+        const add = Math.floor(Math.random() * (MAX_ADD - MIN_ADD + 1)) + MIN_ADD;
+        pengunjung += add;
+        t += interval;
     }
-    return data;
+
+    if (pengunjung > MAX_PENGUNJUNG) pengunjung = MAX_PENGUNJUNG;
+    return pengunjung;
 }
 
-// simpan data pengunjung
-function setDataPengunjung(data){
-    localStorage.setItem("pengunjungSimulasi", JSON.stringify(data));
-}
-
-// tampilkan pengunjung
+// tampilkan
 function tampilkanPengunjung() {
     const el = document.getElementById("onlineUser");
     if(el){
-        const data = getDataPengunjung();
-        el.innerText = "Pengunjung hari ini: " + data.jumlah + " pengunjung";
+        el.innerText = "Pengunjung hari ini: " + getPengunjungHariIni() + " pengunjung";
     }
 }
 
-// tambah pengunjung otomatis seperti jam
-function tambahPengunjungOtomatis() {
-    let data = getDataPengunjung();
-
-    // tambah 1 pengunjung tiap interval
-    data.jumlah += 1;
-    if(data.jumlah > MAX_PENGUNJUNG) data.jumlah = MAX_PENGUNJUNG;
-
-    setDataPengunjung(data);
-    tampilkanPengunjung();
-
-    // interval otomatis 5 detik (bisa diganti sesuai keinginan)
-    setTimeout(tambahPengunjungOtomatis, 5000);
-}
-
-// tampilkan jumlah terakhir saat halaman dibuka
+// update tiap 1 menit
 tampilkanPengunjung();
+setInterval(tampilkanPengunjung, 60000);
 
-// mulai penambahan otomatis
-setTimeout(tambahPengunjungOtomatis, 5000);
-
-// reset otomatis jam 00:00
-setInterval(()=>{
-    const now = new Date();
-    if(now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0){
-        let data = {tanggal: now.toISOString().split("T")[0], jumlah: 0};
-        setDataPengunjung(data);
-        tampilkanPengunjung();
-    }
-}, 1000);
-
-// sinkronisasi antar-tab browser
-window.addEventListener("storage", function(e){
-    if(e.key === "pengunjungSimulasi"){
-        tampilkanPengunjung();
-    }
-});
 </script>
 
 </body>
