@@ -413,6 +413,46 @@ function saveLog() {
   .then(r => console.log("Tersimpan"))
   .catch(e => console.log("Gagal:", e));
 }
+  async function cekUltah() {
+
+  const res = await fetch("data_ultah.json");
+  const data = await res.json();
+
+  const today = new Date();
+  const bulan = today.getMonth()+1;
+  const hari = today.getDate();
+
+  const ultahHariIni = data.filter(siswa => {
+    const tgl = new Date(siswa.birth);
+    return (tgl.getDate() === hari && (tgl.getMonth()+1) === bulan);
+  });
+
+  if(ultahHariIni.length > 0){
+
+    if(Notification.permission !== "granted"){
+      await Notification.requestPermission();
+    }
+
+    if(Notification.permission === "granted"){
+
+      const nama = ultahHariIni.map(s=>s.name).join(", ");
+
+      const notif = new Notification("🎉 Ulang Tahun Hari Ini!",{
+        body: nama + " sedang berulang tahun 🎂",
+        icon: "logo.png"
+      });
+
+      notif.onclick = function(){
+        window.location.href = "ulang_tahun.html";
+      }
+
+    }
+
+  }
+
+}
+
+cekUltah();
 
 </script>
 
