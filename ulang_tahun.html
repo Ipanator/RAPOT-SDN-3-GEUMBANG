@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ulang Tahun SDN 3 Gelumbang</title>
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600&family=Nunito:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
 <style>
 body {
@@ -32,23 +31,32 @@ body {
 #main-title {
     font-family:'Orbitron', sans-serif;
     font-size:3rem;
-    margin:30px 20px 40px;
+    margin:30px 20px 10px;
     text-align:center;
     line-height:1.2;
     background: linear-gradient(90deg, #fffc00, #ff00ff, #00ffff, #ff7f50);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    position: relative;
-    text-shadow: 0 0 5px #fff, 0 0 10px #ff0, 0 0 20px #f0f, 0 0 30px #0ff, 0 0 40px #f80, 0 0 55px #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #ff0, 0 0 20px #f0f, 0 0 30px #0ff;
 }
 #main-title span {
-    display: block; /* satu span per baris */
+    display: block;
     animation: shimmer 2.5s infinite;
 }
 @keyframes shimmer {
     0% {text-shadow: 0 0 5px #fff;}
     50% {text-shadow: 0 0 20px #ff0, 0 0 25px #f0f, 0 0 30px #0ff;}
     100% {text-shadow: 0 0 5px #fff;}
+}
+
+/* Teks otomatis umur */
+#age-text {
+    font-family:'Orbitron', sans-serif;
+    font-size:1.5rem;
+    margin:10px 0 30px;
+    color:#0ff;
+    text-shadow:0 0 5px #fff,0 0 10px #0ff,0 0 15px #f0f;
+    text-align:center;
 }
 
 /* Card Nama Peserta Neon */
@@ -100,6 +108,8 @@ canvas {position:absolute; top:0; left:0; pointer-events:none; width:100%; heigh
   <span>SDN 3 Gelumbang</span>
 </h1>
 
+<div id="age-text"></div>
+
 <div id="birthday-container"></div>
 
 <audio id="birthday-audio" src="ulang_tahun.mp3" preload="auto"></audio>
@@ -117,6 +127,7 @@ fetch('data_ultah.json')
 .then(res => res.json())
 .then(data => {
     const container = document.getElementById('birthday-container');
+    const ageText = document.getElementById('age-text');
     const birthdayToday = data.filter(s => s.birth.slice(5) === todayStr);
 
     if(birthdayToday.length){
@@ -134,6 +145,11 @@ fetch('data_ultah.json')
         birthdayToday.forEach(s=>{
             const birthDate = new Date(s.birth);
             const age = today.getFullYear() - birthDate.getFullYear();
+            const day = today.getDate();
+            const month = today.toLocaleString('id-ID',{month:'long'});
+            const year = today.getFullYear();
+            ageText.innerHTML += `Hari ini ${day} ${month} ${year}, ${s.name} tepat berumur ${age} tahun<br>`;
+
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `<div class="name">${s.name}</div>
@@ -142,6 +158,7 @@ fetch('data_ultah.json')
         });
 
     } else {
+        ageText.innerHTML = 'Tidak ada peserta yang ulang tahun hari ini';
         container.innerHTML = '<h2>Tidak ada peserta yang ulang tahun hari ini</h2>';
     }
 })
