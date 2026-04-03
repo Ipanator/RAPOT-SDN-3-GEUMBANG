@@ -263,32 +263,44 @@ setInterval(cekServer,1000);
 /* PENGUNJUNG HARI INI OTOMATIS */
 const MAX_PENGUNJUNG = 700;
 
-// pengaturan simulasi
-const MIN_INTERVAL = 2; // menit
-const MAX_INTERVAL = 5; // menit
-const MIN_ADD = 1; // pengunjung
-const MAX_ADD = 5; // pengunjung
-
+// fungsi hitung pengunjung otomatis berdasarkan jam
 function getPengunjungHariIni() {
     const now = new Date();
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
     const minutesSinceMidnight = Math.floor((now - startOfDay) / 60000);
 
-    // simulasi penambahan random berdasarkan menit
     let pengunjung = 0;
     let t = 0;
+
     while (t < minutesSinceMidnight) {
-        const interval = Math.floor(Math.random() * (MAX_INTERVAL - MIN_INTERVAL + 1)) + MIN_INTERVAL;
-        const add = Math.floor(Math.random() * (MAX_ADD - MIN_ADD + 1)) + MIN_ADD;
+        let interval, add;
+
+        const hour = Math.floor(t / 60);
+
+        if(hour >= 6 && hour < 12){
+            // pagi: cepat
+            interval = 1; // tiap 1 menit
+            add = 3;      // tambah 3 pengunjung
+        } else if(hour >= 12 && hour < 18){
+            // siang: sedang
+            interval = 2; // tiap 2 menit
+            add = 2;      // tambah 2 pengunjung
+        } else {
+            // malam: lambat
+            interval = 5; // tiap 5 menit
+            add = 1;      // tambah 1 pengunjung
+        }
+
         pengunjung += add;
         t += interval;
     }
 
     if (pengunjung > MAX_PENGUNJUNG) pengunjung = MAX_PENGUNJUNG;
+
     return pengunjung;
 }
 
-// tampilkan
+// tampilkan pengunjung
 function tampilkanPengunjung() {
     const el = document.getElementById("onlineUser");
     if(el){
@@ -299,7 +311,6 @@ function tampilkanPengunjung() {
 // update tiap 1 menit
 tampilkanPengunjung();
 setInterval(tampilkanPengunjung, 60000);
-
 </script>
 
 </body>
