@@ -26,12 +26,30 @@ body {
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
 }
-h1 {
+
+/* Header Bersinar */
+#main-title {
     font-size:3rem;
-    margin:30px 20px 20px;
+    margin:30px 20px 40px;
     text-align:center;
-    text-shadow:2px 2px 8px rgba(0,0,0,0.4);
+    background: linear-gradient(90deg, #ffeb3b, #ff9800, #ffd54f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.4);
 }
+#main-title span {
+    display: inline-block;
+    animation: shimmer 2.5s infinite;
+    margin:0 5px;
+}
+@keyframes shimmer {
+    0% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
+    50% {text-shadow: 0 0 12px rgba(255,255,255,0.8);}
+    100% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
+}
+
+/* Card Nama Peserta */
 #birthday-container {
     display:grid;
     grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
@@ -63,12 +81,19 @@ h1 {
     font-size:1rem;
     color:#fff;
 }
+
+/* Canvas confetti & particle */
 canvas {position:absolute; top:0; left:0; pointer-events:none; width:100%; height:100%;}
 </style>
 </head>
 <body>
 
-<h1>Selamat Ulang Tahun Peserta Didik SDN 3 Gelumbang</h1>
+<h1 id="main-title">
+  <span>Selamat</span> 
+  <span>Ulang Tahun</span> 
+  <span>Peserta Didik</span> 
+  <span>SDN 3 Gelumbang</span>
+</h1>
 
 <div id="birthday-container"></div>
 
@@ -78,9 +103,6 @@ canvas {position:absolute; top:0; left:0; pointer-events:none; width:100%; heigh
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-// CONFIG
-const config = {}
-
 // Tanggal hari ini
 const today = new Date();
 const todayStr = today.toISOString().slice(5,10);
