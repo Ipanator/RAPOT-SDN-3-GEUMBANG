@@ -1,12 +1,13 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SDN 3 GELUMBANG</title>
 
-<meta name="description" content="Website SD Negeri 3 Gelumbang - informasi sekolah,.">
-<meta name="keywords" content="SDN 3 Gelumbang, Gelumbang, Muara Enim, Sekolah Dasar, Rapor Online">
+<meta name="description" content="Website SD Negeri 3 Gelumbang - informasi sekolah">
+<meta name="keywords" content="SDN 3 Gelumbang, Gelumbang, Muara Enim, Sekolah Dasar">
 <meta name="author" content="Ipan Ditia">
 
 <link rel="icon" type="image/png" href="logo2.png">
@@ -205,6 +206,22 @@ transform:translateY(0);
 }
 }
 
+/* NOTIF ULANG TAHUN */
+
+.notif-ultah{
+position:fixed;
+top:90px;
+right:20px;
+background:#ffcc00;
+color:#000;
+padding:12px 18px;
+border-radius:10px;
+font-weight:bold;
+z-index:3000;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.4);
+}
+
 /* FOOTER */
 
 footer{
@@ -217,49 +234,6 @@ left:0;
 text-align:center;
 font-size:14px;
 z-index:2000;
-}
-
-/* =========================================================
-   CEK ULANG TAHUN SISWA
-   ========================================================= */
-
-function cekUlangTahun(){
-
-fetch("data_ultah.json")
-.then(res=>res.json())
-.then(data=>{
-
-const today = new Date();
-const day = String(today.getDate()).padStart(2,'0');
-const month = String(today.getMonth()+1).padStart(2,'0');
-
-const todayMD = `${month}-${day}`;
-
-const ultah = data.filter(siswa=>{
-const birth = siswa.birth.split("-");
-const md = `${birth[1]}-${birth[2]}`;
-return md === todayMD;
-});
-
-if(ultah.length > 0){
-
-const notif = document.createElement("div");
-notif.className = "notif-ultah";
-
-notif.innerHTML = `🎉 ${ultah.length} Siswa Ulang Tahun Hari Ini`;
-
-notif.onclick = ()=>{
-window.location.href="ulang_tahun.html";
-};
-
-document.body.appendChild(notif);
-
-}
-
-}).catch(err=>{
-console.log("JSON error:",err);
-});
-
 }
 
 </style>
@@ -316,17 +290,11 @@ E-mail: sdn3glmbng@gmail.com
 <div class="btn-container">
 
 <a href="https://sdn-3-gelumbang.vercel.app/rapot.html" class="btn-info" target="_blank">Rapot Online</a>
-
 <a href="https://sdn-3-gelumbang.vercel.app/album.html" class="btn-info" target="_blank">Galeri</a>
-
 <a href="https://sdn-3-gelumbang.vercel.app/vidio.html" class="btn-info">Explore Video</a>
-
 <a href="https://sdn-3-gelumbang.vercel.app/karyasiswa.html" class="btn-info" target="_blank">RUANG IT</a>
-
 <a href="https://sdn-3-gelumbang.vercel.app/spmb.html" class="btn-info" target="_blank">SPMB</a>
-
 <a href="https://dapo.dikdasmen.go.id/sekolah/FBA964F3EBEF1E4D616D" class="btn-info" target="_blank">Info Sekolah</a>
-
 <a href="https://wa.me/6285369662075" class="btn-info" target="_blank">Kirim Pesan</a>
 
 </div>
@@ -409,23 +377,20 @@ document.body.appendChild(notif);
 
 /* tombol masuk */
 
-ddocument.getElementById("mulaiBtn").onclick = () => {
-
-saveLog();
+document.getElementById("mulaiBtn").onclick = () => {
 
 document.getElementById("splashScreen").style.display = "none";
 
-cekUlangTahun(); // menjalankan notif
+cekUlangTahun();
 
-if (!audioOpening.paused) audioOpening.pause();
-
-audio.muted = false;
+const audio = document.getElementById("audioPlayer");
 audio.volume = 1.0;
-audio.play().catch(()=>{});
-muteBtn.textContent = "🔊";
+audio.play();
+
 };
 
 </script>
 
 </body>
 </html>
+```
