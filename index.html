@@ -219,29 +219,47 @@ font-size:14px;
 z-index:2000;
 }
 
-/* =============================
-   NOTIF ULANG TAHUN
-============================= */
+/* =========================================================
+   CEK ULANG TAHUN SISWA
+   ========================================================= */
 
-.notif-ultah{
-position:fixed;
-top:90px;
-right:15px;
-background:linear-gradient(135deg,#FFD700,#FFA000);
-color:#000;
-padding:10px 16px;
-border-radius:10px;
-font-weight:600;
-font-size:14px;
-cursor:pointer;
-box-shadow:0 4px 12px rgba(0,0,0,0.35);
-z-index:1500;
-animation:notifFade .5s ease;
+function cekUlangTahun(){
+
+fetch("data_ultah.json")
+.then(res=>res.json())
+.then(data=>{
+
+const today = new Date();
+const day = String(today.getDate()).padStart(2,'0');
+const month = String(today.getMonth()+1).padStart(2,'0');
+
+const todayMD = `${month}-${day}`;
+
+const ultah = data.filter(siswa=>{
+const birth = siswa.birth.split("-");
+const md = `${birth[1]}-${birth[2]}`;
+return md === todayMD;
+});
+
+if(ultah.length > 0){
+
+const notif = document.createElement("div");
+notif.className = "notif-ultah";
+
+notif.innerHTML = `🎉 ${ultah.length} Siswa Ulang Tahun Hari Ini`;
+
+notif.onclick = ()=>{
+window.location.href="ulang_tahun.html";
+};
+
+document.body.appendChild(notif);
+
 }
 
-@keyframes notifFade{
-from{opacity:0;transform:translateY(-10px)}
-to{opacity:1;transform:translateY(0)}
+}).catch(err=>{
+console.log("JSON error:",err);
+});
+
 }
 
 </style>
@@ -391,12 +409,20 @@ document.body.appendChild(notif);
 
 /* tombol masuk */
 
-document.getElementById("mulaiBtn").onclick=()=>{
+ddocument.getElementById("mulaiBtn").onclick = () => {
 
-document.getElementById("splashScreen").style.display="none";
+saveLog();
 
-cekUlangTahun();
+document.getElementById("splashScreen").style.display = "none";
 
+cekUlangTahun(); // menjalankan notif
+
+if (!audioOpening.paused) audioOpening.pause();
+
+audio.muted = false;
+audio.volume = 1.0;
+audio.play().catch(()=>{});
+muteBtn.textContent = "🔊";
 };
 
 </script>
