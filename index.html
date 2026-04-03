@@ -242,7 +242,9 @@
       font-size: 14px;
       z-index: 2000;
     }
-    <style>
+
+ 
+    
 #ultahPopup{
   position:fixed;
   top:20px;
@@ -292,7 +294,6 @@
     opacity:1;
   }
 }
-</style>
   </style>
 </head>
 
@@ -465,20 +466,6 @@ function saveLog() {
   .catch(e => console.log("Gagal:", e));
 }
   async function cekUltah() {
-
-  const res = await fetch("data_ultah.json");
-  const data = await res.json();
-
-  const today = new Date();
-  const bulan = today.getMonth()+1;
-  const hari = today.getDate();
-
-  const ultahHariIni = data.filter(siswa => {
-    const tgl = new Date(siswa.birth);
-    return (tgl.getDate() === hari && (tgl.getMonth()+1) === bulan);
-  });
-
-  async function cekUltah() {
   const res = await fetch("data_ultah.json");
   const data = await res.json();
 
@@ -495,7 +482,6 @@ function saveLog() {
 
   if(jumlah > 0){
     let pesan = "";
-
     if(jumlah === 1){
       pesan = "Ada 1 peserta didik yang sedang berulang tahun hari ini 🎉";
     } else {
@@ -507,16 +493,6 @@ function saveLog() {
     document.getElementById("ultahPopup").style.display = "block";
   }
 }
-
-// Tutup popup
-document.getElementById("closePopup").onclick = () => {
-  document.getElementById("ultahPopup").style.display = "none";
-};
-
-// Jalankan cek ulang tahun setelah load
-window.addEventListener("load", () => {
-  cekUltah();
-});
 
 </script>
 
