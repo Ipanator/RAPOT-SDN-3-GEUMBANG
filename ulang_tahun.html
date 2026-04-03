@@ -148,7 +148,7 @@ fetch('data_ultah.json')
             const day = today.getDate();
             const month = today.toLocaleString('id-ID',{month:'long'});
             const year = today.getFullYear();
-           ageText.innerHTML += `Hari ini, <b>${s.name}</b> menjadi momen istimewa bagi ananda yang sedang merayakan ulang tahun<br>`;
+           ageText.innerHTML = `Hari ini, ${day} ${month} ${year} menjadi momen istimewa bagi ananda yang berulang tahun`;
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `<div class="name">${s.name}</div>
