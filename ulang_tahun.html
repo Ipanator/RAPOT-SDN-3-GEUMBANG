@@ -1,40 +1,29 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar Siswa</title>
+<h1 id="main-title">
+  <span>Selamat</span> 
+  <span>Ulang Tahun</span> 
+  <span>Peserta Didik</span> 
+  <span>SDN 3 Gelumbang</span>
+</h1>
+
 <style>
-  table { border-collapse: collapse; width: 100%; }
-  th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-  th { background-color: #f2f2f2; }
+#main-title {
+    font-size:3rem;
+    margin:30px 20px 40px;
+    text-align:center;
+    background: linear-gradient(90deg, #ffeb3b, #ff9800, #ffd54f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.4);
+}
+#main-title span {
+    display: inline-block;
+    animation: shimmer 2.5s infinite;
+    margin:0 5px;
+}
+@keyframes shimmer {
+    0% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
+    50% {text-shadow: 0 0 12px rgba(255,255,255,0.8);}
+    100% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
+}
 </style>
-</head>
-<body>
-
-<h2>Daftar Siswa</h2>
-<table id="tabelSiswa">
-  <tr>
-    <th>Nama</th>
-    <th>Tanggal Lahir</th>
-  </tr>
-</table>
-
-<script>
-fetch('data_siswa.json')
-  .then(response => response.json())
-  .then(data => {
-    const tabel = document.getElementById('tabelSiswa');
-    data.forEach(siswa => {
-      const row = tabel.insertRow();
-      const namaCell = row.insertCell(0);
-      const tglCell = row.insertCell(1);
-      namaCell.textContent = siswa.nama;
-      tglCell.textContent = siswa.tgl_lahir;
-    });
-  })
-  .catch(err => console.error('Gagal load data siswa:', err));
-</script>
-
-</body>
-</html>
