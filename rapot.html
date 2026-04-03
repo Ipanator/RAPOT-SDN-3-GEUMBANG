@@ -275,7 +275,7 @@ function generateDailyVisitors() {
     return Math.floor(Math.random() * (MAX_PENGUNJUNG - MIN_PENGUNJUNG + 1)) + MIN_PENGUNJUNG;
 }
 
-// simpan data hari ini di localStorage supaya konsisten selama hari itu
+// ambil data pengunjung hari ini dari localStorage
 function getDailyData() {
     let data = JSON.parse(localStorage.getItem("dailyVisitors"));
     const today = getTodayStr();
@@ -292,20 +292,29 @@ function getDailyData() {
     return data;
 }
 
-// update pengunjung per interval (misal tiap 3 menit)
+// update pengunjung berdasarkan waktu, reload tidak menambah
 function updateVisitors() {
     let data = getDailyData();
     
-    // tambah sedikit pengunjung tiap interval (random 1-3)
-    const add = Math.floor(Math.random()*3)+1;
-    data.count += add;
+    // hitung interval sejak jam 00:00
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    const minutesSinceMidnight = Math.floor((now - startOfDay)/60000);
 
-    localStorage.setItem("dailyVisitors", JSON.stringify(data));
+    // tentukan berapa kali interval 3 menit berlalu
+    const intervalCount = Math.floor(minutesSinceMidnight/3);
 
-    // tampilkan
+    // tambahkan jumlah acak tiap interval (1-3 pengunjung)
+    let added = 0;
+    for(let i=0;i<intervalCount;i++){
+        added += Math.floor(Math.random()*3)+1;
+    }
+
+    let total = data.count + added;
+
     const el = document.getElementById("onlineUser");
     if(el){
-        el.innerText = "Pengunjung hari ini: " + data.count + " pengunjung";
+        el.innerText = "Pengunjung hari ini: " + total + " pengunjung";
     }
 }
 
