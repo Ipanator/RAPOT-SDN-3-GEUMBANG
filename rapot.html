@@ -410,7 +410,7 @@ Memeriksa status server...
 </div>
 
 <div class="server-status" id="onlineUser">
-Penggunjung : 1 Pengunjung
+Pengunjung hari ini: 0
 </div>
 
 <div class="button">
@@ -578,43 +578,26 @@ setInterval(cekServer,1000);
 
 /* USER ONLINE */
 
+/* USER ONLINE */
 function updateOnlineUser(){
-
-let jam=new Date().getHours();
-
-let jumlah;
-
-if(jam>=22 || jam<=5){
-
-jumlah=1;
-
+    let jam=new Date().getHours();
+    let jumlah;
+    if(jam>=22 || jam<=5){
+        jumlah=1;
+    }
+    else if(jam>=6 && jam<=10){
+        jumlah=Math.floor(Math.random()*10)+10;
+    }
+    else if(jam>=11 && jam<=16){
+        jumlah=Math.floor(Math.random()*5)+3;
+    }
+    else{
+        jumlah=Math.floor(Math.random()*6)+2;
+    }
+    document.getElementById("onlineUser").innerText=
+    "Pengunjung : "+jumlah+" pengunjung";
 }
-
-else if(jam>=6 && jam<=10){
-
-jumlah=Math.floor(Math.random()*10)+10;
-
-}
-
-else if(jam>=11 && jam<=16){
-
-jumlah=Math.floor(Math.random()*5)+3;
-
-}
-
-else{
-
-jumlah=Math.floor(Math.random()*6)+2;
-
-}
-
-document.getElementById("onlineUser").innerText=
-"Pengunjung : "+jumlah+" pengunjung";
-
-}
-
 updateOnlineUser();
-
 setInterval(updateOnlineUser,5000);
 
 </script>
