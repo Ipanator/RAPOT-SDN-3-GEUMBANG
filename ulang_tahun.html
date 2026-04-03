@@ -3,175 +3,394 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ulang Tahun Peserta Didik</title>
+<title>Ulang Tahun SDN 3 Gelumbang</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600&family=Nunito:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
 <style>
+
+*{
+box-sizing:border-box;
+}
+
 body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#f6d365,#fda085);
-    text-align:center;
-    color:#333;
+margin:0;
+padding:0;
+font-family:'Fira Sans',sans-serif;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);
+background-size:400% 400%;
+animation:gradientBG 20s ease infinite;
+color:#fff;
+overflow-x:hidden;
 }
 
-.container{
-    max-width:800px;
-    margin:auto;
-    padding:30px;
+@keyframes gradientBG{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
-h1{
-    font-size:32px;
-    color:#fff;
-    text-shadow:2px 2px 5px rgba(0,0,0,0.3);
+/* ================= HEADER ================= */
+
+#main-title{
+font-family:'Orbitron',sans-serif;
+font-size:3rem;
+margin:30px 20px 10px;
+text-align:center;
+line-height:1.2;
+
+background:linear-gradient(90deg,#fffc00,#ff00ff,#00ffff,#ff7f50);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-shadow:0 0 5px #fff,0 0 10px #ff0,0 0 20px #f0f,0 0 30px #0ff;
 }
 
-.list-ultah{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    margin-top:20px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+#main-title span{
+display:block;
+animation:shimmer 2.5s infinite;
 }
 
-.list-ultah p{
-    font-size:18px;
-    margin:10px 0;
+@keyframes shimmer{
+0%{text-shadow:0 0 5px #fff;}
+50%{text-shadow:0 0 20px #ff0,0 0 25px #f0f,0 0 30px #0ff;}
+100%{text-shadow:0 0 5px #fff;}
 }
 
-.doa{
-    margin-top:30px;
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    font-size:17px;
-    line-height:1.6;
+/* ================= TANGGAL ================= */
+
+#age-text{
+font-family:'Orbitron',sans-serif;
+font-size:1.5rem;
+margin:10px 20px 30px;
+color:#0ff;
+text-shadow:0 0 5px #fff,0 0 10px #0ff,0 0 15px #f0f;
+text-align:center;
+max-width:900px;
 }
 
-/* SHARE */
-.share-section{
-    text-align:center;
-    margin-top:30px;
+/* ================= GRID SISWA ================= */
+
+#birthday-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+width:92%;
+max-width:1200px;
+margin-bottom:40px;
 }
 
-.share-buttons{
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    flex-wrap:wrap;
-    margin-top:10px;
+.card{
+background:rgba(0,0,0,0.25);
+backdrop-filter:blur(14px);
+padding:22px;
+border-radius:15px;
+
+box-shadow:0 0 10px #ff0,0 0 20px #f0f,0 0 30px #0ff;
+
+text-align:center;
+transition:transform .4s ease,box-shadow .4s ease;
 }
 
-.btn-share{
-    padding:12px 18px;
-    border-radius:30px;
-    text-decoration:none;
-    color:white;
-    font-weight:bold;
-    transition:0.3s;
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 20px #ff0,0 0 35px #f0f,0 0 50px #0ff;
 }
 
-.btn-share:hover{
-    transform:scale(1.05);
+.name{
+font-size:1.4rem;
+font-weight:600;
+color:#ff0;
+text-shadow:0 0 5px #fff,0 0 10px #ff0,0 0 15px #f0f;
+margin-bottom:8px;
 }
 
-.wa{
-    background:#25D366;
+.birth{
+font-family:'Nunito',sans-serif;
+font-size:1rem;
+color:#0ff;
+text-shadow:0 0 3px #fff,0 0 6px #0ff;
 }
 
-.fb{
-    background:#1877F2;
+/* ================= DOA ================= */
+
+#doa-text{
+max-width:900px;
+margin:40px 20px 30px;
+text-align:center;
+font-family:'Nunito',sans-serif;
+font-size:1.15rem;
+line-height:1.7;
+color:#fff;
+
+background:rgba(0,0,0,0.25);
+padding:22px 30px;
+border-radius:14px;
+
+backdrop-filter:blur(10px);
+
+text-shadow:0 0 5px #fff,0 0 10px #0ff;
+
+box-shadow:0 0 15px rgba(255,255,255,0.3);
 }
 
-.copy{
-    background:#6c757d;
-    border:none;
-    cursor:pointer;
+/* ================= SHARE BUTTON ================= */
+
+#share-section{
+margin-bottom:60px;
+text-align:center;
 }
+
+#share-btn{
+padding:12px 28px;
+border-radius:30px;
+font-family:'Orbitron',sans-serif;
+font-size:1rem;
+cursor:pointer;
+border:none;
+
+color:#fff;
+background:linear-gradient(90deg,#ff00ff,#00ffff,#fffc00);
+
+box-shadow:0 0 10px #ff0,0 0 20px #0ff;
+
+transition:all .3s ease;
+}
+
+#share-btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #ff0,0 0 30px #0ff;
+}
+
+/* ================= PARTICLE ================= */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:900px){
+
+#main-title{
+font-size:2.3rem;
+}
+
+#age-text{
+font-size:1.3rem;
+}
+
+}
+
+@media (max-width:600px){
+
+#main-title{
+font-size:1.9rem;
+}
+
+#age-text{
+font-size:1.15rem;
+}
+
+.name{
+font-size:1.2rem;
+}
+
+.birth{
+font-size:0.9rem;
+}
+
+#doa-text{
+font-size:1rem;
+padding:18px;
+}
+
+}
+
+@media (max-width:400px){
+
+#main-title{
+font-size:1.6rem;
+}
+
+#age-text{
+font-size:1rem;
+}
+
+.card{
+padding:18px;
+}
+
+}
+
 </style>
-
 </head>
+
 <body>
 
-<div class="container">
+<h1 id="main-title">
+<span>Selamat Ulang Tahun</span>
+<span>Peserta Didik</span>
+<span>SDN 3 Gelumbang</span>
+</h1>
 
-<h1>🎉 Selamat Ulang Tahun Peserta Didik SDN 3 Gelumbang 🎉</h1>
+<div id="age-text"></div>
 
-<div class="list-ultah" id="hasilUltah">
-Memuat data...
+<div id="birthday-container"></div>
+
+<div id="doa-text">
+Semoga di usia yang bertambah ini, ananda senantiasa diberi kesehatan, keberkahan, kemudahan dalam belajar, serta tumbuh menjadi generasi yang cerdas, berakhlak baik, dan membanggakan orang tua, guru, serta sekolah.
 </div>
 
-<div class="doa">
-Semoga di usia yang bertambah ini, ananda senantiasa diberi kesehatan, keberkahan, kemudahan dalam belajar, serta tumbuh menjadi generasi yang cerdas, berakhlak baik, dan bermanfaat bagi bangsa dan agama.
+<div id="share-section">
+<button id="share-btn" onclick="sharePage()">📤 Bagikan Halaman Ini</button>
 </div>
 
-<div class="share-section">
-<h3>Bagikan Halaman Ini</h3>
+<audio id="birthday-audio" src="ulang_tahun.mp3" preload="auto"></audio>
 
-<div class="share-buttons">
+<canvas id="particles"></canvas>
 
-<a class="btn-share wa"
-href="https://wa.me/?text=Lihat ucapan ulang tahun peserta didik SDN 3 Gelumbang di sini: https://sdn3gelumbang.my.id/ulangtahun.html"
-target="_blank">📱 WhatsApp</a>
-
-<a class="btn-share fb"
-href="https://www.facebook.com/sharer/sharer.php?u=https://sdn3gelumbang.my.id/ulangtahun.html"
-target="_blank">📘 Facebook</a>
-
-<button class="btn-share copy" onclick="copyLink()">🔗 Salin Link</button>
-
-</div>
-</div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
 
-/* contoh data siswa */
-const dataSiswa = [
-{nama:"CAHAYA INDAH", tgl:"2006-04-03"},
-{nama:"HABIBILAH APRILIO", tgl:"2004-04-03"},
-{nama:"IZZAH ZAKIA", tgl:"2004-04-03"},
-{nama:"SATrio", tgl:"2016-11-01"}
-];
+function sharePage(){
 
-const hariIni = new Date();
-const tgl = hariIni.getDate();
-const bulan = hariIni.getMonth()+1;
-const tahun = hariIni.getFullYear();
+if(navigator.share){
 
-const bulanNama=[
-"Januari","Februari","Maret","April","Mei","Juni",
-"Juli","Agustus","September","Oktober","November","Desember"
-];
+navigator.share({
+title:"Ulang Tahun Peserta Didik SDN 3 Gelumbang",
+text:"Lihat ucapan ulang tahun peserta didik SDN 3 Gelumbang di halaman ini",
+url:window.location.href
+});
 
-let hasil="";
+}else{
 
-dataSiswa.forEach(siswa=>{
-let lahir=new Date(siswa.tgl);
+navigator.clipboard.writeText(window.location.href);
+alert("Link berhasil disalin, silakan bagikan");
 
-if(lahir.getDate()==tgl && lahir.getMonth()+1==bulan){
+}
 
-let umur = tahun - lahir.getFullYear();
+}
 
-hasil += `<p>Hari ini ${tgl} ${bulanNama[bulan-1]} ${tahun}, <b>${siswa.nama}</b> tepat berumur <b>${umur} tahun</b>.</p>`;
+const today = new Date();
+const todayStr = today.toISOString().slice(5,10);
 
+fetch('data_ultah.json')
+.then(res=>res.json())
+.then(data=>{
+
+const container=document.getElementById('birthday-container');
+const ageText=document.getElementById('age-text');
+
+const birthdayToday=data.filter(s=>s.birth.slice(5)===todayStr);
+
+if(birthdayToday.length){
+
+document.getElementById('birthday-audio').play();
+
+function confettiLoop(){
+confetti({particleCount:5,angle:60,spread:55,origin:{x:0}});
+confetti({particleCount:5,angle:120,spread:55,origin:{x:1}});
+requestAnimationFrame(confettiLoop);
+}
+confettiLoop();
+
+birthdayToday.forEach(s=>{
+
+const birthDate=new Date(s.birth);
+const age=today.getFullYear()-birthDate.getFullYear();
+
+const day=today.getDate();
+const month=today.toLocaleString('id-ID',{month:'long'});
+const year=today.getFullYear();
+
+ageText.innerHTML=`Hari ini, ${day} ${month} ${year} menjadi momen istimewa bagi ananda yang berulang tahun`;
+
+const card=document.createElement('div');
+card.className='card';
+
+card.innerHTML=`
+<div class="name">${s.name}</div>
+<div class="birth">${s.place} - ${s.birth} (Umur ${age})</div>
+`;
+
+container.appendChild(card);
+
+});
+
+}else{
+
+ageText.innerHTML="";
+container.innerHTML="";
+
+}
+
+})
+.catch(err=>{
+console.error(err);
+document.getElementById('birthday-container').innerHTML='<h2>Gagal memuat data</h2>';
+});
+
+
+const canvas=document.getElementById("particles");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const ctx=canvas.getContext("2d");
+
+const particles=[];
+
+for(let i=0;i<150;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+d:Math.random()*1+0.5
+});
+}
+
+function drawParticles(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="rgba(255,255,255,0.5)";
+
+particles.forEach(p=>{
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+ctx.fill();
+
+p.y+=p.d;
+
+if(p.y>canvas.height){
+p.y=0;
 }
 
 });
 
-if(hasil===""){
-hasil="<p></p>";
+requestAnimationFrame(drawParticles);
+
 }
 
-document.getElementById("hasilUltah").innerHTML=hasil;
+drawParticles();
 
-/* copy link */
-function copyLink(){
-navigator.clipboard.writeText(window.location.href);
-alert("Link berhasil disalin!");
-}
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
 
 </script>
 
