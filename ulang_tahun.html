@@ -1,11 +1,33 @@
-<h1 id="main-title">
-  <span>Selamat</span> 
-  <span>Ulang Tahun</span> 
-  <span>Peserta Didik</span> 
-  <span>SDN 3 Gelumbang</span>
-</h1>
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ulang Tahun SDN 3 Gelumbang</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
+body {
+    margin:0;
+    padding:0;
+    font-family:'Poppins', sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    background: linear-gradient(135deg,#f6d365,#fda085);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite;
+    overflow:hidden;
+    color:#fff;
+}
+@keyframes gradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* Header Bersinar */
 #main-title {
     font-size:3rem;
     margin:30px 20px 40px;
@@ -26,4 +48,124 @@
     50% {text-shadow: 0 0 12px rgba(255,255,255,0.8);}
     100% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
 }
+
+/* Card Nama Peserta */
+#birthday-container {
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+    width:90%;
+    max-width:1200px;
+    margin-bottom:50px;
+}
+.card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.3);
+    text-align:center;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+.name {
+    font-size:1.4rem;
+    font-weight:700;
+    color:#ffeb3b;
+    margin-bottom:8px;
+}
+.birth {
+    font-size:1rem;
+    color:#fff;
+}
+
+/* Canvas confetti & particle */
+canvas {position:absolute; top:0; left:0; pointer-events:none; width:100%; height:100%;}
 </style>
+</head>
+<body>
+
+<h1 id="main-title">
+  <span>Selamat</span> 
+  <span>Ulang Tahun</span> 
+  <span>Peserta Didik</span> 
+  <span>SDN 3 Gelumbang</span>
+</h1>
+
+<div id="birthday-container"></div>
+
+<audio id="birthday-audio" src="ulang_tahun.mp3" preload="auto"></audio>
+<canvas id="confetti"></canvas>
+<canvas id="particles"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+// Tanggal hari ini
+const today = new Date();
+const todayStr = today.toISOString().slice(5,10);
+
+// Load data ulang tahun
+fetch('data_ultah.json')
+.then(res => res.json())
+.then(data => {
+    const container = document.getElementById('birthday-container');
+    const birthdayToday = data.filter(s => s.birth.slice(5) === todayStr);
+
+    if(birthdayToday.length){
+        document.getElementById('birthday-audio').play();
+
+        // Confetti terus berjalan
+        function confettiLoop(){
+            confetti({particleCount:5, angle:60, spread:55, origin:{x:0}});
+            confetti({particleCount:5, angle:120, spread:55, origin:{x:1}});
+            requestAnimationFrame(confettiLoop);
+        }
+        confettiLoop();
+
+        // Tampilkan semua peserta sekaligus
+        birthdayToday.forEach(s=>{
+            const birthDate = new Date(s.birth);
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<div class="name">${s.name}</div>
+                              <div class="birth">${s.place} - ${s.birth} (Umur ${age})</div>`;
+            container.appendChild(card);
+        });
+
+    } else {
+        container.innerHTML = '<h2>Tidak ada peserta yang ulang tahun hari ini</h2>';
+    }
+})
+.catch(err => {console.error(err); document.getElementById('birthday-container').innerHTML='<h2>Gagal memuat data</h2>';});
+
+// Particles background
+const canvas = document.getElementById('particles');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const ctx = canvas.getContext('2d');
+const particles = [];
+for(let i=0;i<150;i++){
+    particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,d:Math.random()*1+0.5});
+}
+function drawParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+        ctx.fill();
+        p.y += p.d;
+        if(p.y > canvas.height) p.y = 0;
+    });
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;});
+</script>
+
+</body>
+</html>
