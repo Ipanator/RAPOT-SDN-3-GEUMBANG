@@ -29,10 +29,10 @@ body {
 
 /* Header Bersinar */
 #main-title {
-    font-size:3rem;
+    font-size:3.5rem;
     margin:30px 20px 40px;
     text-align:center;
-    background: linear-gradient(90deg, #ffeb3b, #ff9800, #ffd54f);
+    background: linear-gradient(90deg, #fff176, #ffc107, #ff5722);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     position: relative;
@@ -53,13 +53,13 @@ body {
 #birthday-container {
     display:grid;
     grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
-    gap:20px;
+    gap:25px;
     width:90%;
     max-width:1200px;
     margin-bottom:50px;
 }
 .card {
-    background: rgba(255,255,255,0.15);
+    background: rgba(0,0,0,0.3);
     backdrop-filter: blur(12px);
     padding:20px;
     border-radius:15px;
@@ -80,6 +80,7 @@ body {
 .birth {
     font-size:1rem;
     color:#fff;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
 }
 
 /* Canvas confetti & particle */
@@ -153,8 +154,8 @@ for(let i=0;i<150;i++){
 }
 function drawParticles(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "rgba(255,255,255,0.5)";
     particles.forEach(p=>{
+        ctx.fillStyle = `rgba(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255}, 0.6)`;
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
         ctx.fill();
