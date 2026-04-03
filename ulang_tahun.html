@@ -3,172 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ulang Tahun SDN 3 Gelumbang</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Daftar Siswa</title>
 <style>
-body {
-    margin:0;
-    padding:0;
-    font-family:'Poppins', sans-serif;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    /* Background lebih soft supaya confetti terlihat jelas */
-    background: linear-gradient(135deg,#ffe5b4,#ffd699);
-    background-size: 400% 400%;
-    animation: gradientBG 20s ease infinite;
-    overflow:hidden;
-    color:#fff;
-}
-@keyframes gradientBG {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-
-/* Header bersih & kontras */
-#main-title {
-    font-size:3.5rem;
-    margin:30px 20px 40px;
-    text-align:center;
-    background: linear-gradient(90deg,#fff9c4,#fff176,#ffd600); /* judul kontras tapi harmonis */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-}
-#main-title span {
-    display: inline-block;
-    animation: shimmer 2.5s infinite;
-    margin:0 5px;
-}
-@keyframes shimmer {
-    0% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
-    50% {text-shadow: 0 0 12px rgba(255,255,255,0.8);}
-    100% {text-shadow: 0 0 4px rgba(255,255,255,0.3);}
-}
-
-/* Card peserta */
-#birthday-container {
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
-    gap:25px;
-    width:90%;
-    max-width:1200px;
-    margin-bottom:50px;
-}
-.card {
-    background: rgba(255,255,255,0.15); /* kartu semi-transparan */
-    backdrop-filter: blur(12px);
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.25);
-    text-align:center;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-.name {
-    font-size:1.4rem;
-    font-weight:700;
-    background: linear-gradient(90deg,#fff176,#ffd54f,#ffeb3b); /* tetap cerah dan harmonis */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom:8px;
-}
-.birth {
-    font-size:1rem;
-    color:#fff;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-}
-
-/* Canvas confetti & particle */
-canvas {position:absolute; top:0; left:0; pointer-events:none; width:100%; height:100%;}
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+  th { background-color: #f2f2f2; }
 </style>
 </head>
 <body>
 
-<h1 id="main-title">
-  <span>Selamat</span> 
-  <span>Ulang Tahun</span> 
-  <span>Peserta Didik</span> 
-  <span>SDN 3 Gelumbang</span>
-</h1>
+<h2>Daftar Siswa</h2>
+<table id="tabelSiswa">
+  <tr>
+    <th>Nama</th>
+    <th>Tanggal Lahir</th>
+  </tr>
+</table>
 
-<div id="birthday-container"></div>
-
-<audio id="birthday-audio" src="ulang_tahun.mp3" preload="auto"></audio>
-<canvas id="confetti"></canvas>
-<canvas id="particles"></canvas>
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-// Tanggal hari ini
-const today = new Date();
-const todayStr = today.toISOString().slice(5,10);
-
-// Load data ulang tahun
-fetch('data_ultah.json')
-.then(res => res.json())
-.then(data => {
-    const container = document.getElementById('birthday-container');
-    const birthdayToday = data.filter(s => s.birth.slice(5) === todayStr);
-
-    if(birthdayToday.length){
-        document.getElementById('birthday-audio').play();
-
-        // Confetti tetap meriah
-        function confettiLoop(){
-            confetti({particleCount:5, angle:60, spread:55, origin:{x:0}});
-            confetti({particleCount:5, angle:120, spread:55, origin:{x:1}});
-            requestAnimationFrame(confettiLoop);
-        }
-        confettiLoop();
-
-        birthdayToday.forEach(s=>{
-            const birthDate = new Date(s.birth);
-            const age = today.getFullYear() - birthDate.getFullYear();
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `<div class="name">${s.name}</div>
-                              <div class="birth">${s.place} - ${s.birth} (Umur ${age})</div>`;
-            container.appendChild(card);
-        });
-
-    } else {
-        container.innerHTML = '<h2>Tidak ada peserta yang ulang tahun hari ini</h2>';
-    }
-})
-.catch(err => {console.error(err); document.getElementById('birthday-container').innerHTML='<h2>Gagal memuat data</h2>';});
-
-// Particles tetap meriah
-const canvas = document.getElementById('particles');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const ctx = canvas.getContext('2d');
-const particles = [];
-for(let i=0;i<150;i++){
-    particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,d:Math.random()*1+0.5});
-}
-function drawParticles(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-        // biarkan warna meriah tetap random
-        ctx.fillStyle = `rgba(${Math.random()*255},${Math.random()*255},${Math.random()*255},0.6)`;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
-        ctx.fill();
-        p.y += p.d;
-        if(p.y > canvas.height) p.y = 0;
+fetch('data_siswa.json')
+  .then(response => response.json())
+  .then(data => {
+    const tabel = document.getElementById('tabelSiswa');
+    data.forEach(siswa => {
+      const row = tabel.insertRow();
+      const namaCell = row.insertCell(0);
+      const tglCell = row.insertCell(1);
+      namaCell.textContent = siswa.nama;
+      tglCell.textContent = siswa.tgl_lahir;
     });
-    requestAnimationFrame(drawParticles);
-}
-drawParticles();
-window.addEventListener('resize',()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;});
+  })
+  .catch(err => console.error('Gagal load data siswa:', err));
 </script>
 
 </body>
