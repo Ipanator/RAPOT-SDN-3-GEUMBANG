@@ -311,11 +311,11 @@ function tambahPengunjungOtomatis() {
     setTimeout(tambahPengunjungOtomatis, interval);
 }
 
-// mulai simulasi sistem
-tambahPengunjungOtomatis();
-
-// tampilkan langsung data terakhir saat halaman dibuka tanpa menambah
+// tampilkan data terakhir saat halaman dibuka tanpa menambah
 tampilkanPengunjung();
+
+// mulai simulasi otomatis setelah delay pertama 5 detik
+setTimeout(tambahPengunjungOtomatis, 5000);
 
 // sinkronisasi antar-tab
 window.addEventListener("storage", function(e){
