@@ -92,6 +92,22 @@ margin-bottom:8px;
 font-size:1rem;
 }
 
+#next-birthday{
+margin-top:20px;
+text-align:center;
+font-family:'Orbitron',sans-serif;
+background:rgba(0,0,0,0.25);
+padding:20px;
+border-radius:15px;
+box-shadow:0 0 10px #0ff,0 0 20px #ff0;
+}
+
+#countdown{
+font-size:1.4rem;
+margin-top:10px;
+color:#00ffff;
+}
+
 #doa-text{
 max-width:900px;
 margin:40px 20px 30px;
@@ -129,6 +145,12 @@ box-shadow:0 0 10px #ff0,0 0 20px #0ff;
 <div id="age-text"></div>
 <div id="birthday-container"></div>
 
+<div id="next-birthday" style="display:none;">
+<div>Ulang Tahun Berikutnya</div>
+<div id="next-name"></div>
+<div id="countdown"></div>
+</div>
+
 <div id="doa-text">
 Semoga di usia yang bertambah ini, ananda senantiasa diberi kesehatan, keberkahan, kemudahan dalam belajar, serta tumbuh menjadi generasi yang cerdas dan membanggakan.
 </div>
@@ -143,9 +165,8 @@ Semoga di usia yang bertambah ini, ananda senantiasa diberi kesehatan, keberkaha
 
 <script>
 
-const audio = document.getElementById("birthday-audio");
+const audio=document.getElementById("birthday-audio");
 
-/* trik supaya musik bisa bunyi di HP */
 function startAudio(){
 audio.play().catch(()=>{});
 document.removeEventListener("click",startAudio);
@@ -155,17 +176,17 @@ document.removeEventListener("touchstart",startAudio);
 document.addEventListener("click",startAudio);
 document.addEventListener("touchstart",startAudio);
 
-const today = new Date();
-const todayStr = today.toISOString().slice(5,10);
+const today=new Date();
+const todayStr=today.toISOString().slice(5,10);
 
 fetch('data_ultah.json')
-.then(res => res.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
-const container = document.getElementById('birthday-container');
-const ageText = document.getElementById('age-text');
+const container=document.getElementById('birthday-container');
+const ageText=document.getElementById('age-text');
 
-const birthdayToday = data.filter(s => s.birth.slice(5) === todayStr);
+const birthdayToday=data.filter(s=>s.birth.slice(5)===todayStr);
 
 if(birthdayToday.length){
 
@@ -179,18 +200,18 @@ requestAnimationFrame(confettiLoop);
 
 confettiLoop();
 
-birthdayToday.forEach(s => {
+birthdayToday.forEach(s=>{
 
-const birthDate = new Date(s.birth);
-const age = today.getFullYear() - birthDate.getFullYear();
+const birthDate=new Date(s.birth);
+const age=today.getFullYear()-birthDate.getFullYear();
 
-const day = today.getDate();
-const month = today.toLocaleString('id-ID',{month:'long'});
-const year = today.getFullYear();
+const day=today.getDate();
+const month=today.toLocaleString('id-ID',{month:'long'});
+const year=today.getFullYear();
 
 ageText.innerHTML=`Hari ini, ${day} ${month} ${year} menjadi momen istimewa bagi ananda yang berulang tahun`;
 
-const card = document.createElement('div');
+const card=document.createElement('div');
 card.className='card';
 
 card.innerHTML=`
@@ -201,6 +222,52 @@ card.innerHTML=`
 container.appendChild(card);
 
 });
+
+}else{
+
+let next=null;
+let nextDate=null;
+
+data.forEach(s=>{
+
+let birth=new Date(s.birth);
+let nextBirthday=new Date(today.getFullYear(),birth.getMonth(),birth.getDate());
+
+if(nextBirthday<today){
+nextBirthday.setFullYear(today.getFullYear()+1);
+}
+
+if(!nextDate||nextBirthday<nextDate){
+nextDate=nextBirthday;
+next=s;
+}
+
+});
+
+if(next){
+
+document.getElementById("next-birthday").style.display="block";
+document.getElementById("next-name").innerText=next.name;
+
+function updateCountdown(){
+
+let now=new Date();
+let diff=nextDate-now;
+
+let hari=Math.floor(diff/(1000*60*60*24));
+let jam=Math.floor((diff/(1000*60*60))%24);
+let menit=Math.floor((diff/(1000*60))%60);
+let detik=Math.floor((diff/1000)%60);
+
+document.getElementById("countdown").innerText=
+`${hari} hari ${jam} jam ${menit} menit ${detik} detik lagi`;
+
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+}
 
 }
 
