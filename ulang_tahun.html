@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Ulang Tahun SDN 3 Gelumbang</title>
+
+<!-- PREVIEW SAAT LINK DISHARE -->
+<meta property="og:title" content="Selamat Ulang Tahun Peserta Didik SDN 3 Gelumbang">
+<meta property="og:description" content="Halaman ucapan ulang tahun peserta didik SD Negeri 3 Gelumbang.">
+<meta property="og:image" content="previewultah.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Selamat Ulang Tahun Peserta Didik SDN 3 Gelumbang">
+<meta name="twitter:description" content="Ucapan ulang tahun peserta didik SD Negeri 3 Gelumbang.">
+<meta name="twitter:image" content="previewultah.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600&family=Nunito:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
@@ -34,7 +47,6 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* ================= HEADER ================= */
 #main-title{
   font-family:'Orbitron',sans-serif;
   font-size:3rem;
@@ -60,7 +72,6 @@ body{
   100%{text-shadow:0 0 5px #fff;}
 }
 
-/* ================= TANGGAL ================= */
 #age-text{
   font-family:'Orbitron',sans-serif;
   font-size:1.5rem;
@@ -71,7 +82,6 @@ body{
   max-width:900px;
 }
 
-/* ================= GRID SISWA ================= */
 #birthday-container{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
@@ -114,7 +124,6 @@ body{
   margin-bottom:5px;
 }
 
-/* ================= DOA ================= */
 #doa-text{
   max-width:900px;
   margin:40px 20px 30px;
@@ -135,7 +144,6 @@ body{
   box-shadow:0 0 15px rgba(255,255,255,0.3);
 }
 
-/* ================= SHARE BUTTON ================= */
 #share-section{
   margin-bottom:60px;
   text-align:center;
@@ -159,7 +167,6 @@ body{
   box-shadow:0 0 20px #ff0,0 0 30px #0ff;
 }
 
-/* ================= PARTICLE ================= */
 canvas{
   position:fixed;
   top:0;
@@ -168,26 +175,6 @@ canvas{
   width:100%;
   height:100%;
   z-index:-1;
-}
-
-/* RESPONSIVE */
-@media (max-width:900px){
-  #main-title{font-size:2.3rem;}
-  #age-text{font-size:1.3rem;}
-}
-
-@media (max-width:600px){
-  #main-title{font-size:1.9rem;}
-  #age-text{font-size:1.15rem;}
-  .name{font-size:1.2rem;}
-  .age{font-size:1rem;}
-  #doa-text{font-size:1rem;padding:18px;}
-}
-
-@media (max-width:400px){
-  #main-title{font-size:1.6rem;}
-  #age-text{font-size:1rem;}
-  .card{padding:18px;}
 }
 
 </style>
@@ -218,18 +205,21 @@ Semoga di usia yang bertambah ini, ananda senantiasa diberi kesehatan, keberkaha
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
+
 const today = new Date();
 const todayStr = today.toISOString().slice(5,10);
 
 fetch('data_ultah.json')
 .then(res => res.json())
 .then(data => {
+
   const container = document.getElementById('birthday-container');
   const ageText = document.getElementById('age-text');
 
   const birthdayToday = data.filter(s => s.birth.slice(5) === todayStr);
 
   if(birthdayToday.length){
+
     document.getElementById('birthday-audio').play();
 
     function confettiLoop(){
@@ -237,9 +227,11 @@ fetch('data_ultah.json')
       confetti({particleCount:5,angle:120,spread:55,origin:{x:1}});
       requestAnimationFrame(confettiLoop);
     }
+
     confettiLoop();
 
     birthdayToday.forEach(s => {
+
       const birthDate = new Date(s.birth);
       const age = today.getFullYear() - birthDate.getFullYear();
 
@@ -251,79 +243,39 @@ fetch('data_ultah.json')
 
       const card = document.createElement('div');
       card.className='card';
+
       card.innerHTML=`
-        <div class="name">${s.name}</div>
-        <div class="age">Umur: ${age} tahun</div>
+      <div class="name">${s.name}</div>
+      <div class="age">Umur: ${age} tahun</div>
       `;
+
       container.appendChild(card);
+
     });
 
-  }else{
-    ageText.innerHTML="";
-    container.innerHTML="";
   }
-})
-.catch(err => {
-  console.error(err);
-  document.getElementById('birthday-container').innerHTML='<h2>Gagal memuat data</h2>';
+
 });
 
-/* SHARE */
 function sharePage(){
+
   if(navigator.share){
+
     navigator.share({
       title:"Ulang Tahun Peserta Didik SDN 3 Gelumbang",
       text:"Lihat ucapan ulang tahun peserta didik SDN 3 Gelumbang di halaman ini",
       url:window.location.href
     });
+
   }else{
+
     navigator.clipboard.writeText(window.location.href);
     alert("Link berhasil disalin");
+
   }
+
 }
 
-/* AUTOPLAY MUSIK UNTUK HP */
-document.addEventListener("click", function(){
-  const audio = document.getElementById("birthday-audio");
-  if(audio.paused){
-    audio.play().catch(()=>{});
-  }
-},{once:true});
-
-/* PARTICLES */
-const canvas=document.getElementById("particles");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-const ctx=canvas.getContext("2d");
-const particles=[];
-
-for(let i=0;i<150;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*2+1,
-    d:Math.random()*1+0.5
-  });
-}
-
-function drawParticles(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="rgba(255,255,255,0.5)";
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
-    ctx.fill();
-    p.y+=p.d;
-    if(p.y>canvas.height) p.y=0;
-  });
-  requestAnimationFrame(drawParticles);
-}
-drawParticles();
-
-window.addEventListener("resize",()=>{
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-});
 </script>
 
 </body>
