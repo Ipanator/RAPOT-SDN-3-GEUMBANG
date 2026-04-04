@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari Penting Nasional</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Poppins,sans-serif;
+color:white;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(135deg,#3a1c71,#d76d77,#ffaf7b);
+background-size:400% 400%;
+animation:bgmove 15s infinite;
+overflow:hidden;
+}
+
+@keyframes bgmove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+#container{
+width:90%;
+max-width:900px;
+padding:30px;
+background:rgba(0,0,0,0.35);
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 30px rgba(0,0,0,0.4);
+}
+
+#title{
+font-family:Orbitron;
+font-size:2.2rem;
+margin-bottom:10px;
+}
+
+#date{
+opacity:.9;
+margin-bottom:20px;
+}
+
+.card{
+padding:25px;
+border-radius:15px;
+background:rgba(255,255,255,0.1);
+box-shadow:0 0 15px rgba(255,255,255,0.2);
+}
+
+.event-title{
+font-size:1.8rem;
+font-weight:700;
+margin-bottom:10px;
+}
+
+.event-desc{
+font-size:1.1rem;
+line-height:1.6;
+opacity:.95;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+z-index:-1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="title">Hari Ini di Kalender</div>
+
+<div id="date"></div>
+
+<div class="card">
+<div class="event-title" id="eventTitle"></div>
+<div class="event-desc" id="eventDesc"></div>
+</div>
+
+</div>
+
+<canvas id="particles"></canvas>
+
+<script>
+
+const events = {
+
+"01-01":{
+title:"Tahun Baru",
+desc:"Hari pertama dalam kalender Masehi yang menandai awal tahun baru."
+},
+
+"05-01":{
+title:"Hari Buruh Internasional",
+desc:"Hari untuk menghormati perjuangan para pekerja di seluruh dunia."
+},
+
+"06-01":{
+title:"Hari Lahir Pancasila",
+desc:"Memperingati lahirnya dasar negara Indonesia yang menjadi pedoman kehidupan berbangsa."
+},
+
+"08-17":{
+title:"Hari Kemerdekaan Republik Indonesia",
+desc:"Memperingati Proklamasi Kemerdekaan Indonesia pada 17 Agustus 1945."
+},
+
+"12-25":{
+title:"Hari Natal",
+desc:"Hari raya umat Kristen untuk memperingati kelahiran Yesus Kristus."
+}
+
+};
+
+const today = new Date();
+
+const day = String(today.getDate()).padStart(2,"0");
+const month = String(today.getMonth()+1).padStart(2,"0");
+
+const key = `${month}-${day}`;
+
+const options = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+
+document.getElementById("date").innerHTML =
+today.toLocaleDateString("id-ID",options);
+
+if(events[key]){
+
+document.getElementById("eventTitle").innerHTML = events[key].title;
+
+document.getElementById("eventDesc").innerHTML = events[key].desc;
+
+}else{
+
+document.getElementById("eventTitle").innerHTML =
+"Tidak ada hari nasional hari ini";
+
+document.getElementById("eventDesc").innerHTML =
+"Hari ini mungkin bukan hari peringatan nasional, tetapi setiap hari adalah kesempatan baru untuk belajar dan berkembang.";
+
+}
+
+/* PARTICLES */
+
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const particles=[];
+
+for(let i=0;i<120;i++){
+
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+d:Math.random()*1+0.6
+});
+
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="rgba(255,255,255,0.5)";
+
+particles.forEach(p=>{
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+
+p.y+=p.d;
+
+if(p.y>canvas.height){
+p.y=0;
+}
+
+});
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
+
+</script>
+
+</body>
+</html>
