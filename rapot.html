@@ -260,33 +260,68 @@ updateScan("> server offline\n> connection failed");
 cekServer();
 setInterval(cekServer,1000);
 
-/* PENGUNJUNG HARI INI OTOMATIS */
+/* PENGUNJUNG HARI INI OTOMATIS (NATURAL) */
+
 function getTodayStr(){
-    const now = new Date();
-    return `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+const now=new Date();
+return `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
 }
 
-// hitung angka awal hari ini: acak 300-700 berdasarkan tanggal
-function getDailyInitialVisitors() {
-    const today = new Date();
-    // pakai tanggal sebagai seed sederhana agar tetap sama di seluruh perangkat
-    const seed = today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate();
-    // simple pseudo-random dari seed
-    const rand = (Math.sin(seed)*10000) % 1;
-    const min = 300;
-    const max = 700;
-    return Math.floor(min + (max-min) * Math.abs(rand));
+function getDailyTarget(){
+const min=300;
+const max=700;
+return Math.floor(Math.random()*(max-min+1))+min;
 }
 
-let totalVisitors = getDailyInitialVisitors();
-document.getElementById("onlineUser").innerText = "Pengunjung hari ini: " + totalVisitors + " pengunjung";
+let todayKey="visitor_"+getTodayStr();
+let targetKey=todayKey+"_target";
 
-// update otomatis tiap 3 menit
-setInterval(() => {
-    const add = Math.floor(Math.random()*3)+1; // tambah 1-3 pengunjung
-    totalVisitors += add;
-    document.getElementById("onlineUser").innerText = "Pengunjung hari ini: " + totalVisitors + " pengunjung";
-}, 3*60*1000);
+let totalVisitors=parseInt(localStorage.getItem(todayKey))||0;
+let dailyTarget=parseInt(localStorage.getItem(targetKey));
+
+if(!dailyTarget){
+dailyTarget=getDailyTarget();
+localStorage.setItem(targetKey,dailyTarget);
+}
+
+function updateDisplay(){
+document.getElementById("onlineUser").innerText=
+"Pengunjung hari ini: "+totalVisitors+" pengunjung";
+}
+
+updateDisplay();
+
+function getIncrease(){
+let hour=new Date().getHours();
+
+if(hour<5) return Math.random()<0.1?1:0;
+if(hour<7) return Math.floor(Math.random()*2);
+if(hour<9) return Math.floor(Math.random()*3);
+if(hour<12) return Math.floor(Math.random()*4)+1;
+if(hour<13) return Math.floor(Math.random()*2);
+if(hour<16) return Math.floor(Math.random()*4)+1;
+if(hour<18) return Math.floor(Math.random()*3)+1;
+if(hour<21) return Math.floor(Math.random()*3);
+if(hour<23) return Math.floor(Math.random()*2);
+return Math.random()<0.2?1:0;
+}
+
+setInterval(()=>{
+
+if(totalVisitors>=dailyTarget) return;
+
+let add=getIncrease();
+totalVisitors+=add;
+
+if(totalVisitors>dailyTarget){
+totalVisitors=dailyTarget;
+}
+
+localStorage.setItem(todayKey,totalVisitors);
+
+updateDisplay();
+
+},60000);
 </script>
 
 </body>
