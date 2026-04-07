@@ -212,10 +212,11 @@
     muteBtn.textContent = audio.muted ? "🔇" : "🔊";
   };
 
-  window.addEventListener("load", () => {
-    audioOpening.play().catch(()=>{});
-    cekUltah();
-  });
+ window.addEventListener("load", () => {
+  audioOpening.play().catch(()=>{});
+  cekUltah();
+  cekHariNasional();
+});
 
   const totalImages = 10;
   let current = 1;
@@ -272,6 +273,40 @@
   document.getElementById("closePopup").onclick = () => {
     document.getElementById("ultahPopup").style.display="none";
   };
+  function cekHariNasional(){
+
+  const hariNasional = [
+    {tanggal:"01-06", nama:"Hari Lahir Pancasila"},
+    {tanggal:"17-08", nama:"Hari Kemerdekaan Republik Indonesia"},
+    {tanggal:"02-05", nama:"Hari Pendidikan Nasional"},
+    {tanggal:"10-11", nama:"Hari Pahlawan"},
+    {tanggal:"21-04", nama:"Hari Kartini"},
+    {tanggal:"28-10", nama:"Hari Sumpah Pemuda"},
+    {tanggal:"25-11", nama:"Hari Guru Nasional"}
+  ];
+
+  const today = new Date();
+  const tgl = ("0"+today.getDate()).slice(-2);
+  const bln = ("0"+(today.getMonth()+1)).slice(-2);
+  const hariIni = tgl+"-"+bln;
+
+  hariNasional.forEach(event=>{
+    if(event.tanggal === hariIni){
+
+      document.getElementById("ultahText").innerHTML =
+      "Hari ini adalah <b>"+event.nama+"</b> 🇮🇩<br>Yuk lihat informasi lengkapnya.";
+
+      document.getElementById("ultahPopup").style.display="block";
+
+      const btn = document.querySelector(".popupBox button");
+      btn.onclick = function(){
+        window.location.href="https://sdn-3-gelumbang.vercel.app/hari_nasional.html";
+      };
+
+    }
+  });
+
+}
 </script>
 
 </body>
