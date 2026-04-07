@@ -178,6 +178,7 @@ document.addEventListener("touchstart",startAudio);
 
 const today=new Date();
 const todayStr=today.toISOString().slice(5,10);
+const todayDate=new Date(today.getFullYear(),today.getMonth(),today.getDate());
 
 fetch('data_ultah.json')
 .then(res=>res.json())
@@ -231,9 +232,15 @@ let nextDate=null;
 data.forEach(s=>{
 
 let birth=new Date(s.birth);
-let nextBirthday=new Date(today.getFullYear(),birth.getMonth(),birth.getDate());
 
-if(nextBirthday<today){
+let nextBirthday=new Date(
+today.getFullYear(),
+birth.getMonth(),
+birth.getDate(),
+0,0,0
+);
+
+if(nextBirthday<=todayDate){
 nextBirthday.setFullYear(today.getFullYear()+1);
 }
 
