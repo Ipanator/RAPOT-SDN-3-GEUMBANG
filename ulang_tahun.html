@@ -176,9 +176,10 @@ document.removeEventListener("touchstart",startAudio);
 document.addEventListener("click",startAudio);
 document.addEventListener("touchstart",startAudio);
 
-const today=new Date();
-const todayStr=today.toISOString().slice(5,10);
-const todayDate=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+const today = new Date();
+const month = String(today.getMonth()+1).padStart(2,'0');
+const day = String(today.getDate()).padStart(2,'0');
+const todayStr = month + "-" + day;
 
 fetch('data_ultah.json')
 .then(res=>res.json())
