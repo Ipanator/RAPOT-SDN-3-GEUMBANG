@@ -249,11 +249,127 @@ width:0%;
 background:linear-gradient(90deg,#38bdf8,#6366f1);
 transition:0.2s;
 }
+  /* SYSTEM PULSE */
+
+.system-pulse{
+position:fixed;
+top:20px;
+right:20px;
+width:320px;
+z-index:9999;
+}
+
+.pulse-card{
+background:rgba(15,23,42,0.75);
+backdrop-filter:blur(20px);
+border:1px solid rgba(56,189,248,0.25);
+border-radius:16px;
+padding:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.pulse-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+font-size:13px;
+font-weight:600;
+}
+
+.pulse-dot{
+width:8px;
+height:8px;
+background:#22c55e;
+border-radius:50%;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.5);}
+100%{transform:scale(1);}
+}
+
+.dev-status{
+font-size:12px;
+line-height:1.9;
+color:#cbd5e1;
+}
+
+.toast{
+position:fixed;
+top:120px;
+right:-400px;
+width:300px;
+background:rgba(15,23,42,0.95);
+border-left:4px solid #38bdf8;
+padding:14px;
+border-radius:12px;
+backdrop-filter:blur(20px);
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+transition:0.5s;
+z-index:99999;
+}
+
+.toast.show{
+right:20px;
+}
+
+.toast-title{
+font-size:13px;
+font-weight:600;
+margin-bottom:5px;
+color:#38bdf8;
+}
+
+.toast-text{
+font-size:12px;
+color:#e2e8f0;
+}
+
+.live-log{
+margin-top:15px;
+font-size:11px;
+font-family:'Fira Code',monospace;
+color:#38bdf8;
+height:50px;
+overflow:hidden;
+}
 </style>
 </head>
 
 <body>
+<div class="system-pulse">
 
+<div class="pulse-card">
+
+<div class="pulse-header">
+<span>⚡ SYSTEM PULSE</span>
+<div class="pulse-dot"></div>
+</div>
+
+<div class="dev-status">
+🟢 Andi Online<br>
+🟢 Rian Online<br>
+🟡 Arif Monitoring Server
+</div>
+
+<div class="live-log" id="liveLog">
+Memuat aktivitas developer...
+</div>
+
+</div>
+
+</div>
+
+<div class="toast" id="toast">
+<div class="toast-title" id="toastTitle"></div>
+<div class="toast-text" id="toastText"></div>
+</div>
+
+
+  
 <div class="container">
 
 <div class="icon" id="scan">
@@ -422,6 +538,89 @@ document.getElementById("onlineUser").innerText =
 updateVisitors();
 setInterval(updateVisitors,60000);
 
+
+
+
+
+
+  /* SYSTEM PULSE */
+
+const activities=[
+{
+title:"💬 Developer Feed",
+text:"Andi: Sinkronisasi Dapodik berhasil."
+},
+{
+title:"🎤 Voice Message",
+text:"Rian mengirim pesan suara (0:12)."
+},
+{
+title:"⚙ System Update",
+text:"Backup database selesai."
+},
+{
+title:"🔐 Security Check",
+text:"Pemeriksaan keamanan berhasil."
+},
+{
+title:"📊 Monitoring",
+text:"Server berjalan normal."
+},
+{
+title:"🌐 Visitor Activity",
+text:"Pengunjung baru terdeteksi."
+}
+];
+
+const logs=[
+"[READY] Authentication Loaded",
+"[OK] Database Connected",
+"[OK] API Response Stable",
+"[SYNC] Dapodik Connected",
+"[OK] Backup Completed",
+"[CHECK] Security Verified",
+"[READY] System Healthy"
+];
+
+function showToast(){
+
+const data=
+activities[Math.floor(Math.random()*activities.length)];
+
+const toast=document.getElementById("toast");
+
+document.getElementById("toastTitle").innerText=data.title;
+document.getElementById("toastText").innerText=data.text;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+toast.classList.remove("show");
+},5000);
+
+}
+
+setInterval(showToast,12000);
+
+function updateLiveLog(){
+
+const log=
+logs[Math.floor(Math.random()*logs.length)];
+
+let now=new Date();
+
+let time=
+now.getHours().toString().padStart(2,"0")
++":"
++now.getMinutes().toString().padStart(2,"0");
+
+document.getElementById("liveLog").innerHTML=
+"["+time+"] "+log;
+
+}
+
+updateLiveLog();
+setInterval(updateLiveLog,4000);
 </script>
 
 </body>
