@@ -392,12 +392,6 @@ Memuat aktivitas developer...
 > booting system...
 </div>
 
-<div class="reactor offline" id="serverReactor">
-<div class="ring ring1"></div>
-<div class="ring ring2"></div>
-<div class="core"></div>
-</div>
-
 <h1>E-Raport</h1>
 
 <p>
@@ -462,15 +456,15 @@ fetch(serverURL,{mode:"no-cors"})
 let btn=document.getElementById("btnMasuk");
 let status=document.getElementById("statusServer");
 
-status.innerText="⚠ Server Tidak Ditemukan";
-status.style.color="#f87171";
+sstatus.innerText="✔ Server Aktif";
+status.style.color="#38bdf8";
 
-btn.disabled=true;
-btn.innerText="Hubungi Developer";
+btn.disabled=false;
+btn.innerText="Masuk Sistem";
 
 document
 .getElementById("serverReactor")
-.classList.add("offline");
+.classList.remove("offline");
 
 })
 .catch(()=>{
@@ -483,6 +477,10 @@ status.style.color="#f87171";
 
 btn.disabled=true;
 btn.innerText="Hubungi Developer";
+
+document
+.getElementById("serverReactor")
+.classList.add("offline");
 
 });
 
