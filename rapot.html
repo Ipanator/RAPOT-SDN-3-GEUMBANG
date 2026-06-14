@@ -348,6 +348,78 @@ height:100%;
 pointer-events:none;
 z-index:-1;
 }
+
+
+  /* CYBER REACTOR */
+
+.reactor{
+position:relative;
+width:90px;
+height:90px;
+margin:20px auto;
+}
+
+.ring{
+position:absolute;
+inset:0;
+border-radius:50%;
+border:3px solid rgba(56,189,248,0.7);
+box-shadow:0 0 15px rgba(56,189,248,0.5);
+}
+
+.ring1{
+animation:rotateA 4s linear infinite;
+}
+
+.ring2{
+inset:10px;
+border-style:dashed;
+animation:rotateB 3s linear infinite;
+}
+
+.core{
+position:absolute;
+top:50%;
+left:50%;
+width:18px;
+height:18px;
+transform:translate(-50%,-50%);
+background:#38bdf8;
+border-radius:50%;
+box-shadow:
+0 0 10px #38bdf8,
+0 0 20px #38bdf8,
+0 0 40px #38bdf8;
+animation:corePulse 1.5s infinite;
+}
+
+@keyframes rotateA{
+100%{transform:rotate(360deg);}
+}
+
+@keyframes rotateB{
+100%{transform:rotate(-360deg);}
+}
+
+@keyframes corePulse{
+0%{transform:translate(-50%,-50%) scale(1);}
+50%{transform:translate(-50%,-50%) scale(1.3);}
+100%{transform:translate(-50%,-50%) scale(1);}
+}
+
+.reactor.offline .ring{
+border-color:#ef4444;
+box-shadow:0 0 15px rgba(239,68,68,.5);
+animation:none;
+}
+
+.reactor.offline .core{
+background:#ef4444;
+box-shadow:
+0 0 10px #ef4444,
+0 0 20px #ef4444;
+animation:none;
+}
 </style>
 </head>
 
@@ -388,6 +460,12 @@ Memuat aktivitas developer...
 
 <div class="icon" id="scan">
 > booting system...
+</div>
+
+<div class="reactor offline" id="serverReactor">
+<div class="ring ring1"></div>
+<div class="ring ring2"></div>
+<div class="core"></div>
 </div>
 
 <h1>E-Raport</h1>
@@ -454,11 +532,15 @@ fetch(serverURL,{mode:"no-cors"})
 let btn=document.getElementById("btnMasuk");
 let status=document.getElementById("statusServer");
 
-status.innerText="✔ Server Aktif";
-status.style.color="#38bdf8";
+status.innerText="⚠ Server Tidak Ditemukan";
+status.style.color="#f87171";
 
-btn.disabled=false;
-btn.innerText="Masuk Sistem";
+btn.disabled=true;
+btn.innerText="Hubungi Developer";
+
+document
+.getElementById("serverReactor")
+.classList.add("offline");
 
 })
 .catch(()=>{
