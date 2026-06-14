@@ -455,22 +455,24 @@ fetch(serverURL,{mode:"no-cors"})
 
 let btn=document.getElementById("btnMasuk");
 let status=document.getElementById("statusServer");
+let reactor=document.getElementById("serverReactor");
 
-sstatus.innerText="✔ Server Aktif";
+status.innerText="✔ Server Aktif";
 status.style.color="#38bdf8";
 
 btn.disabled=false;
 btn.innerText="Masuk Sistem";
 
-document
-.getElementById("serverReactor")
-.classList.remove("offline");
+if(reactor){
+reactor.classList.remove("offline");
+}
 
 })
 .catch(()=>{
 
 let btn=document.getElementById("btnMasuk");
 let status=document.getElementById("statusServer");
+let reactor=document.getElementById("serverReactor");
 
 status.innerText="⚠ Server Tidak Ditemukan";
 status.style.color="#f87171";
@@ -478,9 +480,9 @@ status.style.color="#f87171";
 btn.disabled=true;
 btn.innerText="Hubungi Developer";
 
-document
-.getElementById("serverReactor")
-.classList.add("offline");
+if(reactor){
+reactor.classList.add("offline");
+}
 
 });
 
@@ -488,7 +490,6 @@ document
 
 cekServer();
 setInterval(cekServer,5000);
-
 /* MASUK SISTEM */
 
 function openSystem(){
