@@ -424,6 +424,7 @@ Menunggu Server Aktif...
 
 <div class="footer">
 SD NEGERI 3 GELUMBANG • Sistem E-Raport Digital
+hak cipta dilindungi undang-undang
 </div>
 
 </div>
@@ -461,7 +462,7 @@ status.innerText="✔ Server Aktif";
 status.style.color="#38bdf8";
 
 btn.disabled=false;
-btn.innerText="Masuk Sistem";
+btn.innerText="Online";
 
 if(reactor){
 reactor.classList.remove("offline");
@@ -478,7 +479,7 @@ status.innerText="⚠ Server Tidak Ditemukan";
 status.style.color="#f87171";
 
 btn.disabled=true;
-btn.innerText="Hubungi Developer";
+btn.innerText="maintenance";
 
 if(reactor){
 reactor.classList.add("offline");
