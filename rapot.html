@@ -93,12 +93,12 @@ inset 0 0 30px rgba(255,255,255,0.02);
 content:"";
 position:absolute;
 inset:-2px;
-background:linear-gradient(90deg,#38bdf8,#6366f1,#22c55e,#38bdf8);
+background:linear-gradient(90deg,#78c8ff,#a8ddff,#78c8ff);
 background-size:300% 300%;
 animation:borderMove 6s linear infinite;
 z-index:-1;
 filter:blur(10px);
-opacity:0.4;
+opacity:0.35;
 }
 
 @keyframes borderMove{
@@ -737,8 +737,8 @@ if(p.y<0||p.y>canvas.height)p.vy*=-1;
 
 ctx.beginPath();
 ctx.arc(p.x,p.y,2,0,Math.PI*2);
-ctx.shadowColor = "rgba(120, 200, 255, 0.4)";
-ctx.shadowBlur = 6;
+ctx.fillStyle="rgba(56,189,248,0.75)"; 
+ctx.fill();
 
 for(let j=i+1;j<particles.length;j++){
 
