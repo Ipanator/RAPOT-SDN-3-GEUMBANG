@@ -48,6 +48,25 @@ b.remove();
 },30000);
 
 }
+  setTimeout(()=>{
+
+    for(let i=0;i<70;i++){
+
+        setTimeout(createWhiteBubble,i*200);
+
+    }
+
+    const whiteTimer=setInterval(createWhiteBubble,WHITE_SPAWN);
+
+    setTimeout(()=>{
+
+        clearInterval(whiteTimer);
+
+    },WHITE_STOP-WHITE_START);
+
+},WHITE_START);
+
+  
 setTimeout(()=>{
 
 const l=document.getElementById("bigLyrics");
