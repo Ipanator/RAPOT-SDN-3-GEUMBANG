@@ -170,12 +170,11 @@ setTimeout(()=>{
 
 const l=document.getElementById("bigLyrics");
 
-l.style.setProperty("--speed",(stop-start)/1000+"s");
+l.style.setProperty("--speed",LYRICS_SPEED+"s");
 
 l.classList.add("runLyrics");
 
-const durasiReff = stop - start;
-const durasiKalimat = durasiReff / lyrics.length;
+const durasiKalimat = (LYRICS_SPEED * 1000) / lyrics.length;
 
 const lyricTimer=setInterval(()=>{
 
