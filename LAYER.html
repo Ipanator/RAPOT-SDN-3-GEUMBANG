@@ -106,7 +106,7 @@ const REFF3_STOP  = 200000;
 
 // Pengaturan
 const WHITE_SPAWN = 400;
-const LYRICS_SPEED = 70;
+const LYRICS_SPEED = 80;
   
 //======================
 const stage=document.getElementById("stage");
@@ -155,11 +155,14 @@ setTimeout(createWhiteBubble,i*200);
 
 const whiteTimer=setInterval(createWhiteBubble,WHITE_SPAWN);
 
+// Berhenti membuat bubble 12 detik sebelum reff selesai
+const STOP_BEFORE = 12000;
+
 setTimeout(()=>{
 
 clearInterval(whiteTimer);
 
-},stop-start);
+},(stop-start)-STOP_BEFORE);
 
 },start);
 
