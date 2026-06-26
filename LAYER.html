@@ -105,7 +105,7 @@ const REFF3_START = 180000;
 const REFF3_STOP  = 200000;
 
 // Pengaturan
-const WHITE_SPAWN = 400;
+const WHITE_SPAWN = 120;
 const LYRICS_SPEED = 78;
   
 //======================
@@ -131,7 +131,7 @@ b.innerText=lyrics[currentLyric];
 b.style.left=Math.random()*100+"%";
 
 b.style.animationDuration=
-(10+Math.random()*18)+"s";
+(5+Math.random()*3)+"s";
 
 stage.appendChild(b);
 setTimeout(()=>{
