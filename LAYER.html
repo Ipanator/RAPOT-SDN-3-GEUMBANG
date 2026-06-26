@@ -90,8 +90,24 @@ transform:translate(calc(-100% - 100vw),-50%);
 <script>
 //===== PENGATURAN =====
 const BLUE_START=0,BLUE_STOP=120000,BLUE_SPAWN=250;
-const WHITE_START=60000,WHITE_STOP=120000,WHITE_SPAWN=400;
-const LYRICS_START=60000,LYRICS_STOP=120000,LYRICS_SPEED=80;
+// ===== REFF =====
+
+// Reff 1
+const REFF1_START = 60000;
+const REFF1_STOP  = 80000;
+
+// Reff 2
+const REFF2_START = 120000;
+const REFF2_STOP  = 140000;
+
+// Reff 3
+const REFF3_START = 180000;
+const REFF3_STOP  = 200000;
+
+// Pengaturan
+const WHITE_SPAWN = 400;
+const LYRICS_SPEED = 75;
+  
 //======================
 const stage=document.getElementById("stage");
 const lyrics = document
@@ -119,30 +135,30 @@ b.style.animationDuration=
 
 stage.appendChild(b);
 
-setTimeout(()=>{
-b.remove();
-},30000);
-
-}
-  setTimeout(()=>{
-
-    for(let i=0;i<70;i++){
-
-        setTimeout(createWhiteBubble,i*200);
-
-    }
-
-    const whiteTimer=setInterval(createWhiteBubble,WHITE_SPAWN);
-
-    setTimeout(()=>{
-
-        clearInterval(whiteTimer);
-
-    },WHITE_STOP-WHITE_START);
-
-},WHITE_START);
 
   
+function startReff(start,stop){
+
+setTimeout(()=>{
+
+currentLyric=0;
+
+for(let i=0;i<70;i++){
+
+setTimeout(createWhiteBubble,i*200);
+
+}
+
+const whiteTimer=setInterval(createWhiteBubble,WHITE_SPAWN);
+
+setTimeout(()=>{
+
+clearInterval(whiteTimer);
+
+},stop-start);
+
+},start);
+
 setTimeout(()=>{
 
 const l=document.getElementById("bigLyrics");
@@ -151,7 +167,6 @@ l.style.setProperty("--speed",LYRICS_SPEED+"s");
 
 l.classList.add("runLyrics");
 
-// Menghitung waktu perpindahan setiap kalimat
 const durasiKalimat=(LYRICS_SPEED*1000)/lyrics.length;
 
 const lyricTimer=setInterval(()=>{
@@ -161,8 +176,6 @@ currentLyric++;
 if(currentLyric>=lyrics.length){
 
 currentLyric=lyrics.length-1;
-
-clearInterval(lyricTimer);
 
 }
 
@@ -176,8 +189,17 @@ l.style.opacity=0;
 
 clearInterval(lyricTimer);
 
-},LYRICS_STOP-LYRICS_START);
+},stop-start);
 
-},LYRICS_START);
+},start);
+
+}
+
+startReff(REFF1_START,REFF1_STOP);
+
+startReff(REFF2_START,REFF2_STOP);
+
+startReff(REFF3_START,REFF3_STOP);
+  
 setTimeout(()=>{const l=document.getElementById("bigLyrics");l.style.setProperty("--speed",LYRICS_SPEED+"s");l.classList.add("runLyrics");setTimeout(()=>{l.classList.remove("runLyrics");l.style.opacity=0;},LYRICS_STOP-LYRICS_START);},LYRICS_START);
 </script></body></html>
