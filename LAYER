@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUANG IT</title>
+
+<style>
+body{
+ margin:0;
+ overflow:hidden;
+ background:black;
+ font-family:monospace;
+ color:#00ffff;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ height:100vh;
+ flex-direction:column;
+}
+
+canvas{
+ position:fixed;
+ top:0;
+ left:0;
+}
+
+.center{
+ position:absolute;
+ text-align:center;
+ z-index:10;
+ text-shadow:0 0 20px #00ffff;
+}
+
+h1{
+ font-size:5vw;
+ letter-spacing:5px;
+}
+
+h2{
+ font-size:2vw;
+ opacity:0.8;
+}
+
+/* glitch effect */
+.glitch {
+ animation: glitch 0.2s infinite;
+}
+
+@keyframes glitch{
+ 0%{transform:translate(0)}
+ 20%{transform:translate(-2px,2px)}
+ 40%{transform:translate(2px,-2px)}
+ 60%{transform:translate(-1px,1px)}
+ 80%{transform:translate(1px,-1px)}
+ 100%{transform:translate(0)}
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="center" id="text">
+    <h1>RUANG IT</h1>
+    <h2>SDN 3 GELUMBANG</h2>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io();
+
+/* MATRIX RAIN */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+let hue = 180;
+
+function drawMatrix(){
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = `hsl(${hue},100%,60%)`;
+    ctx.font = fontSize + "px monospace";
+
+    for(let i=0;i<drops.length;i++){
+        const text = letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+        if(drops[i]*fontSize > canvas.height && Math.random()>0.975){
+            drops[i]=0;
+        }
+        drops[i]++;
+    }
+
+    hue += 0.3;
+    requestAnimationFrame(drawMatrix);
+}
+drawMatrix();
+
+/* SCENE CONTROL */
+const text = document.getElementById("text");
+
+socket.on("scene", (scene)=>{
+
+    document.body.className = "";
+
+    if(scene === "glitch"){
+        text.classList.add("glitch");
+    }
+
+    if(scene === "pulse"){
+        document.body.style.filter = "brightness(2) contrast(2)";
+        setTimeout(()=>document.body.style.filter="none",300);
+    }
+
+    if(scene === "grid"){
+        ctx.fillStyle = "rgba(0,255,255,0.05)";
+    }
+
+});
+</script>
+
+</body>
+</html>
