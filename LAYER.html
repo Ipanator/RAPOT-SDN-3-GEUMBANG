@@ -3,130 +3,300 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RUANG IT</title>
+<title>Konser Lyrics Wall</title>
 
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
- margin:0;
- overflow:hidden;
- background:black;
- font-family:monospace;
- color:#00ffff;
- display:flex;
- justify-content:center;
- align-items:center;
- height:100vh;
- flex-direction:column;
+overflow:hidden;
+background:#0f4cff;
+font-family:Arial,sans-serif;
+height:100vh;
 }
 
-canvas{
- position:fixed;
- top:0;
- left:0;
+#stage{
+position:relative;
+width:100%;
+height:100vh;
+overflow:hidden;
+background:linear-gradient(
+180deg,
+#1d4fff,
+#0e3de0
+);
 }
 
-.center{
- position:absolute;
- text-align:center;
- z-index:10;
- text-shadow:0 0 20px #00ffff;
+/* BUBBLE BIRU */
+
+.bubble{
+position:absolute;
+padding:10px 22px;
+border-radius:30px;
+background:#2f67ff;
+color:white;
+font-size:14px;
+white-space:nowrap;
+opacity:.9;
+animation:floatUp linear infinite;
 }
 
-h1{
- font-size:5vw;
- letter-spacing:5px;
+/* BUBBLE PUTIH */
+
+.whiteBubble{
+position:absolute;
+padding:10px 24px;
+border-radius:30px;
+background:white;
+color:#333;
+font-size:14px;
+font-weight:600;
+white-space:nowrap;
+animation:floatUp linear infinite;
 }
 
-h2{
- font-size:2vw;
- opacity:0.8;
+/* REFF BESAR */
+
+#reffBubble{
+
+position:absolute;
+left:50%;
+top:55%;
+
+transform:translate(-50%,-50%);
+
+background:white;
+color:#1b1b1b;
+
+padding:20px 50px;
+
+border-radius:60px;
+
+font-size:60px;
+font-weight:bold;
+
+opacity:0;
+
+z-index:1000;
 }
 
-/* glitch effect */
-.glitch {
- animation: glitch 0.2s infinite;
+.showReff{
+animation:showReff 1.2s forwards;
 }
 
-@keyframes glitch{
- 0%{transform:translate(0)}
- 20%{transform:translate(-2px,2px)}
- 40%{transform:translate(2px,-2px)}
- 60%{transform:translate(-1px,1px)}
- 80%{transform:translate(1px,-1px)}
- 100%{transform:translate(0)}
+@keyframes showReff{
+
+from{
+opacity:0;
+transform:translate(-50%,-50%) scale(.7);
 }
+
+to{
+opacity:1;
+transform:translate(-50%,-50%) scale(1);
+}
+
+}
+
+/* TEKS MELINTANG */
+
+#bigLyrics{
+
+position:absolute;
+
+top:65%;
+
+left:100%;
+
+font-size:80px;
+font-weight:bold;
+
+color:white;
+
+white-space:nowrap;
+
+opacity:0;
+
+z-index:900;
+}
+
+.runLyrics{
+animation:moveLyrics 15s linear infinite;
+opacity:1 !important;
+}
+
+@keyframes moveLyrics{
+
+from{
+transform:translateX(0);
+}
+
+to{
+transform:translateX(-220%);
+}
+
+}
+
+/* BUBBLE NAIK */
+
+@keyframes floatUp{
+
+from{
+transform:translateY(110vh);
+}
+
+to{
+transform:translateY(-200px);
+}
+
+}
+
 </style>
 </head>
+
 <body>
 
-<canvas id="matrix"></canvas>
+<div id="stage">
 
-<div class="center" id="text">
-    <h1>RUANG IT</h1>
-    <h2>SDN 3 GELUMBANG</h2>
+<div id="reffBubble">
+Cukup aku milikmu
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
+<div id="bigLyrics">
+Cukup aku milikmu. Dan kamu milikku. Tetap di sini bersamaku.
+</div>
+
+</div>
+
 <script>
-const socket = io();
 
-/* MATRIX RAIN */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+const stage = document.getElementById("stage");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const texts = [
 
-const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&";
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
+"aku sayang kamu",
+"makasi udah dengerin aku",
+"safe flight",
+"aku jemput ya",
+"udah makan belum?",
+"semangat ya",
+"aku kangen",
+"cantiknyaa",
+"hati hati ya",
+"take care sayang",
+"istirahat dulu",
+"aku rindu",
+"love you",
+"aku disini",
+"peluk jauh",
+"jangan tidur malam",
+"makasih ya",
+"aku tunggu",
+"aku bangga",
+"tetap kuat"
 
-let hue = 180;
+];
 
-function drawMatrix(){
-    ctx.fillStyle = "rgba(0,0,0,0.08)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+/* BUBBLE BIRU */
 
-    ctx.fillStyle = `hsl(${hue},100%,60%)`;
-    ctx.font = fontSize + "px monospace";
+function createBlueBubble(){
 
-    for(let i=0;i<drops.length;i++){
-        const text = letters[Math.floor(Math.random()*letters.length)];
-        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+const b=document.createElement("div");
 
-        if(drops[i]*fontSize > canvas.height && Math.random()>0.975){
-            drops[i]=0;
-        }
-        drops[i]++;
-    }
+b.className="bubble";
 
-    hue += 0.3;
-    requestAnimationFrame(drawMatrix);
+b.innerText=
+texts[Math.floor(Math.random()*texts.length)];
+
+b.style.left=Math.random()*100+"%";
+
+b.style.animationDuration=
+(12+Math.random()*25)+"s";
+
+b.style.fontSize=
+(12+Math.random()*8)+"px";
+
+b.style.opacity=
+0.4+Math.random()*0.6;
+
+stage.appendChild(b);
+
+setTimeout(()=>{
+b.remove();
+},40000);
+
 }
-drawMatrix();
 
-/* SCENE CONTROL */
-const text = document.getElementById("text");
+for(let i=0;i<250;i++){
 
-socket.on("scene", (scene)=>{
+setTimeout(createBlueBubble,i*150);
 
-    document.body.className = "";
+}
 
-    if(scene === "glitch"){
-        text.classList.add("glitch");
-    }
+setInterval(createBlueBubble,250);
 
-    if(scene === "pulse"){
-        document.body.style.filter = "brightness(2) contrast(2)";
-        setTimeout(()=>document.body.style.filter="none",300);
-    }
+/* REFF */
 
-    if(scene === "grid"){
-        ctx.fillStyle = "rgba(0,255,255,0.05)";
-    }
+setTimeout(()=>{
 
-});
+document
+.getElementById("reffBubble")
+.classList
+.add("showReff");
+
+},6000);
+
+/* BUBBLE PUTIH */
+
+function createWhiteBubble(){
+
+const b=document.createElement("div");
+
+b.className="whiteBubble";
+
+b.innerText="Cukup aku milikmu";
+
+b.style.left=Math.random()*100+"%";
+
+b.style.animationDuration=
+(10+Math.random()*18)+"s";
+
+stage.appendChild(b);
+
+setTimeout(()=>{
+b.remove();
+},30000);
+
+}
+
+setTimeout(()=>{
+
+for(let i=0;i<70;i++){
+
+setTimeout(createWhiteBubble,i*200);
+
+}
+
+setInterval(createWhiteBubble,400);
+
+},7000);
+
+/* TEKS REFF BESAR */
+
+setTimeout(()=>{
+
+document
+.getElementById("bigLyrics")
+.classList
+.add("runLyrics");
+
+},8500);
+
 </script>
 
 </body>
