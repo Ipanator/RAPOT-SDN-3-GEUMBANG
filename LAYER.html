@@ -106,7 +106,7 @@ const REFF3_STOP  = 200000;
 
 // Pengaturan
 const WHITE_SPAWN = 400;
-const LYRICS_SPEED = 75;
+const LYRICS_SPEED = 78;
   
 //======================
 const stage=document.getElementById("stage");
@@ -163,11 +163,12 @@ setTimeout(()=>{
 
 const l=document.getElementById("bigLyrics");
 
-l.style.setProperty("--speed",LYRICS_SPEED+"s");
+l.style.setProperty("--speed",(stop-start)/1000+"s");
 
 l.classList.add("runLyrics");
 
-const durasiKalimat=(LYRICS_SPEED*1000)/lyrics.length;
+const durasiReff = stop - start;
+const durasiKalimat = durasiReff / lyrics.length;
 
 const lyricTimer=setInterval(()=>{
 
