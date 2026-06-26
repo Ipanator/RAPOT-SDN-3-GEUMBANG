@@ -15,7 +15,7 @@
 //===== PENGATURAN =====
 const BLUE_START=0,BLUE_STOP=120000,BLUE_SPAWN=250;
 const WHITE_START=60000,WHITE_STOP=120000,WHITE_SPAWN=400;
-const LYRICS_START=60000,LYRICS_STOP=120000,LYRICS_SPEED=40;
+const LYRICS_START=60000,LYRICS_STOP=120000,LYRICS_SPEED=60;
 //======================
 const stage=document.getElementById("stage");
 const lyrics = document
@@ -24,10 +24,65 @@ const lyrics = document
 .split(".")
 .map(t => t.trim())
 .filter(t => t !== "");
+  let currentLyric = 0;
 const texts=["aku sayang kamu","makasi udah dengerin aku","safe flight","aku jemput ya","udah makan belum?","semangat ya","aku kangen","cantiknyaa","hati hati ya","take care sayang","istirahat dulu","aku rindu","love you","aku disini","peluk jauh","jangan tidur malam","makasih ya","aku tunggu","aku bangga","tetap kuat"];
 function createBlueBubble(){const b=document.createElement("div");b.className="bubble";b.innerText=texts[Math.floor(Math.random()*texts.length)];b.style.left=Math.random()*100+"%";b.style.animationDuration=(12+Math.random()*25)+"s";b.style.fontSize=(12+Math.random()*8)+"px";b.style.opacity=0.4+Math.random()*0.6;stage.appendChild(b);setTimeout(()=>b.remove(),40000);}
 setTimeout(()=>{for(let i=0;i<250;i++)setTimeout(createBlueBubble,i*150);const t=setInterval(createBlueBubble,BLUE_SPAWN);setTimeout(()=>clearInterval(t),BLUE_STOP-BLUE_START);},BLUE_START);
-function createWhiteBubble(){const b=document.createElement("div");b.className="whiteBubble";b.innerText =lyrics[Math.floor(Math.random() * lyrics.length)];b.style.left=Math.random()*100+"%";b.style.animationDuration=(10+Math.random()*18)+"s";stage.appendChild(b);setTimeout(()=>b.remove(),30000);}
-setTimeout(()=>{for(let i=0;i<70;i++)setTimeout(createWhiteBubble,i*200);const t=setInterval(createWhiteBubble,WHITE_SPAWN);setTimeout(()=>clearInterval(t),WHITE_STOP-WHITE_START);},WHITE_START);
+function createWhiteBubble(){
+
+const b=document.createElement("div");
+
+b.className="whiteBubble";
+
+b.innerText=lyrics[currentLyric];
+
+b.style.left=Math.random()*100+"%";
+
+b.style.animationDuration=
+(10+Math.random()*18)+"s";
+
+stage.appendChild(b);
+
+setTimeout(()=>{
+b.remove();
+},30000);
+
+}
+setTimeout(()=>{
+
+const l=document.getElementById("bigLyrics");
+
+l.style.setProperty("--speed",LYRICS_SPEED+"s");
+
+l.classList.add("runLyrics");
+
+// Menghitung waktu perpindahan setiap kalimat
+const durasiKalimat=(LYRICS_SPEED*1000)/lyrics.length;
+
+const lyricTimer=setInterval(()=>{
+
+currentLyric++;
+
+if(currentLyric>=lyrics.length){
+
+currentLyric=lyrics.length-1;
+
+clearInterval(lyricTimer);
+
+}
+
+},durasiKalimat);
+
+setTimeout(()=>{
+
+l.classList.remove("runLyrics");
+
+l.style.opacity=0;
+
+clearInterval(lyricTimer);
+
+},LYRICS_STOP-LYRICS_START);
+
+},LYRICS_START);
 setTimeout(()=>{const l=document.getElementById("bigLyrics");l.style.setProperty("--speed",LYRICS_SPEED+"s");l.classList.add("runLyrics");setTimeout(()=>{l.classList.remove("runLyrics");l.style.opacity=0;},LYRICS_STOP-LYRICS_START);},LYRICS_START);
 </script></body></html>
