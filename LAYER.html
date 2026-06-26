@@ -4,9 +4,60 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}body{overflow:hidden;background:#0f4cff;font-family:Arial,sans-serif;height:100vh}
 #stage{position:relative;width:100%;height:100vh;overflow:hidden;background:linear-gradient(180deg,#1d4fff,#0e3de0)}
-.bubble,.whiteBubble{position:absolute;padding:10px 22px;border-radius:30px;white-space:nowrap;animation:floatUp linear infinite}
-.bubble{background:#2f67ff;color:#fff}.whiteBubble{background:#fff;color:#333;font-weight:600}
-#bigLyrics{position:absolute;top:65%;left:100%;font-size:min(80px,8vw);font-weight:bold;color:#fff;white-space:nowrap;opacity:0}
+.bubble{
+
+background:#2f67ff;
+
+color:#fff;
+
+z-index:10;
+
+}
+
+.whiteBubble{
+
+background:#fff;
+
+color:#333;
+
+font-weight:600;
+
+z-index:20;
+
+}
+#bigLyrics{
+
+position:absolute;
+
+top:65%;
+
+left:100%;
+
+font-size:min(80px,8vw);
+
+font-weight:bold;
+
+background:white;
+
+color:#222;
+
+padding:18px 45px;
+
+border-radius:60px;
+
+box-shadow:0 10px 35px rgba(0,0,0,.25);
+
+display:inline-block;
+
+white-space:nowrap;
+
+opacity:0;
+
+z-index:99999;
+
+pointer-events:none;
+
+}
 .runLyrics{animation:moveLyrics var(--speed) linear infinite;opacity:1!important}
 @keyframes moveLyrics{from{transform:translateX(0)}to{transform:translateX(-220%)}}
 @keyframes floatUp{from{transform:translateY(110vh)}to{transform:translateY(-200px)}}
