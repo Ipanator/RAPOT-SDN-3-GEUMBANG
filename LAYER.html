@@ -134,7 +134,11 @@ b.style.animationDuration=
 (10+Math.random()*18)+"s";
 
 stage.appendChild(b);
+setTimeout(()=>{
+    b.remove();
+},30000);
 
+} // <-- PENUTUP FUNGSI createWhiteBubble
 
   
 function startReff(start,stop){
