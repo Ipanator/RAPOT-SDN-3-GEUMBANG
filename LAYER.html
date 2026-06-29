@@ -150,7 +150,7 @@ setTimeout(()=>{
 } // <-- PENUTUP FUNGSI createWhiteBubble
 
   
-function startReff(start,stop){
+function startReff(start,stop,speed){
 
 setTimeout(()=>{
 
@@ -183,7 +183,7 @@ l.style.setProperty("--speed",speed+"s");
 
 l.classList.add("runLyrics");
 
-const durasiKalimat = (LYRICS_SPEED * 1000) / lyrics.length;
+const durasiKalimat = (speed * 1000) / lyrics.length;
 
 const lyricTimer=setInterval(()=>{
 
@@ -210,12 +210,6 @@ clearInterval(lyricTimer);
 },start);
 
 }
-
-startReff(REFF1_START,REFF1_STOP);
-
-startReff(REFF2_START,REFF2_STOP);
-
-startReff(REFF3_START,REFF3_STOP);
   
 setTimeout(()=>{const l=document.getElementById("bigLyrics");l.style.setProperty("--speed",LYRICS_SPEED+"s");l.classList.add("runLyrics");setTimeout(()=>{l.classList.remove("runLyrics");l.style.opacity=0;},LYRICS_STOP-LYRICS_START);},LYRICS_START);
 </script></body></html>
