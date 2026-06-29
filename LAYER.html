@@ -73,7 +73,10 @@ z-index:99999;
 pointer-events:none;
 
 }
-.runLyrics{animation:moveLyrics var(--speed) linear infinite;opacity:1!important}
+.runLyrics{
+    animation:moveLyrics var(--speed) ease-in-out infinite;
+    opacity:1!important;
+}
 @keyframes moveLyrics{
 
 from{
@@ -106,7 +109,13 @@ const REFF3_STOP  = 200000;
 
 // Pengaturan
 const WHITE_SPAWN = 120;
-const LYRICS_SPEED = 70;
+const LYRICS_SPEED1 = 80; // awal pelan
+const LYRICS_SPEED2 = 55; // reff cepat
+const LYRICS_SPEED3 = 45; // bagian paling semangat
+
+startReff(REFF1_START,REFF1_STOP,LYRICS_SPEED1);
+startReff(REFF2_START,REFF2_STOP,LYRICS_SPEED2);
+startReff(REFF3_START,REFF3_STOP,LYRICS_SPEED3);
   
 //======================
 const stage=document.getElementById("stage");
@@ -170,7 +179,7 @@ setTimeout(()=>{
 
 const l=document.getElementById("bigLyrics");
 
-l.style.setProperty("--speed",LYRICS_SPEED+"s");
+l.style.setProperty("--speed",speed+"s");
 
 l.classList.add("runLyrics");
 
