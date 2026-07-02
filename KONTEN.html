@@ -133,15 +133,15 @@ function blue(){
  let b=document.createElement("div");
  b.className="bubble";
  b.textContent=texts[Math.floor(Math.random()*texts.length)];
- b.style.left=(-25+Math.random()*150)+"vw";
+ b.style.animationDuration=(24+Math.random()*12)+"s";
  b.style.fontSize=(15+Math.random()*10)+"px";
  b.style.opacity=.45+Math.random()*.55;
  b.style.animationDuration=(20+Math.random()*18)+"s";
  stage.appendChild(b);
  setTimeout(()=>b.remove(),40000);
 }
-for(let i=0;i<900;i++)setTimeout(blue,i*8);
-setInterval(blue,40);
+for(let i=0;i<250;i++)setTimeout(blue,i*20);
+setInterval(blue,100);
 
 function white(){
  let b=document.createElement("div");
