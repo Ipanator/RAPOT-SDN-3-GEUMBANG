@@ -2,169 +2,221 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bubble Wall</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aurora Background</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{overflow:hidden;height:100vh;background:linear-gradient(180deg,#1d4fff,#0e3de0);font-family:Arial}
-#stage{position:relative;width:100%;height:100vh;overflow:hidden}
-.bubble,.whiteBubble{position:absolute;padding:12px 26px;border-radius:30px;white-space:nowrap;animation:floatUp linear forwards}
-.bubble{background:#2f67ff;color:#fff}
-.whiteBubble{background:#fff;color:#333;font-weight:bold;z-index:5}
-@keyframes floatUp{from{transform:translateY(110vh)}to{transform:translateY(-220px)}}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+overflow:hidden;
+background:#06152d;
+font-family:'Poppins',sans-serif;
+height:100vh;
+}
+
+.scene{
+position:relative;
+width:100%;
+height:100vh;
+overflow:hidden;
+background:
+radial-gradient(circle at 20% 20%,rgba(0,183,255,.18),transparent 35%),
+radial-gradient(circle at 80% 25%,rgba(93,63,255,.18),transparent 35%),
+radial-gradient(circle at 50% 80%,rgba(0,255,255,.12),transparent 40%),
+linear-gradient(180deg,#06152d,#0a2f5d,#04101f);
+animation:bgMove 18s ease-in-out infinite alternate;
+}
+
+@keyframes bgMove{
+0%{transform:scale(1);}
+100%{transform:scale(1.08);}
+}
+
+.aurora{
+position:absolute;
+width:180%;
+height:180%;
+left:-40%;
+top:-40%;
+background:
+conic-gradient(from 180deg,
+rgba(0,255,255,.10),
+rgba(0,132,255,.15),
+rgba(149,0,255,.10),
+rgba(0,255,255,.10));
+filter:blur(100px);
+animation:spin 45s linear infinite;
+opacity:.9;
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
+}
+
+.panel{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:80%;
+max-width:700px;
+padding:40px;
+border-radius:35px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.15);
+box-shadow:
+0 0 40px rgba(0,180,255,.15),
+0 0 80px rgba(0,180,255,.08);
+text-align:center;
+animation:float 5s ease-in-out infinite;
+}
+
+@keyframes float{
+50%{
+transform:translate(-50%,-53%);
+}
+}
+
+.title{
+font-size:45px;
+font-weight:700;
+color:white;
+text-shadow:0 0 25px cyan;
+letter-spacing:2px;
+}
+
+.subtitle{
+margin-top:15px;
+font-size:18px;
+color:#d8eaff;
+opacity:.9;
+}
+
+.wave{
+position:absolute;
+bottom:-120px;
+left:-20%;
+width:140%;
+height:260px;
+background:radial-gradient(circle,#33d6ff55,transparent 70%);
+filter:blur(40px);
+animation:wave 8s ease-in-out infinite;
+}
+
+@keyframes wave{
+50%{
+transform:translateY(-40px) scale(1.08);
+}
+}
+
+.star{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+animation:twinkle linear infinite;
+}
+
+@keyframes twinkle{
+0%,100%{
+opacity:.2;
+transform:scale(.5);
+}
+50%{
+opacity:1;
+transform:scale(1.8);
+}
+}
+
+.bubble{
+position:absolute;
+bottom:-100px;
+border-radius:50%;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(6px);
+animation:rise linear infinite;
+}
+
+@keyframes rise{
+to{
+transform:translateY(-120vh);
+}
+}
 </style>
+
 </head>
 <body>
-<div id="stage"></div>
+
+<div class="scene">
+
+<div class="aurora"></div>
+
+<div class="panel">
+<div class="title">YOUR LYRICS</div>
+<div class="subtitle">
+Rekam layar ini lalu tambahkan audio di editor video.
+</div>
+</div>
+
+<div class="wave"></div>
+
+</div>
+
 <script>
-const stage=document.getElementById("stage");
-const texts=[
-"aku di sini",
-"aku menunggu",
-"tetap di sini",
-"jangan pergi",
-"tetap bersamaku",
-"aku percaya",
-"kau berharga",
-"kau berarti",
-"kau istimewa",
-"aku yakin",
-"masih berharap",
-"semoga bahagia",
-"semoga tersenyum",
-"selalu ada",
-"aku menemani",
-"tetap kuat",
-"terus melangkah",
-"jangan menyerah",
-"aku mendengar",
-"aku mengerti",
-"kau tidak sendiri",
-"semoga indah",
-"tetap percaya",
-"aku akan sabar",
-"aku tetap di sini",
-"selalu bersamamu",
-"aku menantimu",
-"tetap tersenyum",
-"jangan takut",
-"semoga berhasil",
-"hari yang indah",
-"aku mendukungmu",
-"aku bangga padamu",
-"kau luar biasa",
-"kau mampu",
-"tetap semangat",
-"jangan menyerah ya",
-"tetap menjadi dirimu",
-"aku percaya padamu",
-"kau membuatku tersenyum",
-"tetaplah bahagia",
-"aku selalu mendoakanmu",
-"semoga semua baik-baik saja",
-"langit selalu indah",
-"esok akan lebih baik",
-"aku akan bertahan",
-"tetap berjalan",
-"aku akan menunggu",
-"semoga kita bertemu",
-"aku masih di sini",
-"semoga harimu menyenangkan",
-"terima kasih telah hadir",
-"kau membuat hariku indah",
-"aku menghargaimu",
-"kau begitu berarti",
-"aku akan selalu ada",
-"semoga mimpimu tercapai",
-"tetaplah tersenyum",
-"aku berharap yang terbaik",
-"aku percaya waktu",
-"semoga waktu berpihak",
-"tetap saling menjaga",
-"jangan lupakan dirimu",
-"aku ingin melihatmu bahagia",
-"kau pantas bahagia",
-"aku selalu percaya",
-"tetaplah bersinar",
-"kau adalah semangat",
-"aku menyukaimu",
-"semoga kita dipertemukan",
-"aku tidak menyerah",
-"aku tetap percaya",
-"selalu ada harapan",
-"tetaplah melangkah",
-"aku akan terus menunggu",
-"semoga semua menjadi nyata",
-"aku takkan lelah",
-"tetaplah di hatiku",
-"kau selalu kuingat",
-"semoga semua baik",
-"aku tetap setia",
-"aku akan kembali",
-"aku akan tetap di sini",
-"selalu bersamamu dalam doa",
-"kau selalu spesial",
-"tetaplah percaya pada dirimu",
-"aku mendukung setiap langkahmu",
-"kau adalah alasan tersenyum",
-"semoga harimu dipenuhi kebahagiaan",
-"tetaplah menjadi dirimu sendiri",
-"aku selalu berharap yang terbaik untukmu",
-"aku akan selalu mengingatmu",
-"tak ada yang berubah",
-"aku tetap memilihmu",
-"kau tetap yang terbaik",
-"selalu ada cerita indah",
-"aku akan tetap tersenyum",
-"kau adalah harapan",
-"aku takkan pergi",
-"aku ingin kau bahagia",
-"tetaplah bersamaku",
-"aku akan terus percaya",
-"semoga suatu hari nanti",
-"aku akan selalu menunggumu"
-];
-const lyrics=(
-"Aku tetap di sini. Menunggu dengan sabar. Semoga kau kembali. Jangan pernah berubah. Tetaplah menjadi dirimu. Aku percaya padamu. Bersama hingga nanti. Walau waktu berlalu. Hatiku tetap sama. Aku akan bertahan. Semoga kita bertemu. Kau selalu berarti."
-).split(".").map(x=>x.trim()).filter(Boolean);
 
-let current=0;
-function blue(){
- let b=document.createElement("div");
- b.className="bubble";
- b.textContent=texts[Math.floor(Math.random()*texts.length)];
- b.style.animationDuration=(24+Math.random()*12)+"s";
- b.style.fontSize=(15+Math.random()*10)+"px";
- b.style.opacity=.45+Math.random()*.55;
- b.style.animationDuration=(20+Math.random()*18)+"s";
- stage.appendChild(b);
- setTimeout(()=>b.remove(),40000);
-}
-for(let i=0;i<250;i++)setTimeout(blue,i*20);
-setInterval(blue,100);
+for(let i=0;i<180;i++){
 
-function white(){
- let b=document.createElement("div");
- b.className="whiteBubble";
- b.textContent=lyrics[current];
- b.style.left=(Math.random()*100)+"vw";
- b.style.animationDuration=(6+Math.random()*3)+"s";
- stage.appendChild(b);
- setTimeout(()=>b.remove(),12000);
- current=(current+1)%lyrics.length;
+let s=document.createElement("div");
+
+s.className="star";
+
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+
+let d=Math.random()*3+1;
+
+s.style.width=d+"px";
+s.style.height=d+"px";
+
+s.style.animationDuration=(Math.random()*4+2)+"s";
+
+document.querySelector(".scene").appendChild(s);
+
 }
-const WHITE_EVENTS=[
-{start:60000,end:108000},
-{start:120000,end:128000},
-{start:180000,end:188000}
-];
-WHITE_EVENTS.forEach(e=>{
- setTimeout(()=>{
-   for(let i=0;i<100;i++)setTimeout(white,i*70);
-   const t=setInterval(white,60);
-   setTimeout(()=>clearInterval(t),e.end-e.start);
- },e.start);
-});
+
+for(let i=0;i<25;i++){
+
+let b=document.createElement("div");
+
+b.className="bubble";
+
+let size=Math.random()*80+20;
+
+b.style.width=size+"px";
+b.style.height=size+"px";
+
+b.style.left=Math.random()*100+"%";
+
+b.style.animationDuration=(Math.random()*20+12)+"s";
+
+b.style.animationDelay=(-Math.random()*20)+"s";
+
+document.querySelector(".scene").appendChild(b);
+
+}
+
 </script>
+
 </body>
 </html>
