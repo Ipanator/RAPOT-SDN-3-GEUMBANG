@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bubble Wall</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{overflow:hidden;height:100vh;background:linear-gradient(180deg,#1d4fff,#0e3de0);font-family:Arial}
+#stage{position:relative;width:100%;height:100vh;overflow:hidden}
+.bubble,.whiteBubble{position:absolute;padding:12px 26px;border-radius:30px;white-space:nowrap;animation:floatUp linear forwards}
+.bubble{background:#2f67ff;color:#fff}
+.whiteBubble{background:#fff;color:#333;font-weight:bold;z-index:5}
+@keyframes floatUp{from{transform:translateY(110vh)}to{transform:translateY(-220px)}}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const stage=document.getElementById("stage");
+const texts=[
+"aku di sini",
+"aku menunggu",
+"tetap di sini",
+"jangan pergi",
+"tetap bersamaku",
+"aku percaya",
+"kau berharga",
+"kau berarti",
+"kau istimewa",
+"aku yakin",
+"masih berharap",
+"semoga bahagia",
+"semoga tersenyum",
+"selalu ada",
+"aku menemani",
+"tetap kuat",
+"terus melangkah",
+"jangan menyerah",
+"aku mendengar",
+"aku mengerti",
+"kau tidak sendiri",
+"semoga indah",
+"tetap percaya",
+"aku akan sabar",
+"aku tetap di sini",
+"selalu bersamamu",
+"aku menantimu",
+"tetap tersenyum",
+"jangan takut",
+"semoga berhasil",
+"hari yang indah",
+"aku mendukungmu",
+"aku bangga padamu",
+"kau luar biasa",
+"kau mampu",
+"tetap semangat",
+"jangan menyerah ya",
+"tetap menjadi dirimu",
+"aku percaya padamu",
+"kau membuatku tersenyum",
+"tetaplah bahagia",
+"aku selalu mendoakanmu",
+"semoga semua baik-baik saja",
+"langit selalu indah",
+"esok akan lebih baik",
+"aku akan bertahan",
+"tetap berjalan",
+"aku akan menunggu",
+"semoga kita bertemu",
+"aku masih di sini",
+"semoga harimu menyenangkan",
+"terima kasih telah hadir",
+"kau membuat hariku indah",
+"aku menghargaimu",
+"kau begitu berarti",
+"aku akan selalu ada",
+"semoga mimpimu tercapai",
+"tetaplah tersenyum",
+"aku berharap yang terbaik",
+"aku percaya waktu",
+"semoga waktu berpihak",
+"tetap saling menjaga",
+"jangan lupakan dirimu",
+"aku ingin melihatmu bahagia",
+"kau pantas bahagia",
+"aku selalu percaya",
+"tetaplah bersinar",
+"kau adalah semangat",
+"aku menyukaimu",
+"semoga kita dipertemukan",
+"aku tidak menyerah",
+"aku tetap percaya",
+"selalu ada harapan",
+"tetaplah melangkah",
+"aku akan terus menunggu",
+"semoga semua menjadi nyata",
+"aku takkan lelah",
+"tetaplah di hatiku",
+"kau selalu kuingat",
+"semoga semua baik",
+"aku tetap setia",
+"aku akan kembali",
+"aku akan tetap di sini",
+"selalu bersamamu dalam doa",
+"kau selalu spesial",
+"tetaplah percaya pada dirimu",
+"aku mendukung setiap langkahmu",
+"kau adalah alasan tersenyum",
+"semoga harimu dipenuhi kebahagiaan",
+"tetaplah menjadi dirimu sendiri",
+"aku selalu berharap yang terbaik untukmu",
+"aku akan selalu mengingatmu",
+"tak ada yang berubah",
+"aku tetap memilihmu",
+"kau tetap yang terbaik",
+"selalu ada cerita indah",
+"aku akan tetap tersenyum",
+"kau adalah harapan",
+"aku takkan pergi",
+"aku ingin kau bahagia",
+"tetaplah bersamaku",
+"aku akan terus percaya",
+"semoga suatu hari nanti",
+"aku akan selalu menunggumu"
+];
+const lyrics=(
+"Aku tetap di sini. Menunggu dengan sabar. Semoga kau kembali. Jangan pernah berubah. Tetaplah menjadi dirimu. Aku percaya padamu. Bersama hingga nanti. Walau waktu berlalu. Hatiku tetap sama. Aku akan bertahan. Semoga kita bertemu. Kau selalu berarti."
+).split(".").map(x=>x.trim()).filter(Boolean);
+
+let current=0;
+function blue(){
+ let b=document.createElement("div");
+ b.className="bubble";
+ b.textContent=texts[Math.floor(Math.random()*texts.length)];
+ b.style.left=(-25+Math.random()*150)+"vw";
+ b.style.fontSize=(15+Math.random()*10)+"px";
+ b.style.opacity=.45+Math.random()*.55;
+ b.style.animationDuration=(20+Math.random()*18)+"s";
+ stage.appendChild(b);
+ setTimeout(()=>b.remove(),40000);
+}
+for(let i=0;i<900;i++)setTimeout(blue,i*8);
+setInterval(blue,40);
+
+function white(){
+ let b=document.createElement("div");
+ b.className="whiteBubble";
+ b.textContent=lyrics[current];
+ b.style.left=(Math.random()*100)+"vw";
+ b.style.animationDuration=(6+Math.random()*3)+"s";
+ stage.appendChild(b);
+ setTimeout(()=>b.remove(),12000);
+ current=(current+1)%lyrics.length;
+}
+const WHITE_EVENTS=[
+{start:60000,end:108000},
+{start:120000,end:128000},
+{start:180000,end:188000}
+];
+WHITE_EVENTS.forEach(e=>{
+ setTimeout(()=>{
+   for(let i=0;i<100;i++)setTimeout(white,i*70);
+   const t=setInterval(white,60);
+   setTimeout(()=>clearInterval(t),e.end-e.start);
+ },e.start);
+});
+</script>
+</body>
+</html>
