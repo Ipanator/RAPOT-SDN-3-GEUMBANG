@@ -1,223 +1,218 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lucky Prize Wheel</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aurora Background</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
-background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
 overflow:hidden;
-color:#fff;
+background:#06152d;
+font-family:'Poppins',sans-serif;
+height:100vh;
 }
 
-.container{
-text-align:center;
-}
-
-h1{
-margin-bottom:20px;
-text-shadow:0 0 20px cyan;
-}
-
-#wheel{
-width:420px;
-height:420px;
-border-radius:50%;
-border:8px solid #fff;
-box-shadow:0 0 40px cyan;
-transition:transform 6s cubic-bezier(.17,.67,.25,1);
-}
-
-.pointer{
-width:0;
-height:0;
-border-left:18px solid transparent;
-border-right:18px solid transparent;
-border-top:40px solid gold;
-margin:auto;
-margin-bottom:-12px;
-z-index:5;
+.scene{
 position:relative;
+width:100%;
+height:100vh;
+overflow:hidden;
+background:
+radial-gradient(circle at 20% 20%,rgba(0,183,255,.18),transparent 35%),
+radial-gradient(circle at 80% 25%,rgba(93,63,255,.18),transparent 35%),
+radial-gradient(circle at 50% 80%,rgba(0,255,255,.12),transparent 40%),
+linear-gradient(180deg,#06152d,#0a2f5d,#04101f);
+animation:bgMove 18s ease-in-out infinite alternate;
 }
 
-button{
-margin-top:30px;
-padding:15px 40px;
-font-size:20px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-background:#00e5ff;
-color:#000;
-font-weight:bold;
-box-shadow:0 0 20px cyan;
+@keyframes bgMove{
+0%{transform:scale(1);}
+100%{transform:scale(1.08);}
 }
 
-button:hover{
-transform:scale(1.05);
+.aurora{
+position:absolute;
+width:180%;
+height:180%;
+left:-40%;
+top:-40%;
+background:
+conic-gradient(from 180deg,
+rgba(0,255,255,.10),
+rgba(0,132,255,.15),
+rgba(149,0,255,.10),
+rgba(0,255,255,.10));
+filter:blur(100px);
+animation:spin 45s linear infinite;
+opacity:.9;
 }
 
-#hasil{
-margin-top:20px;
-font-size:26px;
-font-weight:bold;
-color:yellow;
-text-shadow:0 0 15px gold;
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
+}
+
+.panel{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:80%;
+max-width:700px;
+padding:40px;
+border-radius:35px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.15);
+box-shadow:
+0 0 40px rgba(0,180,255,.15),
+0 0 80px rgba(0,180,255,.08);
+text-align:center;
+animation:float 5s ease-in-out infinite;
+}
+
+@keyframes float{
+50%{
+transform:translate(-50%,-53%);
+}
+}
+
+.title{
+font-size:45px;
+font-weight:700;
+color:white;
+text-shadow:0 0 25px cyan;
+letter-spacing:2px;
+}
+
+.subtitle{
+margin-top:15px;
+font-size:18px;
+color:#d8eaff;
+opacity:.9;
+}
+
+.wave{
+position:absolute;
+bottom:-120px;
+left:-20%;
+width:140%;
+height:260px;
+background:radial-gradient(circle,#33d6ff55,transparent 70%);
+filter:blur(40px);
+animation:wave 8s ease-in-out infinite;
+}
+
+@keyframes wave{
+50%{
+transform:translateY(-40px) scale(1.08);
+}
+}
+
+.star{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+animation:twinkle linear infinite;
+}
+
+@keyframes twinkle{
+0%,100%{
+opacity:.2;
+transform:scale(.5);
+}
+50%{
+opacity:1;
+transform:scale(1.8);
+}
+}
+
+.bubble{
+position:absolute;
+bottom:-100px;
+border-radius:50%;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(6px);
+animation:rise linear infinite;
+}
+
+@keyframes rise{
+to{
+transform:translateY(-120vh);
+}
 }
 </style>
 
 </head>
 <body>
 
-<div class="container">
+<div class="scene">
 
-<h1>🎁 Lucky Prize Wheel 🎁</h1>
+<div class="aurora"></div>
 
-<div class="pointer"></div>
+<div class="panel">
+<div class="title">YOUR LYRICS</div>
+<div class="subtitle">
+Rekam layar ini lalu tambahkan audio di editor video.
+</div>
+</div>
 
-<canvas id="wheel" width="420" height="420"></canvas>
-
-<br>
-
-<button onclick="spin()">PUTAR</button>
-
-<div id="hasil">Semoga Beruntung!</div>
+<div class="wave"></div>
 
 </div>
 
 <script>
 
-// ===============================
-// PENGATURAN HADIAH
-// ===============================
+for(let i=0;i<180;i++){
 
-const hadiah=[
-"Pulpen",
-"Buku",
-"Sticker",
-"Boneka",
-"Voucher",
-"Tumbler",
-"Payung",
-"Coba Lagi"
-];
+let s=document.createElement("div");
 
-// Bobot peluang (semakin besar semakin sering keluar)
-const peluang=[0,0,0,0,0,0,0,100];
+s.className="star";
 
-// ===============================
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
 
-const canvas=document.getElementById("wheel");
-const ctx=canvas.getContext("2d");
+let d=Math.random()*3+1;
 
-const warna=[
-"#ef4444",
-"#f97316",
-"#eab308",
-"#22c55e",
-"#06b6d4",
-"#3b82f6",
-"#8b5cf6",
-"#ec4899"
-];
+s.style.width=d+"px";
+s.style.height=d+"px";
 
-const radius=210;
-const total=hadiah.length;
-const sudut=2*Math.PI/total;
+s.style.animationDuration=(Math.random()*4+2)+"s";
 
-function gambar(){
-
-for(let i=0;i<total;i++){
-
-ctx.beginPath();
-ctx.moveTo(radius,radius);
-
-ctx.fillStyle=warna[i%warna.length];
-
-ctx.arc(radius,radius,radius,i*sudut,(i+1)*sudut);
-
-ctx.fill();
-
-ctx.save();
-
-ctx.translate(radius,radius);
-
-ctx.rotate(i*sudut+sudut/2);
-
-ctx.fillStyle="#fff";
-
-ctx.font="bold 18px Arial";
-
-ctx.textAlign="right";
-
-ctx.fillText(hadiah[i],180,8);
-
-ctx.restore();
+document.querySelector(".scene").appendChild(s);
 
 }
 
-}
+for(let i=0;i<25;i++){
 
-gambar();
+let b=document.createElement("div");
 
-let putaran=0;
-let jalan=false;
+b.className="bubble";
 
-function pilihHadiah(){
+let size=Math.random()*80+20;
 
-let totalBobot=peluang.reduce((a,b)=>a+b);
+b.style.width=size+"px";
+b.style.height=size+"px";
 
-let acak=Math.random()*totalBobot;
+b.style.left=Math.random()*100+"%";
 
-let jumlah=0;
+b.style.animationDuration=(Math.random()*20+12)+"s";
 
-for(let i=0;i<peluang.length;i++){
+b.style.animationDelay=(-Math.random()*20)+"s";
 
-jumlah+=peluang[i];
-
-if(acak<jumlah){
-
-return i;
-
-}
-
-}
-
-return 0;
-
-}
-
-function spin(){
-
-if(jalan) return;
-
-jalan=true;
-
-let index=pilihHadiah();
-
-let derajat=360/total;
-
-let tujuan=(360-(index*derajat)-derajat/2);
-
-putaran+=2160+tujuan+Math.random()*10;
-
-canvas.style.transform="rotate("+putaran+"deg)";
-
-setTimeout(()=>{
-
-document.getElementById("hasil").innerHTML="🎉 Hadiah: <b>"+hadiah[index]+"</b>";
-
-jalan=false;
-
-},6000);
+document.querySelector(".scene").appendChild(b);
 
 }
 
