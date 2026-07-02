@@ -1,38 +1,215 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bubble Wall Template</title>
+<title>Konser Lyrics Wall</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{overflow:hidden;height:100vh;background:linear-gradient(180deg,#1d4fff,#0e3de0);font-family:Arial}
-#stage{position:relative;width:100%;height:100vh;overflow:hidden}
-.bubble,.white{position:absolute;padding:10px 22px;border-radius:28px;white-space:nowrap;animation:up linear forwards}
-.bubble{
-background:#4f86ff;
-color:#fff;
-box-shadow:0 0 12px rgba(255,255,255,.25);
+*{margin:0;padding:0;box-sizing:border-box}body{overflow:hidden;background:#0f4cff;font-family:Arial,sans-serif;height:100vh}
+#stage{position:relative;width:100%;height:100vh;overflow:hidden;background:linear-gradient(180deg,#1d4fff,#0e3de0)}
+.bubble,
+.whiteBubble{
+
+position:absolute;
+
+padding:10px 22px;
+
+border-radius:30px;
+
+white-space:nowrap;
+
+animation:floatUp linear infinite;
+
 }
-.white{background:#fff;color:#222;font-weight:bold;z-index:5}
-#banner{position:absolute;top:50%;left:0;transform:translateY(-50%);padding:18px 40px;background:#fff;border-radius:50px;font-size:min(70px,7vw);font-weight:bold;opacity:0;white-space:nowrap}
-.run{opacity:1;animation:slide var(--speed) linear forwards}
-@keyframes up{from{transform:translateY(110vh)}to{transform:translateY(-220px)}}
-@keyframes slide{from{transform:translate(100vw,-50%)}to{transform:translate(calc(-100% - 100vw),-50%)}}
-</style></head><body><div id="stage"><div id="banner"></div></div>
+
+.bubble{
+
+background:#2f67ff;
+
+color:#fff;
+
+z-index:10;
+
+}
+
+.whiteBubble{
+
+background:#fff;
+
+color:#333;
+
+font-weight:600;
+
+z-index:20;
+
+}
+#bigLyrics{
+
+position:absolute;
+
+top:50%;
+
+left:0;
+
+transform:translateY(-50%);
+
+font-size:min(80px,8vw);
+
+font-weight:bold;
+
+background:white;
+
+color:#222;
+
+padding:18px 45px;
+
+border-radius:60px;
+
+display:inline-block;
+
+white-space:nowrap;
+
+opacity:0;
+
+z-index:99999;
+
+pointer-events:none;
+
+}
+.runLyrics{
+    opacity:1 !important;
+    animation:moveLyrics var(--speed) linear forwards;
+}
+@keyframes moveLyrics{
+
+from{
+transform:translate(100vw,-50%);
+}
+
+to{
+transform:translate(calc(-100% - 100vw),-50%);
+}
+
+}
+@keyframes floatUp{from{transform:translateY(110vh)}to{transform:translateY(-200px)}}
+</style></head><body><div id="stage"><div id="bigLyrics">Cukup aku milikmu. Dan kamu milikku. Tetap di sampingku. sampai jadi debu. sampai akhir waktu. sampai maut bersaksi cintaku abadi.Dan bila aku terakhir 1000x lagi. DI dunia yang lain. Aku tak peduli. Kau akan kucari. sampai kau tau betapa. kau ku cintai</div></div>
 <script>
-const stage = document.getElementById("stage");
-const banner = document.getElementById("banner");
-const texts=["aku di sini","tetap semangat","aku percaya","kau berharga","jangan menyerah","aku menunggu","selalu ada","tetap tersenyum","kau berarti","semoga bahagia"];
-const lines=["Aku tetap di sini","Aku percaya padamu","Tak ada yang berubah","Semoga kita bertemu","Aku akan bertahan","Kau selalu berarti"];
-let idx=0;
-function blue(){let b=document.createElement("div");b.className="bubble";b.textContent=texts[Math.random()*texts.length|0];b.style.left=(-15+Math.random()*130)+"vw";b.style.fontSize=(14+Math.random()*8)+"px";b.style.opacity=.5+Math.random()*.4;b.style.animationDuration=(20+Math.random()*12)+"s";stage.appendChild(b);setTimeout(()=>b.remove(),35000);}
-for(let i=0;i<220;i++)setTimeout(blue,i*20);setInterval(blue,100);
-function white(){let b=document.createElement("div");b.className="white";b.textContent=lines[idx];b.style.left=(Math.random()*100)+"vw";b.style.animationDuration=(6+Math.random()*2)+"s";stage.appendChild(b);setTimeout(()=>b.remove(),10000);}
-function section(start,duration,speed){
+//===== PENGATURAN =====
+const BLUE_START=0,BLUE_STOP=120000,BLUE_SPAWN=250;
+// ===== REFF =====
+
+// Reff 1
+const REFF1_START = 60000;
+const REFF1_STOP  = 120000;
+
+// Reff 2
+const REFF2_START = 120000;
+const REFF2_STOP  = 140000;
+
+// Reff 3
+const REFF3_START = 180000;
+const REFF3_STOP  = 200000;
+
+// Pengaturan
+const WHITE_SPAWN = 120;
+const LYRICS_SPEED1 = 45; // awal pelan
+const LYRICS_SPEED2 = 130; // reff cepat
+const LYRICS_SPEED3 = 160; // bagian paling semangat
+
+startReff(REFF1_START,REFF1_STOP,LYRICS_SPEED1);
+startReff(REFF2_START,REFF2_STOP,LYRICS_SPEED2);
+startReff(REFF3_START,REFF3_STOP,LYRICS_SPEED3);
+  
+//======================
+const stage=document.getElementById("stage");
+const lyrics = document
+.getElementById("bigLyrics")
+.innerText
+.split(".")
+.map(t => t.trim())
+.filter(t => t !== "");
+  let currentLyric = 0;
+const texts=["aku sayang kamu","makasi udah dengerin aku","safe flight","aku jemput ya","udah makan belum?","semangat ya","aku kangen","cantiknyaa","hati hati ya","take care sayang","istirahat dulu","aku rindu","love you","aku disini","peluk jauh","jangan tidur malam","makasih ya","aku tunggu","aku bangga","tetap kuat"];
+function createBlueBubble(){const b=document.createElement("div");b.className="bubble";b.innerText=texts[Math.floor(Math.random()*texts.length)];b.style.left=Math.random()*100+"%";b.style.animationDuration=(12+Math.random()*25)+"s";b.style.fontSize=(12+Math.random()*8)+"px";b.style.opacity=0.4+Math.random()*0.6;stage.appendChild(b);setTimeout(()=>b.remove(),40000);}
+setTimeout(()=>{for(let i=0;i<250;i++)setTimeout(createBlueBubble,i*150);const t=setInterval(createBlueBubble,BLUE_SPAWN);setTimeout(()=>clearInterval(t),BLUE_STOP-BLUE_START);},BLUE_START);
+function createWhiteBubble(){
+
+const b=document.createElement("div");
+
+b.className="whiteBubble";
+
+b.innerText=lyrics[currentLyric];
+
+b.style.left=Math.random()*100+"%";
+
+b.style.animationDuration=
+(5+Math.random()*3)+"s";
+
+stage.appendChild(b);
 setTimeout(()=>{
-idx=0;banner.textContent=lines.join(" • ");banner.style.setProperty("--speed",speed+"s");banner.classList.add("run");
-const wt=setInterval(()=>{white();idx=(idx+1)%lines.length;},140);
-setTimeout(()=>{clearInterval(wt);banner.classList.remove("run");banner.style.opacity=0;},duration);
-},start);}
-section(0,20000,30);
-section(70000,25000,24);
-section(120000,30000,20);
+    b.remove();
+},30000);
+
+} // <-- PENUTUP FUNGSI createWhiteBubble
+
+  
+function startReff(start,stop,speed){
+
+setTimeout(()=>{
+
+currentLyric=0;
+
+for(let i=0;i<70;i++){
+
+setTimeout(createWhiteBubble,i*200);
+
+}
+
+const whiteTimer=setInterval(createWhiteBubble,WHITE_SPAWN);
+
+// Berhenti membuat bubble 12 detik sebelum reff selesai
+const STOP_BEFORE = 12000;
+
+setTimeout(()=>{
+
+clearInterval(whiteTimer);
+
+},(stop-start)-STOP_BEFORE);
+
+},start);
+
+setTimeout(()=>{
+
+const l=document.getElementById("bigLyrics");
+
+l.style.setProperty("--speed",speed+"s");
+
+l.classList.add("runLyrics");
+
+const durasiKalimat = (speed * 1000) / lyrics.length;
+
+const lyricTimer=setInterval(()=>{
+
+currentLyric++;
+
+if(currentLyric>=lyrics.length){
+
+currentLyric=lyrics.length-1;
+
+}
+
+},durasiKalimat);
+
+setTimeout(()=>{
+
+l.classList.remove("runLyrics");
+
+l.style.opacity=0;
+
+clearInterval(lyricTimer);
+
+},stop-start);
+
+},start);
+
+}
+  
+setTimeout(()=>{const l=document.getElementById("bigLyrics");l.style.setProperty("--speed",LYRICS_SPEED+"s");l.classList.add("runLyrics");setTimeout(()=>{l.classList.remove("runLyrics");l.style.opacity=0;},LYRICS_STOP-LYRICS_START);},LYRICS_START);
 </script></body></html>
