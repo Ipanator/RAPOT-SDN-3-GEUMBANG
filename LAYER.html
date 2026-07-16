@@ -1,79 +1,667 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ujian Esai Online</title>
-  <style>
-    body{font-family:Arial,sans-serif;background:#f5f7fb;margin:0;padding:20px}
-    .box{max-width:700px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-    h2{text-align:center;color:#1e3a8a}
-    .top{display:flex;justify-content:space-between;margin-bottom:15px;font-weight:bold}
-    .progress{background:#e5e7eb;height:8px;border-radius:10px;overflow:hidden;margin:10px 0}
-    .bar{height:8px;background:#2563eb;width:0}
-    textarea{width:100%;min-height:160px;padding:12px;border:1px solid #d1d5db;border-radius:8px;font-size:15px}
-    .btns{display:flex;justify-content:space-between;margin-top:15px}
-    button{padding:10px 18px;border:none;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer}
-    button:disabled{background:#9ca3af;cursor:not-allowed}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulasi OSN IPA SD</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:Segoe UI,Arial,sans-serif;
+background:#eef4ff;
+color:#333;
+}
+
+#identitas,#ujian{
+max-width:1100px;
+margin:25px auto;
+}
+
+.card{
+background:#fff;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+padding:25px;
+}
+
+h1{
+text-align:center;
+color:#1d4ed8;
+margin-bottom:8px;
+}
+
+h3{
+text-align:center;
+color:#666;
+margin-bottom:25px;
+font-weight:500;
+}
+
+label{
+display:block;
+margin-top:15px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:6px;
+border:1px solid #d6d6d6;
+border-radius:8px;
+font-size:15px;
+}
+
+.info{
+margin-top:20px;
+background:#f8fbff;
+border-left:5px solid #2563eb;
+padding:15px;
+line-height:1.8;
+border-radius:8px;
+}
+
+button{
+border:none;
+cursor:pointer;
+border-radius:8px;
+padding:11px 22px;
+font-size:15px;
+font-weight:bold;
+transition:.2s;
+}
+
+.primary{
+background:#2563eb;
+color:#fff;
+}
+
+.primary:hover{
+background:#1d4ed8;
+}
+
+.success{
+background:#16a34a;
+color:#fff;
+}
+
+.success:hover{
+background:#15803d;
+}
+
+.secondary{
+background:#e5e7eb;
+}
+
+header{
+background:#2563eb;
+color:#fff;
+padding:18px;
+border-radius:15px;
+margin-bottom:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+header h2{
+font-size:22px;
+}
+
+header small{
+display:block;
+opacity:.9;
+}
+
+#timer{
+font-size:28px;
+font-weight:bold;
+}
+
+.main{
+display:grid;
+grid-template-columns:230px 1fr;
+gap:20px;
+}
+
+.sidebar{
+background:#fff;
+padding:18px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+height:fit-content;
+}
+
+.sidebar h4{
+margin-bottom:10px;
+}
+
+.progress{
+height:8px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+margin:10px 0;
+}
+
+.bar{
+height:100%;
+width:0;
+background:#2563eb;
+}
+
+#nomorGrid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:8px;
+margin-top:15px;
+}
+
+.nomor{
+height:38px;
+border-radius:8px;
+background:#eee;
+display:flex;
+justify-content:center;
+align-items:center;
+font-weight:bold;
+cursor:pointer;
+}
+
+.nomor.active{
+background:#2563eb;
+color:#fff;
+}
+
+.nomor.done{
+background:#16a34a;
+color:#fff;
+}
+
+.content{
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+#judulSoal{
+font-size:22px;
+color:#2563eb;
+margin-bottom:15px;
+}
+
+#gambar{
+display:none;
+width:100%;
+max-height:320px;
+object-fit:contain;
+margin-bottom:15px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+#soal{
+white-space:pre-wrap;
+line-height:1.7;
+margin-bottom:18px;
+font-size:17px;
+}
+
+textarea{
+width:100%;
+height:220px;
+padding:15px;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:16px;
+resize:vertical;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+margin-top:20px;
+gap:10px;
+flex-wrap:wrap;
+}
+
+#ujian{
+display:none;
+}
+
+@media(max-width:900px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+header{
+flex-direction:column;
+gap:10px;
+text-align:center;
+}
+
+}
+</style>
+
 </head>
-  
 <body>
-  <div class="box">
-    <h2>Ujian Esai Online</h2>
-    <div class="top">
-      <span id="nomor">Soal 1</span>
-      <span id="timer">60:00</span>
-    </div>
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    <p id="soal">Memuat soal...</p>
-    <textarea id="jawaban" placeholder="Tulis jawaban di sini..."></textarea>
-    <div class="btns">
-      <button id="prev">Sebelumnya</button>
-      <button id="next">Berikutnya</button>
-      <button id="finish">Selesai</button>
-    </div>
-  </div>
 
-  <script>
-    let soal=[],jawaban=[],index=0,waktu=60*60;
+<div id="identitas">
 
-    fetch("soal.txt")
-      .then(r=>r.text())
-      .then(t=>{
-        soal=t.split("===").map(s=>s.trim()).filter(Boolean);
-        jawaban=new Array(soal.length).fill("");
-        tampil();
-      });
+<div class="card">
 
-    function tampil(){
-      document.getElementById("nomor").textContent=`Soal ${index+1} dari ${soal.length}`;
-      document.getElementById("soal").textContent=soal[index];
-      document.getElementById("jawaban").value=jawaban[index];
-      document.getElementById("bar").style.width=((index+1)/soal.length*100)+"%";
-      document.getElementById("prev").disabled=index===0;
-      document.getElementById("next").disabled=index===soal.length-1;
+<h1>SIMULASI OSN IPA SD</h1>
+<h3>Ujian Esai Berbasis Komputer</h3>
+
+<label>Nama Lengkap</label>
+<input id="nama" placeholder="Masukkan nama">
+
+<label>Asal Sekolah</label>
+<input id="sekolah" placeholder="Nama sekolah">
+
+<label>Kelas</label>
+<input id="kelas" placeholder="VI">
+
+<label>Nomor Peserta</label>
+<input id="peserta" placeholder="Nomor peserta">
+
+<div class="info">
+
+<b>Informasi Ujian</b><br>
+
+Jumlah Soal : <span id="jumlahSoal">30</span><br>
+Durasi : 60 Menit<br>
+Jenis : Esai<br><br>
+
+<label>
+<input type="checkbox" id="setuju">
+Saya siap mengerjakan ujian dengan jujur.
+</label>
+
+</div>
+
+<br>
+
+<button class="primary" id="mulai">
+Mulai Ujian
+</button>
+
+</div>
+
+</div>
+
+<div id="ujian">
+
+<header>
+
+<div>
+
+<h2>SIMULASI OSN IPA SD</h2>
+
+<small id="pesertaInfo"></small>
+
+</div>
+
+<div id="timer">
+
+60:00
+
+</div>
+
+</header>
+
+<div class="main">
+
+<div class="sidebar">
+
+<h4>Progress</h4>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<div id="status">
+0 / 0 soal
+</div>
+
+<div id="nomorGrid">
+
+</div>
+
+</div>
+
+<div class="content">
+
+<div id="judulSoal">
+Soal 1
+</div>
+
+<img id="gambar">
+
+<div id="soal">
+
+Memuat soal...
+
+</div>
+
+<textarea id="jawaban" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+
+<div class="nav">
+
+<button class="secondary" id="prev">
+◀ Sebelumnya
+</button>
+
+<button class="primary" id="next">
+Berikutnya ▶
+</button>
+
+<button class="success" id="finish">
+Selesai Ujian
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+  let soal = [];
+let jawaban = [];
+let index = 0;
+let waktu = 60 * 60;
+let timer;
+
+const nama = document.getElementById("nama");
+const sekolah = document.getElementById("sekolah");
+const kelas = document.getElementById("kelas");
+const peserta = document.getElementById("peserta");
+
+fetch("soal.txt")
+.then(r=>r.text())
+.then(txt=>{
+
+    soal = txt.split("===")
+    .map(s=>s.trim())
+    .filter(s=>s!="");
+
+    jawaban = new Array(soal.length).fill("");
+
+    document.getElementById("jumlahSoal").textContent = soal.length;
+
+});
+
+document.getElementById("mulai").onclick=()=>{
+
+    if(nama.value==""){
+        alert("Isi nama terlebih dahulu.");
+        return;
     }
 
-    document.getElementById("jawaban").addEventListener("input",e=>{
-      jawaban[index]=e.target.value;
+    if(!document.getElementById("setuju").checked){
+        alert("Centang pernyataan terlebih dahulu.");
+        return;
+    }
+
+    document.getElementById("identitas").style.display="none";
+    document.getElementById("ujian").style.display="block";
+
+    document.getElementById("pesertaInfo").innerHTML=
+    nama.value+
+    " | "+
+    sekolah.value+
+    " | Kelas "+
+    kelas.value;
+
+    buatNomor();
+    tampil();
+
+    timer=setInterval(hitungWaktu,1000);
+
+};
+
+function buatNomor(){
+
+    const grid=document.getElementById("nomorGrid");
+
+    grid.innerHTML="";
+
+    soal.forEach((s,i)=>{
+
+        let d=document.createElement("div");
+
+        d.className="nomor";
+
+        d.innerHTML=i+1;
+
+        d.onclick=()=>{
+
+            simpan();
+
+            index=i;
+
+            tampil();
+
+        };
+
+        grid.appendChild(d);
+
     });
 
-    document.getElementById("prev").onclick=()=>{if(index>0){index--;tampil();}};
-    document.getElementById("next").onclick=()=>{if(index<soal.length-1){index++;tampil();}};
-    document.getElementById("finish").onclick=()=>{
-      alert("Jawaban tersimpan di browser. Integrasikan ke server jika ingin nilai online.");
-      console.log(jawaban);
-    };
+}
 
-    setInterval(()=>{
-      if(waktu>0){
-        waktu--;
-        let m=Math.floor(waktu/60),s=waktu%60;
-        document.getElementById("timer").textContent=
-          `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-      }
-    },1000);
+function tampil(){
+
+    document.getElementById("judulSoal").innerHTML=
+    "Soal "+(index+1);
+
+    let isi=soal[index];
+
+    let gambar=document.getElementById("gambar");
+
+    gambar.style.display="none";
+
+    if(isi.startsWith("[GAMBAR:")){
+
+        let a=isi.indexOf(":")+1;
+
+        let b=isi.indexOf("]");
+
+        gambar.src=isi.substring(a,b);
+
+        gambar.style.display="block";
+
+        isi=isi.substring(b+1).trim();
+
+    }
+
+    document.getElementById("soal").textContent=isi;
+
+    document.getElementById("jawaban").value=jawaban[index];
+
+    document.getElementById("prev").disabled=index==0;
+
+    document.getElementById("next").disabled=index==soal.length-1;
+
+    document.getElementById("bar").style.width=
+    ((index+1)/soal.length*100)+"%";
+
+    updateNomor();
+
+}
+
+function simpan(){
+
+    jawaban[index]=document.getElementById("jawaban").value;
+
+}
+
+document.getElementById("jawaban").addEventListener("input",simpan);
+
+document.getElementById("prev").onclick=()=>{
+
+    simpan();
+
+    if(index>0){
+
+        index--;
+
+        tampil();
+
+    }
+
+};
+
+document.getElementById("next").onclick=()=>{
+
+    simpan();
+
+    if(index<soal.length-1){
+
+        index++;
+
+        tampil();
+
+    }
+
+};
+
+function updateNomor(){
+
+    let semua=document.querySelectorAll(".nomor");
+
+    let isi=0;
+
+    semua.forEach((n,i)=>{
+
+        n.className="nomor";
+
+        if(jawaban[i].trim()!=""){
+
+            n.classList.add("done");
+
+            isi++;
+
+        }
+
+    });
+
+    semua[index].classList.add("active");
+
+    document.getElementById("status").innerHTML=
+    isi+" / "+soal.length+" soal dijawab";
+
+}
+
+function hitungWaktu(){
+
+    if(waktu<=0){
+
+        clearInterval(timer);
+
+        selesai();
+
+        return;
+
+    }
+
+    waktu--;
+
+    let m=Math.floor(waktu/60);
+
+    let s=waktu%60;
+
+    document.getElementById("timer").innerHTML=
+    String(m).padStart(2,"0")+":"+
+    String(s).padStart(2,"0");
+
+    if(waktu<=300){
+
+        document.getElementById("timer").style.color="#ff4444";
+
+    }
+
+}
+
+document.getElementById("finish").onclick=()=>{
+
+    simpan();
+
+    selesai();
+
+};
+
+function selesai(){
+
+    let isi=jawaban.filter(j=>j.trim()!="").length;
+
+    let kosong=soal.length-isi;
+
+    let yakin=confirm(
+    "Yakin mengakhiri ujian?\n\n"+
+    "Sudah dijawab : "+isi+
+    "\nBelum dijawab : "+kosong);
+
+    if(!yakin)return;
+
+    let nilai=Math.round((isi/soal.length)*100);
+
+    document.body.innerHTML=`
+    <div style="max-width:700px;margin:40px auto;
+    background:#fff;padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+    font-family:Segoe UI">
+
+    <h1 style="color:#2563eb;text-align:center">
+    HASIL UJIAN
+    </h1>
+
+    <hr><br>
+
+    <p><b>Nama :</b> ${nama.value}</p>
+    <p><b>Sekolah :</b> ${sekolah.value}</p>
+    <p><b>Kelas :</b> ${kelas.value}</p>
+
+    <br>
+
+    <h2 style="text-align:center;color:#16a34a">
+    ${nilai}
+    </h2>
+
+    <p style="text-align:center">
+    Skor berdasarkan jumlah soal yang dijawab.
+    </p>
+
+    <hr>
+
+    <p>Total Soal : ${soal.length}</p>
+    <p>Sudah Dijawab : ${isi}</p>
+    <p>Belum Dijawab : ${kosong}</p>
+
+    <br>
+
+    <button onclick="location.reload()"
+    style="padding:12px 20px;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    cursor:pointer">
+    Kembali ke Awal
+    </button>
+
+    </div>
+    `;
+
+}
   </script>
 </body>
 </html>
