@@ -1,215 +1,78 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Konser Lyrics Wall</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}body{overflow:hidden;background:#0f4cff;font-family:Arial,sans-serif;height:100vh}
-#stage{position:relative;width:100%;height:100vh;overflow:hidden;background:linear-gradient(180deg,#1d4fff,#0e3de0)}
-.bubble,
-.whiteBubble{
-
-position:absolute;
-
-padding:10px 22px;
-
-border-radius:30px;
-
-white-space:nowrap;
-
-animation:floatUp linear infinite;
-
-}
-
-.bubble{
-
-background:#2f67ff;
-
-color:#fff;
-
-z-index:10;
-
-}
-
-.whiteBubble{
-
-background:#fff;
-
-color:#333;
-
-font-weight:600;
-
-z-index:20;
-
-}
-#bigLyrics{
-
-position:absolute;
-
-top:50%;
-
-left:0;
-
-transform:translateY(-50%);
-
-font-size:min(80px,8vw);
-
-font-weight:bold;
-
-background:white;
-
-color:#222;
-
-padding:18px 45px;
-
-border-radius:60px;
-
-display:inline-block;
-
-white-space:nowrap;
-
-opacity:0;
-
-z-index:99999;
-
-pointer-events:none;
-
-}
-.runLyrics{
-    opacity:1 !important;
-    animation:moveLyrics var(--speed) linear forwards;
-}
-@keyframes moveLyrics{
-
-from{
-transform:translate(100vw,-50%);
-}
-
-to{
-transform:translate(calc(-100% - 100vw),-50%);
-}
-
-}
-@keyframes floatUp{from{transform:translateY(110vh)}to{transform:translateY(-200px)}}
-</style></head><body><div id="stage"><div id="bigLyrics">Cukup aku milikmu. Dan kamu milikku. Tetap di sampingku. sampai jadi debu. sampai akhir waktu. sampai maut bersaksi cintaku abadi.Dan bila aku terakhir 1000x lagi. DI dunia yang lain. Aku tak peduli. Kau akan kucari. sampai kau tau betapa. kau ku cintai</div></div>
-<script>
-//===== PENGATURAN =====
-const BLUE_START=0,BLUE_STOP=120000,BLUE_SPAWN=250;
-// ===== REFF =====
-
-// Reff 1
-const REFF1_START = 60000;
-const REFF1_STOP  = 120000;
-
-// Reff 2
-const REFF2_START = 120000;
-const REFF2_STOP  = 140000;
-
-// Reff 3
-const REFF3_START = 180000;
-const REFF3_STOP  = 200000;
-
-// Pengaturan
-const WHITE_SPAWN = 120;
-const LYRICS_SPEED1 = 45; // awal pelan
-const LYRICS_SPEED2 = 130; // reff cepat
-const LYRICS_SPEED3 = 160; // bagian paling semangat
-
-startReff(REFF1_START,REFF1_STOP,LYRICS_SPEED1);
-startReff(REFF2_START,REFF2_STOP,LYRICS_SPEED2);
-startReff(REFF3_START,REFF3_STOP,LYRICS_SPEED3);
-  
-//======================
-const stage=document.getElementById("stage");
-const lyrics = document
-.getElementById("bigLyrics")
-.innerText
-.split(".")
-.map(t => t.trim())
-.filter(t => t !== "");
-  let currentLyric = 0;
-const texts=["aku sayang kamu","makasi udah dengerin aku","safe flight","aku jemput ya","udah makan belum?","semangat ya","aku kangen","cantiknyaa","hati hati ya","take care sayang","istirahat dulu","aku rindu","love you","aku disini","peluk jauh","jangan tidur malam","makasih ya","aku tunggu","aku bangga","tetap kuat"];
-function createBlueBubble(){const b=document.createElement("div");b.className="bubble";b.innerText=texts[Math.floor(Math.random()*texts.length)];b.style.left=Math.random()*100+"%";b.style.animationDuration=(12+Math.random()*25)+"s";b.style.fontSize=(12+Math.random()*8)+"px";b.style.opacity=0.4+Math.random()*0.6;stage.appendChild(b);setTimeout(()=>b.remove(),40000);}
-setTimeout(()=>{for(let i=0;i<250;i++)setTimeout(createBlueBubble,i*150);const t=setInterval(createBlueBubble,BLUE_SPAWN);setTimeout(()=>clearInterval(t),BLUE_STOP-BLUE_START);},BLUE_START);
-function createWhiteBubble(){
-
-const b=document.createElement("div");
-
-b.className="whiteBubble";
-
-b.innerText=lyrics[currentLyric];
-
-b.style.left=Math.random()*100+"%";
-
-b.style.animationDuration=
-(5+Math.random()*3)+"s";
-
-stage.appendChild(b);
-setTimeout(()=>{
-    b.remove();
-},30000);
-
-} // <-- PENUTUP FUNGSI createWhiteBubble
-
-  
-function startReff(start,stop,speed){
-
-setTimeout(()=>{
-
-currentLyric=0;
-
-for(let i=0;i<70;i++){
-
-setTimeout(createWhiteBubble,i*200);
-
-}
-
-const whiteTimer=setInterval(createWhiteBubble,WHITE_SPAWN);
-
-// Berhenti membuat bubble 12 detik sebelum reff selesai
-const STOP_BEFORE = 12000;
-
-setTimeout(()=>{
-
-clearInterval(whiteTimer);
-
-},(stop-start)-STOP_BEFORE);
-
-},start);
-
-setTimeout(()=>{
-
-const l=document.getElementById("bigLyrics");
-
-l.style.setProperty("--speed",speed+"s");
-
-l.classList.add("runLyrics");
-
-const durasiKalimat = (speed * 1000) / lyrics.length;
-
-const lyricTimer=setInterval(()=>{
-
-currentLyric++;
-
-if(currentLyric>=lyrics.length){
-
-currentLyric=lyrics.length-1;
-
-}
-
-},durasiKalimat);
-
-setTimeout(()=>{
-
-l.classList.remove("runLyrics");
-
-l.style.opacity=0;
-
-clearInterval(lyricTimer);
-
-},stop-start);
-
-},start);
-
-}
-  
-setTimeout(()=>{const l=document.getElementById("bigLyrics");l.style.setProperty("--speed",LYRICS_SPEED+"s");l.classList.add("runLyrics");setTimeout(()=>{l.classList.remove("runLyrics");l.style.opacity=0;},LYRICS_STOP-LYRICS_START);},LYRICS_START);
-</script></body></html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ujian Esai Online</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f5f7fb;margin:0;padding:20px}
+    .box{max-width:700px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+    h2{text-align:center;color:#1e3a8a}
+    .top{display:flex;justify-content:space-between;margin-bottom:15px;font-weight:bold}
+    .progress{background:#e5e7eb;height:8px;border-radius:10px;overflow:hidden;margin:10px 0}
+    .bar{height:8px;background:#2563eb;width:0}
+    textarea{width:100%;min-height:160px;padding:12px;border:1px solid #d1d5db;border-radius:8px;font-size:15px}
+    .btns{display:flex;justify-content:space-between;margin-top:15px}
+    button{padding:10px 18px;border:none;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer}
+    button:disabled{background:#9ca3af;cursor:not-allowed}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Ujian Esai Online</h2>
+    <div class="top">
+      <span id="nomor">Soal 1</span>
+      <span id="timer">60:00</span>
+    </div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <p id="soal">Memuat soal...</p>
+    <textarea id="jawaban" placeholder="Tulis jawaban di sini..."></textarea>
+    <div class="btns">
+      <button id="prev">Sebelumnya</button>
+      <button id="next">Berikutnya</button>
+      <button id="finish">Selesai</button>
+    </div>
+  </div>
+
+  <script>
+    let soal=[],jawaban=[],index=0,waktu=60*60;
+
+    fetch("soal.txt")
+      .then(r=>r.text())
+      .then(t=>{
+        soal=t.split("===").map(s=>s.trim()).filter(Boolean);
+        jawaban=new Array(soal.length).fill("");
+        tampil();
+      });
+
+    function tampil(){
+      document.getElementById("nomor").textContent=`Soal ${index+1} dari ${soal.length}`;
+      document.getElementById("soal").textContent=soal[index];
+      document.getElementById("jawaban").value=jawaban[index];
+      document.getElementById("bar").style.width=((index+1)/soal.length*100)+"%";
+      document.getElementById("prev").disabled=index===0;
+      document.getElementById("next").disabled=index===soal.length-1;
+    }
+
+    document.getElementById("jawaban").addEventListener("input",e=>{
+      jawaban[index]=e.target.value;
+    });
+
+    document.getElementById("prev").onclick=()=>{if(index>0){index--;tampil();}};
+    document.getElementById("next").onclick=()=>{if(index<soal.length-1){index++;tampil();}};
+    document.getElementById("finish").onclick=()=>{
+      alert("Jawaban tersimpan di browser. Integrasikan ke server jika ingin nilai online.");
+      console.log(jawaban);
+    };
+
+    setInterval(()=>{
+      if(waktu>0){
+        waktu--;
+        let m=Math.floor(waktu/60),s=waktu%60;
+        document.getElementById("timer").textContent=
+          `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+      }
+    },1000);
+  </script>
+</body>
+</html>
