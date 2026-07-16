@@ -1,160 +1,140 @@
+===
+SOAL 1
 
-===SOAL===
-ID:1
-JUDUL:Mengamati Warna Bunga
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Beni sedang membantu guru merawat taman sekolah. Ia memperhatikan bahwa bunga asoka yang tumbuh pada satu pohon memiliki beberapa warna yang sedikit berbeda. Ada bunga yang berwarna merah tua dan ada pula yang tampak lebih muda. Beni tidak langsung menebak penyebabnya. Selama beberapa hari ia mengamati jumlah bunga yang mekar, letak bunga yang terkena sinar matahari, serta kondisi tanah di sekitar pohon. Semua hasil pengamatannya ditulis dalam buku agar tidak ada informasi yang terlupakan. Setelah seluruh data terkumpul, barulah Beni mencoba mencari penyebab perbedaan warna bunga tersebut.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Kegiatan ilmiah apakah yang dilakukan Beni sebelum membuat kesimpulan?
-b. Mengapa semua hasil pengamatan perlu dicatat dengan teliti?
+Perhatikan sebuah tanaman yang diletakkan di halaman rumah. Tanaman tersebut mendapatkan sinar matahari yang cukup setiap hari dan disiram secara teratur. Setelah beberapa minggu, tanaman tumbuh lebih tinggi, memiliki daun yang semakin banyak, dan tampak lebih hijau dibandingkan tanaman lain yang diletakkan di tempat gelap.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Jelaskan mengapa tanaman yang mendapatkan cahaya matahari dapat tumbuh lebih baik.
+b. Sebutkan dua kebutuhan utama tumbuhan selain cahaya matahari agar dapat tumbuh dengan baik.
 
-===END===
+===
+SOAL 2
 
-===SOAL===
-ID:2
-JUDUL:Tumbuhan yang Hidup Menumpang
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Saat melakukan kunjungan ke hutan, siswa melihat bunga rafflesia yang berukuran sangat besar. Guru menjelaskan bahwa tumbuhan tersebut tidak memiliki daun, batang sejati, maupun akar yang sempurna. Rafflesia memperoleh makanan dengan menumpang pada tumbuhan inangnya sehingga tidak dapat hidup sendiri. Walaupun memiliki bunga, tumbuhan tersebut bergantung pada tumbuhan lain untuk memenuhi kebutuhan hidupnya.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Rafflesia termasuk ke dalam kingdom apa?
-b. Mengapa rafflesia disebut tumbuhan parasit?
+Pada musim kemarau, beberapa sungai mengalami penyusutan volume air. Di sisi lain, masih ada daerah yang memiliki persediaan air cukup karena masyarakatnya menjaga hutan dan sumber mata air.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Jelaskan hubungan antara hutan dengan ketersediaan air di lingkungan.
+b. Sebutkan dua cara yang dapat dilakukan untuk menjaga sumber air agar tetap tersedia.
 
-===END===
+===
+SOAL 3
 
-===SOAL===
-ID:3
-JUDUL:Jamur di Lingkungan Sekolah
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Setelah hujan turun beberapa hari berturut-turut, Rani menemukan jamur tumbuh pada batang kayu yang sudah lapuk dan pada roti yang disimpan terlalu lama. Guru menjelaskan bahwa jamur tidak memiliki klorofil sehingga tidak dapat membuat makanannya sendiri. Jamur memperoleh zat makanan dari bahan organik yang ada di sekitarnya. Oleh karena itu, jamur banyak ditemukan pada tempat yang lembap dan kaya bahan organik.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Jamur termasuk makhluk hidup yang bersifat apa?
-b. Mengapa jamur tidak dapat melakukan fotosintesis?
+Seekor burung memiliki paruh yang panjang dan runcing sehingga mudah mengambil nektar dari bunga. Bentuk paruh tersebut berbeda dengan paruh ayam yang pendek dan kuat.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Mengapa bentuk paruh burung dapat berbeda-beda?
+b. Jelaskan hubungan bentuk paruh dengan jenis makanan burung.
 
-===END===
+===
+SOAL 4
 
-===SOAL===
-ID:4
-JUDUL:Mengenal Kelompok Hewan
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Di kebun sekolah terdapat belalang, kupu-kupu, laba-laba, dan kepiting yang dibawa saat kegiatan pengamatan. Guru meminta siswa memperhatikan jumlah kaki, bentuk tubuh, dan lapisan pelindung tubuh setiap hewan. Walaupun hidup di tempat yang berbeda, beberapa hewan tersebut memiliki ciri yang hampir sama, yaitu memiliki rangka luar dan kaki berbuku-buku. Ciri tersebut menjadi dasar pengelompokan hewan.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Hewan-hewan tersebut termasuk kelompok apa?
-b. Sebutkan satu ciri utama kelompok hewan tersebut.
+Di sebuah kebun terdapat rumput, belalang, katak, ular, dan elang. Semua makhluk hidup tersebut saling berhubungan dalam memperoleh makanan.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Susunlah urutan rantai makanan yang mungkin terjadi pada kebun tersebut.
+b. Jelaskan apa yang dapat terjadi apabila jumlah ular berkurang drastis.
 
-===END===
+===
+SOAL 5
 
-===SOAL===
-ID:5
-JUDUL:Daun yang Ditutup Aluminium Foil
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Seorang guru melakukan percobaan dengan menutup sebagian permukaan daun menggunakan aluminium foil. Tumbuhan tersebut kemudian diletakkan di tempat yang terkena sinar matahari selama beberapa jam. Setelah itu daun diuji menggunakan larutan yodium. Bagian daun yang terbuka berubah menjadi biru kehitaman, sedangkan bagian yang tertutup tidak mengalami perubahan warna. Hasil tersebut menunjukkan adanya perbedaan pembentukan makanan pada daun.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Apa yang dibutuhkan tumbuhan agar dapat membentuk pati melalui fotosintesis?
-b. Mengapa bagian daun yang tertutup tidak berubah menjadi biru kehitaman?
+Saat siang hari yang panas, pakaian yang dijemur di bawah sinar matahari lebih cepat kering dibandingkan pakaian yang dijemur di tempat teduh.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Jelaskan mengapa hal tersebut dapat terjadi.
+b. Sebutkan dua faktor yang memengaruhi cepat atau lambatnya proses pengeringan pakaian.
 
-===END===
+===
+SOAL 6
 
-===SOAL===
-ID:6
-JUDUL:Lapisan Lilin pada Daun Talas
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Saat pagi hari, terlihat banyak butiran air berada di permukaan daun talas. Guru menjelaskan bahwa daun talas memiliki lapisan lilin yang menyebabkan air sulit menempel. Selain itu, lapisan tersebut juga membantu mengurangi penguapan air dari permukaan daun sehingga tumbuhan tidak mudah kehilangan air ketika cuaca panas.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Apa fungsi utama lapisan lilin pada daun talas?
-b. Proses keluarnya uap air dari daun disebut apa?
+Seorang siswa menggosok kedua telapak tangannya selama beberapa saat. Setelah itu telapak tangan terasa lebih hangat.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Jelaskan penyebab telapak tangan menjadi hangat.
+b. Sebutkan satu contoh peristiwa lain dalam kehidupan sehari-hari yang menghasilkan panas karena gesekan.
 
-===END===
+===
+SOAL 7
 
-===SOAL===
-ID:7
-JUDUL:Rantai Makanan di Danau
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Sebuah danau memiliki plankton, ikan nila, dan burung bangau. Plankton dimakan oleh ikan nila, sedangkan ikan nila menjadi makanan burung bangau. Suatu hari limbah mencemari danau sehingga jumlah plankton berkurang sangat banyak. Akibatnya ikan kesulitan memperoleh makanan. Jika keadaan ini terus berlangsung, keseimbangan ekosistem danau akan terganggu.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Makhluk hidup apakah yang pertama kali mengalami penurunan jumlah?
-b. Mengapa jumlah burung bangau juga dapat berkurang?
+Pada sore hari sering terlihat bayangan pohon menjadi lebih panjang dibandingkan saat tengah hari.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Mengapa panjang bayangan pohon dapat berubah?
+b. Pada waktu kapan bayangan benda biasanya paling pendek? Jelaskan alasannya.
 
-===END===
+===
+SOAL 8
 
-===SOAL===
-ID:8
-JUDUL:Bagian Jantung yang Bekerja Paling Keras
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Jantung manusia memompa darah tanpa berhenti selama hidup. Salah satu ruang jantung memiliki dinding otot yang paling tebal karena bertugas memompa darah ke seluruh tubuh melalui pembuluh nadi. Ruang ini harus menghasilkan tekanan yang besar agar darah dapat mencapai seluruh organ tubuh.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Bagian jantung apakah yang memiliki otot paling tebal?
-b. Mengapa bagian tersebut memiliki dinding otot lebih tebal dibandingkan ruang jantung lainnya?
+Seorang petani menggunakan pupuk organik yang berasal dari sisa tumbuhan dan kotoran hewan untuk menyuburkan tanah.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Mengapa pupuk organik dapat membantu pertumbuhan tanaman?
+b. Sebutkan dua keuntungan penggunaan pupuk organik bagi lingkungan.
 
-===END===
+===
+SOAL 9
 
-===SOAL===
-ID:9
-JUDUL:Nyamuk Penyebab DBD
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Saat musim hujan tiba, banyak genangan air terbentuk di sekitar rumah warga. Kondisi tersebut menjadi tempat berkembang biak nyamuk Aedes aegypti yang dapat menularkan penyakit demam berdarah. Petugas kesehatan mengajak masyarakat melakukan pemberantasan sarang nyamuk dengan menguras, menutup, dan mendaur ulang barang bekas yang dapat menampung air.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Penyakit apakah yang dapat ditularkan oleh nyamuk Aedes aegypti?
-b. Sebutkan satu cara untuk mencegah perkembangbiakan nyamuk tersebut.
+Pada pagi hari udara biasanya terasa lebih sejuk dibandingkan siang hari walaupun berada di tempat yang sama.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Jelaskan penyebab suhu udara pada pagi hari lebih rendah.
+b. Mengapa suhu udara meningkat ketika matahari semakin tinggi di langit?
 
-===END===
+===
+SOAL 10
 
-===SOAL===
-ID:10
-JUDUL:Membakar Sampah Plastik
+Petunjuk:
+Jawablah dengan singkat, jelas, dan menggunakan bahasa sendiri. Soal ini memiliki dua bagian yang harus dijawab.
 
-Di sebuah desa masih ada warga yang membakar sampah plastik di halaman rumah. Setelah beberapa waktu, udara menjadi berasap dan berbau menyengat. Banyak warga mulai mengalami batuk, sesak napas, dan sakit tenggorokan. Guru mengajak siswa berdiskusi bahwa sampah plastik sebaiknya tidak dibakar karena dapat menghasilkan zat berbahaya bagi kesehatan dan mencemari udara.
+a. Tuliskan jawaban untuk bagian (a).
+b. Tuliskan jawaban untuk bagian (b).
 
-PERTANYAAN:
-a. Mengapa sampah plastik tidak boleh dibakar?
-b. Sebutkan satu cara yang lebih baik untuk mengelola sampah plastik.
+Indonesia memiliki banyak gunung api yang masih aktif. Aktivitas gunung api dapat memberikan dampak positif maupun dampak negatif bagi kehidupan manusia.
 
-PETUNJUK JAWABAN:
-a. ............
-b. ............
+a. Sebutkan satu dampak positif keberadaan gunung api.
+b. Sebutkan dua dampak negatif yang dapat terjadi ketika gunung api meletus.
 
-===END===
