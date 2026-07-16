@@ -1,13 +1,162 @@
-[SOAL]
-Gunadi merupakan anggota Kelompok Ilmiah Cilik di sekolahnya. Suatu pagi ia mengamati sebuah pohon asoka yang sedang berbunga. Saat memperhatikan dengan teliti, ia menemukan bahwa bunga pada pohon yang sama memiliki beberapa warna yang berbeda. Temuan tersebut membuat Gunadi ingin mengetahui penyebabnya. Sebelum mencari informasi dari buku maupun internet, ia mengamati setiap bunga dengan saksama, mencatat warna yang ditemukan, menghitung jumlah bunga pada setiap cabang, kemudian menuliskan seluruh hasil pengamatannya ke dalam buku catatan. Data tersebut akan digunakan sebagai dasar untuk melakukan penyelidikan lebih lanjut sehingga kesimpulan yang diperoleh nantinya benar-benar berdasarkan fakta hasil pengamatan.
+# LATIHAN OSN IPA SD
+# Paket 1 (Soal 1–10)
 
-Berdasarkan bacaan di atas, jawablah pertanyaan berikut.
+===SOAL===
+ID:1
+JUDUL:Mengamati Warna Bunga
 
-(A) Tahapan metode ilmiah apakah yang sedang dilakukan oleh Gunadi?
+Beni sedang membantu guru merawat taman sekolah. Ia memperhatikan bahwa bunga asoka yang tumbuh pada satu pohon memiliki beberapa warna yang sedikit berbeda. Ada bunga yang berwarna merah tua dan ada pula yang tampak lebih muda. Beni tidak langsung menebak penyebabnya. Selama beberapa hari ia mengamati jumlah bunga yang mekar, letak bunga yang terkena sinar matahari, serta kondisi tanah di sekitar pohon. Semua hasil pengamatannya ditulis dalam buku agar tidak ada informasi yang terlupakan. Setelah seluruh data terkumpul, barulah Beni mencoba mencari penyebab perbedaan warna bunga tersebut.
 
-(B) Apa tujuan utama dari tahapan tersebut dalam sebuah penelitian?
-[/SOAL]
+PERTANYAAN:
+a. Kegiatan ilmiah apakah yang dilakukan Beni sebelum membuat kesimpulan?
+b. Mengapa semua hasil pengamatan perlu dicatat dengan teliti?
 
-[JAWABAN]
-observasi;mengumpulkan data
-[/JAWABAN]
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:2
+JUDUL:Tumbuhan yang Hidup Menumpang
+
+Saat melakukan kunjungan ke hutan, siswa melihat bunga rafflesia yang berukuran sangat besar. Guru menjelaskan bahwa tumbuhan tersebut tidak memiliki daun, batang sejati, maupun akar yang sempurna. Rafflesia memperoleh makanan dengan menumpang pada tumbuhan inangnya sehingga tidak dapat hidup sendiri. Walaupun memiliki bunga, tumbuhan tersebut bergantung pada tumbuhan lain untuk memenuhi kebutuhan hidupnya.
+
+PERTANYAAN:
+a. Rafflesia termasuk ke dalam kingdom apa?
+b. Mengapa rafflesia disebut tumbuhan parasit?
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:3
+JUDUL:Jamur di Lingkungan Sekolah
+
+Setelah hujan turun beberapa hari berturut-turut, Rani menemukan jamur tumbuh pada batang kayu yang sudah lapuk dan pada roti yang disimpan terlalu lama. Guru menjelaskan bahwa jamur tidak memiliki klorofil sehingga tidak dapat membuat makanannya sendiri. Jamur memperoleh zat makanan dari bahan organik yang ada di sekitarnya. Oleh karena itu, jamur banyak ditemukan pada tempat yang lembap dan kaya bahan organik.
+
+PERTANYAAN:
+a. Jamur termasuk makhluk hidup yang bersifat apa?
+b. Mengapa jamur tidak dapat melakukan fotosintesis?
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:4
+JUDUL:Mengenal Kelompok Hewan
+
+Di kebun sekolah terdapat belalang, kupu-kupu, laba-laba, dan kepiting yang dibawa saat kegiatan pengamatan. Guru meminta siswa memperhatikan jumlah kaki, bentuk tubuh, dan lapisan pelindung tubuh setiap hewan. Walaupun hidup di tempat yang berbeda, beberapa hewan tersebut memiliki ciri yang hampir sama, yaitu memiliki rangka luar dan kaki berbuku-buku. Ciri tersebut menjadi dasar pengelompokan hewan.
+
+PERTANYAAN:
+a. Hewan-hewan tersebut termasuk kelompok apa?
+b. Sebutkan satu ciri utama kelompok hewan tersebut.
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:5
+JUDUL:Daun yang Ditutup Aluminium Foil
+
+Seorang guru melakukan percobaan dengan menutup sebagian permukaan daun menggunakan aluminium foil. Tumbuhan tersebut kemudian diletakkan di tempat yang terkena sinar matahari selama beberapa jam. Setelah itu daun diuji menggunakan larutan yodium. Bagian daun yang terbuka berubah menjadi biru kehitaman, sedangkan bagian yang tertutup tidak mengalami perubahan warna. Hasil tersebut menunjukkan adanya perbedaan pembentukan makanan pada daun.
+
+PERTANYAAN:
+a. Apa yang dibutuhkan tumbuhan agar dapat membentuk pati melalui fotosintesis?
+b. Mengapa bagian daun yang tertutup tidak berubah menjadi biru kehitaman?
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:6
+JUDUL:Lapisan Lilin pada Daun Talas
+
+Saat pagi hari, terlihat banyak butiran air berada di permukaan daun talas. Guru menjelaskan bahwa daun talas memiliki lapisan lilin yang menyebabkan air sulit menempel. Selain itu, lapisan tersebut juga membantu mengurangi penguapan air dari permukaan daun sehingga tumbuhan tidak mudah kehilangan air ketika cuaca panas.
+
+PERTANYAAN:
+a. Apa fungsi utama lapisan lilin pada daun talas?
+b. Proses keluarnya uap air dari daun disebut apa?
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:7
+JUDUL:Rantai Makanan di Danau
+
+Sebuah danau memiliki plankton, ikan nila, dan burung bangau. Plankton dimakan oleh ikan nila, sedangkan ikan nila menjadi makanan burung bangau. Suatu hari limbah mencemari danau sehingga jumlah plankton berkurang sangat banyak. Akibatnya ikan kesulitan memperoleh makanan. Jika keadaan ini terus berlangsung, keseimbangan ekosistem danau akan terganggu.
+
+PERTANYAAN:
+a. Makhluk hidup apakah yang pertama kali mengalami penurunan jumlah?
+b. Mengapa jumlah burung bangau juga dapat berkurang?
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:8
+JUDUL:Bagian Jantung yang Bekerja Paling Keras
+
+Jantung manusia memompa darah tanpa berhenti selama hidup. Salah satu ruang jantung memiliki dinding otot yang paling tebal karena bertugas memompa darah ke seluruh tubuh melalui pembuluh nadi. Ruang ini harus menghasilkan tekanan yang besar agar darah dapat mencapai seluruh organ tubuh.
+
+PERTANYAAN:
+a. Bagian jantung apakah yang memiliki otot paling tebal?
+b. Mengapa bagian tersebut memiliki dinding otot lebih tebal dibandingkan ruang jantung lainnya?
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:9
+JUDUL:Nyamuk Penyebab DBD
+
+Saat musim hujan tiba, banyak genangan air terbentuk di sekitar rumah warga. Kondisi tersebut menjadi tempat berkembang biak nyamuk Aedes aegypti yang dapat menularkan penyakit demam berdarah. Petugas kesehatan mengajak masyarakat melakukan pemberantasan sarang nyamuk dengan menguras, menutup, dan mendaur ulang barang bekas yang dapat menampung air.
+
+PERTANYAAN:
+a. Penyakit apakah yang dapat ditularkan oleh nyamuk Aedes aegypti?
+b. Sebutkan satu cara untuk mencegah perkembangbiakan nyamuk tersebut.
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
+
+===SOAL===
+ID:10
+JUDUL:Membakar Sampah Plastik
+
+Di sebuah desa masih ada warga yang membakar sampah plastik di halaman rumah. Setelah beberapa waktu, udara menjadi berasap dan berbau menyengat. Banyak warga mulai mengalami batuk, sesak napas, dan sakit tenggorokan. Guru mengajak siswa berdiskusi bahwa sampah plastik sebaiknya tidak dibakar karena dapat menghasilkan zat berbahaya bagi kesehatan dan mencemari udara.
+
+PERTANYAAN:
+a. Mengapa sampah plastik tidak boleh dibakar?
+b. Sebutkan satu cara yang lebih baik untuk mengelola sampah plastik.
+
+PETUNJUK JAWABAN:
+a. ............
+b. ............
+
+===END===
