@@ -232,18 +232,162 @@ flex-wrap:wrap;
 display:none;
 }
 
-@media(max-width:900px){
+/* Tablet */
+@media (max-width:900px){
+
+#identitas,
+#ujian{
+    margin:15px;
+}
 
 .main{
-grid-template-columns:1fr;
+    grid-template-columns:1fr;
 }
 
 header{
-flex-direction:column;
-gap:10px;
-text-align:center;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:15px;
 }
 
+header h2{
+    font-size:20px;
+}
+
+#timer{
+    font-size:30px;
+}
+
+.card,
+.sidebar,
+.content{
+    padding:20px;
+}
+
+}
+
+/* HP */
+@media (max-width:600px){
+
+body{
+    font-size:14px;
+}
+
+#identitas,
+#ujian{
+    margin:10px;
+}
+
+.card,
+.sidebar,
+.content{
+    padding:15px;
+    border-radius:12px;
+}
+
+h1{
+    font-size:24px;
+}
+
+h2{
+    font-size:18px;
+}
+
+h3{
+    font-size:15px;
+    line-height:1.5;
+}
+
+header{
+    padding:15px;
+}
+
+header h2{
+    font-size:17px;
+    line-height:1.4;
+}
+
+#timer{
+    font-size:26px;
+}
+
+#judulSoal{
+    font-size:20px;
+}
+
+#soal{
+    font-size:15px;
+    line-height:1.7;
+}
+
+textarea{
+    height:180px;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:13px;
+    font-size:15px;
+}
+
+.nav{
+    flex-direction:column;
+}
+
+#nomorGrid{
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+}
+
+.nomor{
+    height:42px;
+    font-size:14px;
+}
+
+#gambar{
+    max-height:220px;
+}
+
+}
+
+/* HP sangat kecil */
+@media (max-width:380px){
+
+h1{
+    font-size:20px;
+}
+
+header h2{
+    font-size:15px;
+}
+
+#timer{
+    font-size:22px;
+}
+
+#judulSoal{
+    font-size:18px;
+}
+
+#soal{
+    font-size:14px;
+}
+
+textarea{
+    height:150px;
+}
+
+#nomorGrid{
+    grid-template-columns:repeat(4,1fr);
+}
+
+.nomor{
+    height:38px;
+}
+
+}
 }
 </style>
 
@@ -382,7 +526,7 @@ Selesai Ujian
   let soal = [];
 let jawaban = [];
 let index = 0;
-let waktu = 3000 * 3000;
+let waktu = 80 * 80;
 let timer;
 
 const nama = document.getElementById("nama");
@@ -417,7 +561,7 @@ document.getElementById("mulai").onclick=()=>{
     }
 
     document.getElementById("identitas").style.display="none";
-    document.getElementById("ujian").style.display="block";
+    document.getElementById("simulasi").style.display="block";
 
     document.getElementById("pesertaInfo").innerHTML=
     nama.value+
@@ -611,7 +755,7 @@ function selesai(){
     let kosong=soal.length-isi;
 
     let yakin=confirm(
-    "Yakin mengakhiri ujian?\n\n"+
+    "Yakin mengakhiri simulasi?\n\n"+
     "Sudah dijawab : "+isi+
     "\nBelum dijawab : "+kosong);
 
